@@ -1,0 +1,33 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.goodstack.io/docs/api/goodstack-services
+docs: https://docs.goodstack.io/docs/api/goodstack-services
+summary:
+  types: [apiKey]
+  api_key_in: [header]
+  oauth2_flows: []
+schemes:
+- name: PublishableApiKey
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: >-
+    API key starting with 'pk_'. Identifies the Goodstack account; safe to
+    expose in client-side code / SDKs.
+  sources: [openapi/goodstack-openapi-original.json]
+- name: SecretApiKey
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: >-
+    API key starting with 'sk_'. Server-side only; must be kept secret.
+  sources: [openapi/goodstack-openapi-original.json]
+- name: DonationSessionToken
+  type: apiKey
+  in: header
+  parameter: donation-session-token
+  description: Scopes hosted donation-session requests.
+  sources: [openapi/goodstack-openapi-original.json]
+notes:
+  - Keys are issued from the Goodstack Partner dashboard.
+  - No OAuth 2.0 or OpenID Connect surface; there is no scope model.
