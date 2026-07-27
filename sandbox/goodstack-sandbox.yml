@@ -1,0 +1,21 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/goodstack-openapi-original.json
+note: >-
+  Goodstack exposes a dedicated sandbox host alongside production. The OpenAPI
+  declares both servers verbatim. API keys are issued from the Partner
+  dashboard; the docs reference test organisations for sandbox testing. No
+  literal test-card numbers or magic test values are published in the public
+  docs as of the generated date, so none are recorded here (never invented).
+servers:
+- name: production
+  url: https://api.goodstack.io
+- name: sandbox
+  url: https://sandbox-api.goodstack.io
+key_model:
+  publishable_prefix: pk_
+  secret_prefix: sk_
+  note: Keys are obtained from the Partner dashboard; live vs test keys are managed there.
+test_data:
+  test_organisations: documented (see docs.goodstack.io), specific identifiers not published publicly
+  test_cards: not published in public docs

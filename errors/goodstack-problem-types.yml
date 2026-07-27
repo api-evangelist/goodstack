@@ -1,0 +1,58 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.goodstack.io/docs/api/goodstack-services
+format: custom
+note: Goodstack does not use RFC 9457 problem+json. Errors return JSON with a top-level 'error' object.
+envelope:
+  shape: '{ error: { code, title, message, reasons } }'
+  fields:
+  - name: error.code
+    type: string
+    description: Machine-readable error code.
+  - name: error.title
+    type: string
+    description: Short human-readable summary.
+  - name: error.message
+    type: string
+    description: Detailed human-readable message.
+  - name: error.reasons
+    type: array<string>
+    nullable: true
+    description: Optional list of contributing reasons.
+status_codes:
+- status: 400
+  title: Bad Request
+  occurrences: 49
+  example_operations:
+  - DELETE /v1/categories/{categoryId}/{organisationId}
+  - DELETE /v1/categories/{id}
+  - GET /v1/activity-tags
+  - GET /v1/agent-verifications
+  - GET /v1/agent-verifications/{id}
+- status: 401
+  title: Unauthorized
+  occurrences: 60
+  example_operations:
+  - DELETE /v1/categories/{categoryId}/{organisationId}
+  - DELETE /v1/categories/{id}
+  - DELETE /v1/webhook-subscriptions/{id}
+  - GET /v1/activity-tags
+  - GET /v1/agent-verifications
+- status: 403
+  title: Forbidden
+  occurrences: 50
+  example_operations:
+  - DELETE /v1/categories/{categoryId}/{organisationId}
+  - DELETE /v1/categories/{id}
+  - DELETE /v1/webhook-subscriptions/{id}
+  - GET /v1/agent-verifications
+  - GET /v1/agent-verifications/{id}
+- status: 404
+  title: Not Found
+  occurrences: 25
+  example_operations:
+  - DELETE /v1/categories/{categoryId}/{organisationId}
+  - DELETE /v1/webhook-subscriptions/{id}
+  - GET /v1/activity-tags/{tagId}
+  - GET /v1/agent-verifications/{id}
+  - GET /v1/categories/{id}

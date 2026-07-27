@@ -1,0 +1,196 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/goodstack-openapi-original.json
+note: Candidate tool list derived from OpenAPI operations (spec exposes no operationIds; tools keyed by
+  summary + METHOD path). No official Goodstack-hosted MCP server was found as of the generated date.
+server:
+  name: goodstack
+  transport: http
+tools:
+- name: list_agent_verifications
+  description: List Agent Verifications
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/agent-verifications
+- name: create_an_agent_verification
+  description: Create an Agent Verification
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/agent-verifications
+- name: retrieve_an_agent_verification
+  description: Retrieve an Agent Verification
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/agent-verifications/{id}
+- name: edit_an_agent_verification
+  description: Edit an Agent Verification
+  source_operation: openapi/goodstack-openapi-original.json#PATCH /v1/agent-verifications/{id}
+- name: list_categories
+  description: List Categories
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/categories
+- name: create_a_category
+  description: Create a Category
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/categories
+- name: edit_a_category
+  description: Edit a Category
+  source_operation: openapi/goodstack-openapi-original.json#PATCH /v1/categories/{id}
+- name: delete_a_category
+  description: Delete a Category
+  source_operation: openapi/goodstack-openapi-original.json#DELETE /v1/categories/{id}
+- name: retrieve_a_category
+  description: Retrieve a Category
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/categories/{id}
+- name: add_a_organisation_to_a_category
+  description: Add a Organisation to a Category
+  source_operation: openapi/goodstack-openapi-original.json#PUT /v1/categories/{categoryId}/{organisationId}
+- name: remove_a_organisation_from_a_category
+  description: Remove a Organisation from a Category
+  source_operation: openapi/goodstack-openapi-original.json#DELETE /v1/categories/{categoryId}/{organisationId}
+- name: set_an_image_for_a_category
+  description: Set an Image for a Category
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/categories/{categoryId}/image
+- name: list_available_countries
+  description: List available Countries
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/countries
+- name: list_eligibility_subscriptions
+  description: List Eligibility Subscriptions
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/eligibility-subscriptions
+- name: create_an_eligibility_subscription
+  description: Create an Eligibility Subscription
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/eligibility-subscriptions
+- name: retrieve_an_single_eligibility_subscription
+  description: Retrieve an single Eligibility Subscription
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/eligibility-subscriptions/{id}
+- name: edit_an_eligibility_subscription
+  description: Edit an Eligibility Subscription
+  source_operation: openapi/goodstack-openapi-original.json#PATCH /v1/eligibility-subscriptions/{id}
+- name: cancel_an_eligibility_subscription
+  description: Cancel an Eligibility Subscription
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/eligibility-subscriptions/{id}/cancel
+- name: list_monitoring_subscriptions
+  description: List Monitoring Subscriptions
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/monitoring-subscriptions
+- name: create_a_monitoring_subscription
+  description: Create a Monitoring Subscription
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/monitoring-subscriptions
+- name: retrieve_a_monitoring_subscription
+  description: Retrieve a Monitoring Subscription
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/monitoring-subscriptions/{id}
+- name: cancel_a_monitoring_subscription
+  description: Cancel a Monitoring Subscription
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/monitoring-subscriptions/{id}/cancel
+- name: list_an_organisations_milestones
+  description: List an Organisations Milestones
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/organisations/{id}/milestones
+- name: search_organisations
+  description: Search Organisations
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/organisations
+- name: retrieve_an_organisation
+  description: Retrieve an Organisation
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/organisations/{id}
+- name: retrieve_an_organisation_by_country_code_registry_and_regist
+  description: Retrieve an Organisation by country code, registry and registryId
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/organisations/{countryCode}/{registry}/{registryId}
+- name: retrieve_an_organisation_profile_info
+  description: Retrieve an Organisation profile info
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/organisations/{id}/profile
+- name: list_registries
+  description: List Registries
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/registries
+- name: retrieve_a_registry
+  description: Retrieve a Registry
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/registries/{id}
+- name: create_a_validation_invite
+  description: Create a Validation Invite
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/validation-invites
+- name: list_validation_requests
+  description: List Validation Requests
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/validation-requests
+- name: create_a_validation_request
+  description: Create a Validation Request
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/validation-requests
+- name: retrieve_a_validation_request
+  description: Retrieve a Validation Request
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/validation-requests/{id}
+- name: create_a_validation_request_document
+  description: Create a Validation Request Document
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/validation-requests/{validationRequestId}/document
+- name: retrieve_partner_s_configurations
+  description: Retrieve partner's configurations
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/validation-submission-configurations
+- name: create_validation_submission_document
+  description: Create Validation Submission Document
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/validation-submission-documents
+- name: list_validation_submissions
+  description: List Validation Submissions
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/validation-submissions
+- name: create_a_validation_submission
+  description: Create a Validation Submission
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/validation-submissions
+- name: retrieve_a_validation_submission
+  description: Retrieve a Validation Submission
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/validation-submissions/{id}
+- name: get_validation_submission_documents
+  description: Get Validation Submission Documents
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/validation-submissions/{id}/documents
+- name: list_webhook_subscriptions
+  description: List Webhook Subscriptions
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/webhook-subscriptions
+- name: create_a_webhook_subscription
+  description: Create a Webhook Subscription
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/webhook-subscriptions
+- name: retrieve_a_webhook_subscription
+  description: Retrieve a Webhook Subscription
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/webhook-subscriptions/{id}
+- name: edit_a_webhook_subscription
+  description: Edit a Webhook Subscription
+  source_operation: openapi/goodstack-openapi-original.json#PATCH /v1/webhook-subscriptions/{id}
+- name: delete_a_webhook_subscription
+  description: Delete a Webhook Subscription
+  source_operation: openapi/goodstack-openapi-original.json#DELETE /v1/webhook-subscriptions/{id}
+- name: list_donation_sessions
+  description: List Donation Sessions
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/donation-sessions
+- name: create_a_donation_session
+  description: Create a Donation Session
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/donation-sessions
+- name: retrieve_donation_session
+  description: Retrieve donation session
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/donation-sessions/{id}
+- name: list_donations
+  description: List Donations
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/donations
+- name: create_a_donation
+  description: Create a donation
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/donations
+- name: retrieve_a_donation
+  description: Retrieve a Donation
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/donations/{id}
+- name: edit_a_donation
+  description: Edit a Donation
+  source_operation: openapi/goodstack-openapi-original.json#PATCH /v1/donations/{id}
+- name: cancel_a_donation
+  description: Cancel a Donation
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/donations/{id}/cancel
+- name: create_a_giftaid_declaration
+  description: Create a GiftAid Declaration
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/gift-aid
+- name: create_a_user
+  description: Create a User
+  source_operation: openapi/goodstack-openapi-original.json#POST /v1/users
+- name: retrieve_a_user
+  description: Retrieve a User
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/users/{id}
+- name: set_user_to_support_an_organisation
+  description: Set User to support an Organisation
+  source_operation: openapi/goodstack-openapi-original.json#PUT /v1/users/{id}/organisation
+- name: retrieve_giftaid_id_for_user
+  description: Retrieve GiftAid id for User
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/users/{id}/has-gift-aid
+- name: retrieve_specific_configuration
+  description: Retrieve specific configuration
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/validation-submission-configurations/{id}
+- name: list_activity_tags
+  description: List Activity Tags
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/activity-tags
+- name: retrieve_an_activity_tag
+  description: Retrieve an Activity Tag
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/activity-tags/{tagId}
+- name: search_for_validation_submissions_with_specific_org_name
+  description: Search for Validation Submissions with specific org name
+  source_operation: openapi/goodstack-openapi-original.json#GET /v1/validation-submissions-organisations

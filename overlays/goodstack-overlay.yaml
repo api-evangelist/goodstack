@@ -1,0 +1,21 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Goodstack Services
+  version: 1.0.0
+extends: openapi/goodstack-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-enriched: '2026-07-19'
+    x-apievangelist-notes: >-
+      Harvested verbatim from docs.goodstack.io/openapi/openapi-20241115.json.
+      Spec exposes 62 operations but only one operationId — recommend adding
+      unique operationIds to every operation for SDK/codegen and agent tooling.
+    x-apievangelist-conventions:
+      idempotency_header: Idempotency-Key
+      pagination_param: pageSize
+      error_envelope: '{ error: { code, title, message, reasons } }'
+      webhooks: 19 event types (see asyncapi/goodstack-webhooks.yml)
+- target: $.servers
+  update:
+    x-apievangelist-baseURL: https://api.goodstack.io/v1

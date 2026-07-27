@@ -1,22 +1,439 @@
 aid: goodstack
 name: Goodstack
-description: Goodstack is a company surfaced as a portfolio company of general-catalyst and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Goodstack (formerly Percent) is an impact platform whose REST API lets
+  businesses build charitable giving, nonprofit verification, and fund
+  disbursement into their own products. The Goodstack Services API covers
+  monetary donations (direct and via a hosted donation gateway), a global
+  registry of verified nonprofit and educational organisations, organisation
+  name search, eligibility and monitoring subscriptions, agent verifications,
+  validation requests and submissions, Gift Aid declarations, categories, and
+  webhook subscriptions. Goodstack handles the vetting, validation, and timely
+  disbursement of donations to good causes across multiple countries and
+  currencies. The API is organised around REST, uses API-key authentication
+  (publishable pk_ and secret sk_ keys), returns JSON with standard HTTP status
+  codes, and offers a sandbox environment.
 url: https://raw.githubusercontent.com/api-evangelist/goodstack/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - general-catalyst
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: profiled
+x-tier-reason: enriched-from-public-api
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
+image: https://goodstack.io/favicon.ico
 tags:
 - Company
-apis: []
+- Nonprofits
+- Donations
+- Charitable Giving
+- Fundraising
+- Verification
+- Compliance
+- Payments
+- Disbursements
+- Social Impact
+apis:
+- aid: goodstack:goodstack-activities-api
+  name: Goodstack Activities API
+  description: The Activities API from Goodstack — 2 operation(s) for activities.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Activities
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-activities-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-agent-verifications-api
+  name: Goodstack Agent Verifications API
+  description: >-
+    Agent verification is a one-off check. It is used to confirm that:
+      1. The person applying is who they say they are.
+      2. They represent the nonprofit.
+
+    They are not editable once created.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Agent Verifications
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-agent-verifications-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-categories-api
+  name: Goodstack Categories API
+  description: >-
+    Categories represent collections of Organisations, which can be used to group and filter Organisations.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Categories
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-categories-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-countries-api
+  name: Goodstack Countries API
+  description: The Countries API from Goodstack — 1 operation(s) for countries.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Countries
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-countries-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-donation-sessions-api
+  name: Goodstack Donation Sessions API
+  description: The Donation Sessions API from Goodstack — 2 operation(s) for donation sessions.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Donation Sessions
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-donation-sessions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-donations-api
+  name: Goodstack Donations API
+  description: >-
+    A Donation object tracks the lifecycle of a Donation from creation and payment to disbursement to
+    the nonprofit.
+
+
+    Donations can be created during a Donation Session by the Hosted Donation Gateway or created directly
+    by calling the [Create A Donation API](create-a-donation).
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Donations
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-donations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-eligibility-subscriptions-api
+  name: Goodstack Eligibility Subscriptions API
+  description: >-
+    The Eligibility Subscriptions API from Goodstack — 3 operation(s) for eligibility subscriptions.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Eligibility Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-eligibility-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-gift-aid-api
+  name: Goodstack Gift Aid API
+  description: The Gift Aid API from Goodstack — 2 operation(s) for gift aid.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Gift Aid
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-gift-aid-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-monitoring-subscriptions-api
+  name: Goodstack Monitoring Subscriptions API
+  description: >-
+    The Monitoring Subscriptions API from Goodstack — 3 operation(s) for monitoring subscriptions.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Monitoring Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-monitoring-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-org-name-search-api
+  name: Goodstack Org name search API
+  description: The Org name search API from Goodstack — 1 operation(s) for org name search.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Org name search
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-org-name-search-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-organisation-api
+  name: Goodstack Organisation API
+  description: The Organisation API from Goodstack — 1 operation(s) for organisation.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Organisation
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-organisation-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-organisations-api
+  name: Goodstack Organisations API
+  description: >-
+    Nonprofits are represented by the Organisation object. You can retrieve and query for Organisations.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Organisations
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-organisations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-registries-api
+  name: Goodstack Registries API
+  description: The Registries API from Goodstack — 2 operation(s) for registries.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Registries
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-registries-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-users-api
+  name: Goodstack Users API
+  description: >-
+    The User object represents a user of your application. It can be used to track Donations that belong
+    to that user.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-validation-invites-api
+  name: Goodstack Validation Invites API
+  description: The Validation Invites API from Goodstack — 1 operation(s) for validation invites.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Validation Invites
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-validation-invites-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-validation-request-documents-api
+  name: Goodstack Validation Request Documents API
+  description: >-
+    The Validation Request Documents API from Goodstack — 1 operation(s) for validation request documents.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Validation Request Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-validation-request-documents-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-validation-requests-api
+  name: Goodstack Validation Requests API
+  description: >-
+    If you want to know if a nonprofit exists in an official registry, create a Validation Request and
+    we will check it for you.  Documentary evidence can be attached to a Validation Request.  When a Validation
+    Request is accepted or rejected, the appropriate field (acceptedAt, rejectedAt) will be populated.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Validation Requests
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-validation-requests-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-validation-submission-configuration-api
+  name: Goodstack Validation Submission Configuration API
+  description: >-
+    The Validation Submission Configuration API from Goodstack — 2 operation(s) for validation submission
+    configuration.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Validation Submission Configuration
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-validation-submission-configuration-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-validation-submission-documents-api
+  name: Goodstack Validation Submission Documents API
+  description: >-
+    The Validation Submission Documents API from Goodstack — 2 operation(s) for validation submission
+    documents.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Validation Submission Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-validation-submission-documents-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-validation-submissions-api
+  name: Goodstack Validation Submissions API
+  description: >-
+    The Validation Submissions API from Goodstack — 2 operation(s) for validation submissions.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Validation Submissions
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-validation-submissions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-webhook-subscriptions-api
+  name: Goodstack Webhook Subscriptions API
+  description: The Webhook Subscriptions API from Goodstack — 2 operation(s) for webhook subscriptions.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Webhook Subscriptions
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-webhook-subscriptions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.goodstack.io/
+  - type: APIReference
+    url: https://docs.goodstack.io/docs/api/goodstack-services
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+common:
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Webhooks
+  url: asyncapi/goodstack-webhooks.yml
+- type: DataModel
+  url: data-model/goodstack-data-model.yml
+- type: Sandbox
+  url: sandbox/goodstack-sandbox.yml
+- type: Conformance
+  url: conformance/goodstack-conformance.yml
+- type: Overlay
+  url: overlays/goodstack-overlay.yaml
+- type: LLMsTxt
+  url: llms/goodstack-llms.txt
+- type: MCPServer
+  url: mcp/goodstack-mcp.yml
+- type: ChangeLog
+  url: changelog/goodstack-changelog.yml
+- type: Lifecycle
+  url: lifecycle/goodstack-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/goodstack-problem-types.yml
+- type: Conventions
+  url: conventions/goodstack-conventions.yml
+- type: Idempotency
+  url: conventions/goodstack-conventions.yml
+- type: Authentication
+  url: authentication/goodstack-authentication.yml
+- type: AgenticAccess
+  url: agentic-access/goodstack-agentic-access.yml
+- type: DomainSecurity
+  url: security/goodstack-domain-security.yml
+- type: DeveloperPortal
+  url: https://docs.goodstack.io/
+- type: Documentation
+  url: https://docs.goodstack.io/
+- type: APIReference
+  url: https://docs.goodstack.io/docs/api/goodstack-services
+- type: GettingStarted
+  url: https://docs.goodstack.io/docs/guides
+- type: Support
+  url: https://goodstack.io/get-in-touch
+- type: Blog
+  url: https://goodstack.org/blog
+- type: Pricing
+  url: https://goodstack.io/pricing
+- type: SignUp
+  url: https://goodstack.io/demo-request
+- type: TermsOfService
+  url: https://goodstack.io/legal/standard-terms-and-conditions
+- type: PrivacyPolicy
+  url: https://goodstack.io/legal/privacy-policy
+- type: StatusPage
+  url: https://goodstack.statuspage.io/
+- type: ChangeLog
+  url: https://changelog.goodstack.io/
+- type: TrustCenter
+  url: https://trust.goodstack.io/
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

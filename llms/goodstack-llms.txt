@@ -1,0 +1,34 @@
+# Goodstack
+
+> Goodstack (formerly Percent) is an impact platform whose REST API lets businesses build charitable giving, nonprofit verification, and fund disbursement into their products. It handles vetting, validation, and timely disbursement of donations to verified nonprofit and educational organisations across many countries and currencies.
+
+Base URL: https://api.goodstack.io/v1 (sandbox: https://sandbox-api.goodstack.io)
+Auth: API key in the Authorization header (publishable `pk_`, secret `sk_`).
+Idempotency: `Idempotency-Key` header on POST endpoints (21-day retention).
+Pagination: `pageSize` query param (default 25, max 100); cursor and offset links.
+
+## APIs
+
+- [Goodstack Services API reference](https://docs.goodstack.io/docs/api/goodstack-services): 62 operations across donations, organisations, verifications, validation, subscriptions, categories, and webhooks.
+
+## Specs
+
+- [OpenAPI 3.0 (goodstack-services)](https://docs.goodstack.io/openapi/openapi-20241115.json)
+
+## Docs
+
+- [Documentation home](https://docs.goodstack.io/)
+- [Guides](https://docs.goodstack.io/docs/guides)
+- [Concepts](https://docs.goodstack.io/docs/concepts/)
+- [Donations API guide](https://docs.goodstack.io/docs/guides/Monetary%20donations/donations-api)
+- [Hosted donation gateway](https://docs.goodstack.io/docs/guides/Monetary%20donations/donations-hosted)
+- [Changelog](https://changelog.goodstack.io/)
+- [Status](https://goodstack.statuspage.io/)
+- [Trust center](https://trust.goodstack.io/)
+- [Pricing](https://goodstack.io/pricing)
+- [Terms of service](https://goodstack.io/legal/standard-terms-and-conditions)
+- [Privacy policy](https://goodstack.io/legal/privacy-policy)
+
+## Webhooks
+
+- 19 event types including donation.created, donation.settled, donation.disbursed, validation_request.approved, agent_verification.approved, monitoring_subscription.updated, eligibility_subscription.updated. Subscribe via POST /v1/webhook-subscriptions.

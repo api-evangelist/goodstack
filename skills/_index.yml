@@ -1,0 +1,28 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/goodstack-openapi-original.json
+note: >-
+  Packaged Agent Skills grounded in real Goodstack Services endpoints. The spec
+  exposes almost no operationIds, so operations are referenced by their verbatim
+  METHOD + path.
+skills:
+- file: goodstack-search-and-donate.md
+  name: Search a nonprofit and create a donation
+  api: openapi/goodstack-openapi-original.json
+  operations:
+  - GET /v1/organisations
+  - POST /v1/donations
+  - GET /v1/donations/{id}
+- file: goodstack-verify-nonprofit.md
+  name: Verify a nonprofit organisation
+  api: openapi/goodstack-openapi-original.json
+  operations:
+  - POST /v1/validation-requests
+  - GET /v1/validation-requests/{id}
+  - GET /v1/organisations/{id}
+- file: goodstack-subscribe-webhooks.md
+  name: Subscribe to donation and verification webhooks
+  api: openapi/goodstack-openapi-original.json
+  operations:
+  - POST /v1/webhook-subscriptions
+  - GET /v1/webhook-subscriptions

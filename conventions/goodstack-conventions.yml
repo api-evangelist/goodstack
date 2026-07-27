@@ -1,0 +1,58 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.goodstack.io/docs/api/goodstack-services
+note: >-
+  Cross-cutting request/response semantics for the Goodstack Services API,
+  captured from the API reference/overview and the OpenAPI document.
+authentication:
+  style: api-key
+  location: header
+  header: Authorization
+  keys:
+  - prefix: pk_
+    name: publishable key
+    usage: Identifies the account; safe to expose in client-side code and SDKs.
+  - prefix: sk_
+    name: secret key
+    usage: Server-side only; must be kept secret.
+  session_token:
+    header: donation-session-token
+    usage: Scopes hosted donation-session requests.
+  ref: authentication/goodstack-authentication.yml
+transport:
+  https_required: true
+  content_type: application/json
+idempotency:
+  supported: true
+  header: Idempotency-Key
+  scope: POST endpoints
+  retention: 21 days
+  behavior: >-
+    If the same idempotency key is reused, only the first successful request is
+    actioned; subsequent calls return the result of the first. Failed requests
+    may be retried with the same key.
+pagination:
+  styles:
+  - cursor
+  - offset
+  params:
+    page_size: pageSize
+    default_page_size: 25
+    max_page_size: 100
+  response_fields:
+    links_schemas:
+    - CursorLinks
+    - OffsetLinks
+  note: pageSize is capped globally at 100.
+error_envelope:
+  shape: '{ error: { code, title, message, reasons } }'
+  ref: errors/goodstack-problem-types.yml
+versioning:
+  scheme: uri-path
+  current: v1
+  ref: lifecycle/goodstack-lifecycle.yml
+rate_limiting:
+  documented: false
+  note: No explicit rate-limit policy or headers found in docs or spec as of the generated date.
+webhooks:
+  ref: asyncapi/goodstack-webhooks.yml

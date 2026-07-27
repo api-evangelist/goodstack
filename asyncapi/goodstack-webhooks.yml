@@ -1,0 +1,76 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.goodstack.io/docs/api/goodstack-services
+spec_type: Webhooks
+note: Goodstack documents webhooks but publishes no AsyncAPI document. Event names taken verbatim from
+  the OpenAPI WebhookEventsEnum. Subscriptions are managed via POST /v1/webhook-subscriptions; failed
+  deliveries are retried 4 times over ~14 hours with increasing backoff.
+delivery:
+  subscription_api: POST https://api.goodstack.io/v1/webhook-subscriptions
+  retry_policy: Re-sent up to 4 times over ~14 hours with increasing delays on non-2xx.
+event_count: 19
+events:
+- name: validation_request.approved
+  family: validation_request
+- name: validation_request.rejected
+  family: validation_request
+- name: agent_verification.pending_review
+  family: agent_verification
+- name: agent_verification.pending_user_verification
+  family: agent_verification
+- name: agent_verification.approved
+  family: agent_verification
+- name: agent_verification.rejected
+  family: agent_verification
+- name: monitoring_subscription.updated
+  family: monitoring_subscription
+- name: eligibility_subscription.updated
+  family: eligibility_subscription
+- name: validation_submission.created
+  family: validation_submission
+- name: validation_submission.succeeded
+  family: validation_submission
+- name: validation_submission.failed
+  family: validation_submission
+- name: validation_submission.updated
+  family: validation_submission
+- name: donation.hosted.payment_received
+  family: donation
+- name: donation.created
+  family: donation
+- name: donation.settled
+  family: donation
+- name: donation.disbursed
+  family: donation
+- name: donation.payment_successful
+  family: donation
+- name: donation.cancelled
+  family: donation
+- name: donation.reassigned
+  family: donation
+families:
+  validation_request:
+  - validation_request.approved
+  - validation_request.rejected
+  agent_verification:
+  - agent_verification.pending_review
+  - agent_verification.pending_user_verification
+  - agent_verification.approved
+  - agent_verification.rejected
+  monitoring_subscription:
+  - monitoring_subscription.updated
+  eligibility_subscription:
+  - eligibility_subscription.updated
+  validation_submission:
+  - validation_submission.created
+  - validation_submission.succeeded
+  - validation_submission.failed
+  - validation_submission.updated
+  donation:
+  - donation.hosted.payment_received
+  - donation.created
+  - donation.settled
+  - donation.disbursed
+  - donation.payment_successful
+  - donation.cancelled
+  - donation.reassigned

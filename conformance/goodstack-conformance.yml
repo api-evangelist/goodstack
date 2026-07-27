@@ -1,0 +1,36 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/goodstack-openapi-original.json
+note: >-
+  Cross-cutting standards conformance derived from the OpenAPI document and the
+  documented conventions. No published compliance certifications (SOC 2, ISO
+  27001, PCI DSS, etc.) were confirmed on the trust center as of the generated
+  date, so no Compliance claim is asserted here.
+standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: openapi 3.0.0 document published at docs.goodstack.io
+- id: rest
+  conforms: true
+  evidence: Resource-oriented paths under /v1 with standard HTTP verbs.
+- id: api-key-auth
+  conforms: true
+  evidence: securitySchemes PublishableApiKey/SecretApiKey (apiKey in header).
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 securityScheme in the spec.
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: "Errors use a custom '{ error: {...} }' envelope, not application/problem+json."
+- id: idempotency
+  conforms: true
+  evidence: Idempotency-Key header supported on POST endpoints (21-day retention).
+- id: pagination
+  conforms: true
+  evidence: Cursor and offset pagination via pageSize with CursorLinks/OffsetLinks.
+- id: webhooks
+  conforms: true
+  evidence: 19 documented webhook event types with retry delivery.
+- id: https-only
+  conforms: true
+  evidence: All requests required over HTTPS; TLSv1.2_2021 policy on backend.

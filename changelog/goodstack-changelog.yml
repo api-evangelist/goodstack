@@ -1,0 +1,47 @@
+generated: '2026-07-19'
+method: searched
+source: https://changelog.goodstack.io/
+scheme: dated-entries
+current_version: v1
+note: >-
+  Goodstack publishes a dated product changelog (no semantic versioning; entries
+  carry internal reference numbers). Recent window captured below; the live
+  changelog is the source of truth.
+entries:
+- title: 'New volunteering opportunity type: Project'
+  area: Workplace Giving
+  breaking: false
+  highlight: Create volunteering projects without fixed start/end dates.
+- title: Disbursement logic changes
+  area: Donations
+  breaking: false
+  highlight: Updated donation batch processing with currency conversion and a 90-day threshold.
+- title: Country Filter for Verifications
+  area: Dashboard
+  breaking: false
+  highlight: Filter verifications by country in the Partner dashboard.
+- title: Multi-user support for Causes Portal
+  area: Causes Portal
+  breaking: false
+  highlight: Multiple users per organisation with owner/member roles.
+- title: On-demand Document Verification
+  area: Verification
+  breaking: false
+  highlight: Enhanced verification via secure document uploads.
+- title: TLS (SSL) update
+  area: Security
+  breaking: false
+  highlight: Backend upgraded to the TLSv1.2_2021 policy.
+- title: Limit pageSize globally to 100
+  area: API
+  breaking: false
+  highlight: pageSize capped at 100; oversized requests still succeed with capped results.
+- title: Monitoring subscriptions
+  area: API
+  breaking: false
+  highlight: Automated subscription updates upon validation approval.
+- title: Percent is becoming Goodstack
+  area: Brand
+  breaking: false
+  highlight: Percent rebranded to Goodstack.
+  url: https://docs.goodstack.io/changelog/goodstack-launch

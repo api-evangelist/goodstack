@@ -1,0 +1,18 @@
+generated: '2026-07-19'
+method: searched
+source: https://docs.goodstack.io/docs/api/goodstack-services
+versioning:
+  scheme: uri-path
+  current: v1
+  docs: https://docs.goodstack.io/docs/api/goodstack-services
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No published deprecation/sunset policy found as of the generated date.
+changelog: https://changelog.goodstack.io/
+status_page: https://goodstack.statuspage.io/
+transport_security:
+  note: >-
+    Changelog records a TLS upgrade to the TLSv1.2_2021 policy on the API
+    backend.
+deprecated_operations: []
