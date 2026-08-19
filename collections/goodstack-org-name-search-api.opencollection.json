@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Org name search API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Org name search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search for Validation Submissions with specific org name",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/validation-submissions-organisations",
+            "params": [
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by Organisation name"
+              },
+              {
+                "name": "validationRequestIds",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "organisationIds",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search for Validation Submissions with specific org name"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

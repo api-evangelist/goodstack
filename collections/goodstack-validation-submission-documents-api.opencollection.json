@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Validation Submission Documents API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Validation Submission Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Validation Submission Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.goodstack.io/v1/validation-submission-documents",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                },
+                {
+                  "name": "validationSubmissionId",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Uploads a Validation Submission document. Valid file formats for documents are `jpg`, `png` and `pdf`. The maximum file size is 5MB."
+        },
+        {
+          "info": {
+            "name": "Get Validation Submission Documents",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/validation-submissions/:id/documents",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Validation Submission."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get Validation Submission Documents"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

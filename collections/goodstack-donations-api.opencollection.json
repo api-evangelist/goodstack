@@ -1,0 +1,185 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Donations API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Donations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Donations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/donations",
+            "params": [
+              {
+                "name": "userId",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by userId."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by status."
+              },
+              {
+                "name": "startDate",
+                "value": "2020-10-13T17:46:54.000Z",
+                "type": "query",
+                "description": "Start date to retrieve users donations from."
+              },
+              {
+                "name": "endDate",
+                "value": "2020-10-13T17:46:54.000Z",
+                "type": "query",
+                "description": "End date to retrieve users donations from."
+              },
+              {
+                "name": "organisationId",
+                "value": "",
+                "type": "query",
+                "description": "Filter results by organisationId."
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A cursor that points to where to start the page"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "How many items per page, for pagination."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a list of donations.\n\nPII fields (`firstName`, `lastName` & `email`) will be included or excluded depending on your partner settings.\n"
+        },
+        {
+          "info": {
+            "name": "Create a donation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.goodstack.io/v1/donations",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Creates a new Donation of type `direct`. We will request payment from you for the Donations aggregated over a period. Goodstack and our associated foundations will then handle the ongoing safe and efficient disbursement of funds to the nonprofit.\n\nPlease note that if you are creating with a `userId` and no `organisationId` the user must be already [supporting an organisation](#operation/SupportOrganisation).\n"
+        },
+        {
+          "info": {
+            "name": "Retrieve a Donation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/donations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Donation."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a donation by its ID.\n\nPII fields (`firstName`, `lastName` & `email`) will be included or excluded depending on your partner settings.\n"
+        },
+        {
+          "info": {
+            "name": "Edit a Donation",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.goodstack.io/v1/donations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Donation."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update the recipient organisation, metadata of a Donation. The recipient organisation can only be changed for `direct` type Donations created directly through the [Create A Donation API](./create-a-donation) that are in an `ACTIVE` status.\n"
+        },
+        {
+          "info": {
+            "name": "Cancel a Donation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.goodstack.io/v1/donations/:id/cancel",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Donation to cancel."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Applicable only to `direct` type Donations created directly through the [Create A Donation API](./create-a-donation).\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

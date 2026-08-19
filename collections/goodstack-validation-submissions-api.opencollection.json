@@ -1,0 +1,151 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Validation Submissions API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Validation Submissions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Validation Submissions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/validation-submissions",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Which way to sort by the given 'sort' field.  Default DESC"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A cursor that points to where to start the page"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "How many items per page, for pagination."
+              },
+              {
+                "name": "status",
+                "value": "",
+                "type": "query",
+                "description": "Filter by Validation Submission status"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "Filter by multiple statuses"
+              },
+              {
+                "name": "configurationIds",
+                "value": "",
+                "type": "query",
+                "description": "Filter by multiple configuration ids"
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "validationRequestIds",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "organisationIds",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "query",
+                "value": "example@example.com",
+                "type": "query",
+                "description": "Search by agent verification email, organisation name or validation request name"
+              },
+              {
+                "name": "countryCodes",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Validation Submissions"
+        },
+        {
+          "info": {
+            "name": "Create a Validation Submission",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.goodstack.io/v1/validation-submissions",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a Validation Submission"
+        },
+        {
+          "info": {
+            "name": "Retrieve a Validation Submission",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/validation-submissions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Validation Submission."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a Validation Submission"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

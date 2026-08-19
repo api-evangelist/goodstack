@@ -194,3 +194,9 @@ tools:
 - name: search_for_validation_submissions_with_specific_org_name
   description: Search for Validation Submissions with specific org name
   source_operation: openapi/goodstack-openapi-original.json#GET /v1/validation-submissions-organisations
+deployment:
+  mode: none
+  verified: derived
+  tools: 62
+  checked: '2026-08-12'
+  source: catalog MCP census

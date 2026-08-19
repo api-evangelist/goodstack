@@ -1,0 +1,60 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Activities",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Activity Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/activity-tags",
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Activity Tags"
+        },
+        {
+          "info": {
+            "name": "Retrieve an Activity Tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/activity-tags/:tagId",
+            "params": [
+              {
+                "name": "tagId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Activity Tag"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve an Activity Tag"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

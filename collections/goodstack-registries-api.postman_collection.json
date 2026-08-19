@@ -1,0 +1,546 @@
+{
+  "item": [
+    {
+      "id": "92e5a05e-5342-4f49-a7d5-d95bd91d06ea",
+      "name": "Registries",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7685a8b3-bc83-4d44-96b2-3e7e730f50bd",
+          "name": "List Registries",
+          "request": {
+            "name": "List Registries",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "registries"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "countryCode",
+                  "value": "<string>",
+                  "description": "(Required) 3 letter ISO-3166 alpha 3 identifier of the country"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "66948ef2-e745-4d73-a774-496ef8861149",
+              "name": "Successfully retrieved Registries for a Country",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": \"registry_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"name\": \"Charity Registry\",\n      \"englishName\": \"Charity Registry\",\n      \"code\": \"CR\"\n    },\n    {\n      \"id\": \"registry_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"name\": \"Charity Registry\",\n      \"englishName\": \"Charity Registry\",\n      \"code\": \"CR\"\n    }\n  ],\n  \"object\": \"Registry\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7a628bbe-c31c-4305-8ad6-c306a6baf279",
+              "name": "Error validating inputs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"bad_request\",\n    \"title\": \"Bad request\",\n    \"message\": \"One or more of the inputs were invalid\",\n    \"reasons\": [\n      \"pageSize must be greater than or equal to 0\",\n      \"pageSize must be greater than or equal to 0\"\n    ]\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f497498e-0a2e-4c21-8086-03dd3317b032",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d4a5dfca-d22f-48a0-b334-471193a6bb74",
+              "name": "Forbidden (scope)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registries"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "countryCode",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"forbidden\",\n    \"title\": \"Forbidden\",\n    \"message\": \"Access is denied due to missing scope permissions\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4ec42d20-fb64-49f3-9b85-c94d55e82bcd",
+          "name": "Retrieve a Registry",
+          "request": {
+            "name": "Retrieve a Registry",
+            "description": {},
+            "url": {
+              "path": [
+                "v1",
+                "registries",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "id",
+                  "description": "(Required) Id of the registry"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "apikey",
+              "apikey": [
+                {
+                  "key": "key",
+                  "value": "Authorization"
+                },
+                {
+                  "key": "value",
+                  "value": "{{apiKey}}"
+                },
+                {
+                  "key": "in",
+                  "value": "header"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "734b222e-7ca3-4046-b5f1-db74f4ccad3c",
+              "name": "Successfully retrieved a Registry",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registries",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Id of the registry"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": {\n    \"id\": \"registry_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"name\": \"Charity Registry\",\n    \"englishName\": \"Charity Registry\",\n    \"code\": \"CR\"\n  },\n  \"object\": \"Registry\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5103e8f1-23c5-4a06-92b1-b536689a0027",
+              "name": "Unauthorized",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registries",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Id of the registry"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4fb128f2-8274-4b48-8933-090492d1678b",
+              "name": "Forbidden (scope)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registries",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Id of the registry"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"forbidden\",\n    \"title\": \"Forbidden\",\n    \"message\": \"Access is denied due to missing scope permissions\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "34f2c4dc-d455-4fed-b7e9-33b3ad37ce50",
+              "name": "The specified resource was not found",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "registries",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "id",
+                      "description": "(Required) Id of the registry"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"code\": \"not_found\",\n    \"title\": \"Resource not found\",\n    \"message\": \"This endpoint is unavailable or can not be found\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.goodstack.io",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "c1630af3-6965-4a59-b240-59b3a612e915",
+    "name": "Goodstack Services Activities Registries API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation.\n\nFor all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation.\n\nThe Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS.\n\n# Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header.\n\nTwo keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`.\n\nPublishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs.\n\nSecret API keys should be kept confidential and only used in secure server environments.\n\nAnywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key.\n\n# Formats\n\n## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2021-08-01T12:00:00.000Z`.\n\n## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25.\n\n## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data.\n\nYou can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long.\n\n## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message.\nError objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request.\n\nAn example error object returned from the API:\n```json\n{\n  error: {\n    code: 'bad_request',\n    title: 'Bad request',\n    message: 'Something is wrong with your request, please check any parameters and try again',\n    reasons: ['amount is a required field']\n  }\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below.\n\n| Code        | Title           | Description  |\n| ------------- |-------------| -----|\n| 200      | Success | Request successful |\n| 204      | No Content      |   Request successful with no content returned |\n| 400 | Bad Request      | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Retry recommendations\n\nAlthough rare, network requests may fail due to their inherent unreliability. To ensure a robust integration with Goodstack we recommend that you implement a retry mechanism, so that if a network request fails you are able to retry the request.\nGoodstacks API supports idempotency for safely retrying requests through usage of idempotency keys.\n\nFor some POST endpoints we allow clients to specify an idempotency key in the Idempotency-Key header. This allows the client to retry requests without accidentally performing the same operation twice.\n\nIf the same idempotency key is used for multiple requests, only the first successful request will be actioned and subsequent calls will return the result of the first request. Failed requests may be retried with the same idempotency key.\n\nRequests with the same idempotency key and different payload will fail.\n\nThe idempotency key expires after 21 days. After this time, a new request with the same idempotency key will be treated as a new request.\n\n# Webhooks\n\nUse webhooks to subscribe to updates on particular events that occur in Goodstack. Each time an event that you have subscribed to occurs, Goodstack submits a POST request to the designated webhook URL with information about the event.\n\nTo receive webhook notifications, use the [webhook subscriptions API](list-webhook-subscriptions).\n\n## Attributes\n\nAt the top level Webhook payloads will contain `object` and `data` fields. The data record contains the following fields:\n\n| Parameter        | Type           | Description  |\n| ------------- |-------------| -----|\n| id      | string | Id of the event |\n| createdAt      | string      |   Timestamp of when the event was created |\n| eventType | string      | The type of the event e.g. `validation_request.approved` |\n| eventData | record | Data associated with the event |\n\n## Webhook notifications\n\nThe full list of IP addresses that webhook notifications may come from.\n\nProduction environment:\n\n```\n54.76.67.168\n34.248.188.89\n34.243.152.218\n```\n\nSandbox environment:\n\n```\n54.76.168.240\n99.81.243.145\n54.220.118.167\n```\n\n## Webhook responses\n\nTo acknowledge receipt of a webhook notification, your endpoint must return a 2xx HTTP status code.\n\nIf the webhook is not received successfully then Goodstack will resend the webhook 4 times over the next 14 hours with increasing delays between retries.\n\nThe id of the event can be used to uniquely identify the event. We recommend making the processing of these events idempotent. While rare it is possible for multiple webhooks to be sent for the same event.\n\n## Verifying webhooks\n\nTo verify that the webhook payload is sent from Goodstack, a header `Goodstack-Signature` is included in the request, this signature is generated using HMAC with SHA-256 hashing algorithm and Hex encoded. The webhook subscription secret is used as the key.\n\nYou can compute this signature using HMAC with the SHA-256 hash function, using the webhook subscription secret as the key, and the request body as the message. You can then check that the `Goodstack-Signature` value matches the computed value, verifying that the webhook was sent from Goodstack.\n\n## Validation Request events\n\n| Event        | Description           |\n| ------------- |-------------|\n| validation_request.approved      | Validation request was approved |\n| validation_request.rejected      | Validation request was rejected      |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"validation_request.approved\",\n    \"createdAt\": \"2021-08-01T12:00:00.000Z\",\n    \"eventData\": {\n      \"id\": \"validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationTypes\": [\"nonprofit\", \"social_impact\"],\n      \"name\": \"example charity\",\n      \"registryName\": \"National Charities Registry\",\n      \"registryId\": \"I34324\",\n      \"email\": \"example@example.com\",\n      \"addressLine1\": \"example street 15\",\n      \"addressLine2\": null,\n      \"city\": \"Katowice\",\n      \"postal\": \"44-100\",\n      \"state\": \"Silesia\",\n      \"website\": \"https://example.com\",\n      \"countryCode\": \"POL\",\n      \"createdAt\": \"2021-08-01T12:00:00.000Z\",\n      \"deletedAt\": null,\n      \"acceptedAt\": \"2021-08-01T12:00:00.000Z\",\n      \"rejectedAt\": null,\n      \"(deprecated) rejectionReason\": null,\n      \"rejectionReasonCode\": null\n    }\n  }\n}\n```\n## Agent Verification events\n\n| Event        | Description           |\n| ------------- |-------------|\n| agent_verification.pending_user_verification      | Agent has passed Goodstack review, and is awaiting email verification.     |\n| agent_verification.pending_review      | Agent has passed email verification and is awaiting Goodstack review. |\n| agent_verification.approved      | Agent verification was approved.     |\n| agent_verification.rejected      | Agent verification was rejected.      |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"agent_verification.approved\",\n    \"createdAt\": \"2021-08-01T12:00:00.000Z\",\n    \"eventData\": {\n      \"id\": \"agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"firstName\": \"Max\",\n      \"lastName\": \"Plank\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"email\": \"example@example.com\",\n      \"language\": \"en-GB\",\n      \"validationRequestId\": \"validationRequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"title\": \"Board Member\",\n      \"(deprecated) rejectionReason\": \"Identity check failed\",\n      \"rejectionReasonCode\": \"user_failed_percent_review\",\n      \"metadata\": {},\n      \"createdAt\": \"2021-08-01T12:00:00.000Z\",\n      \"status\": \"approved\"\n    }\n  }\n}\n```\n## Monitoring Subscription events\n\n| Event        | Description           |\n| ------------- |-------------|\n| monitoring_subscription.updated      | Monitoring Subscription was updated.     |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"monitoring_subscription.updated\",\n    \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n    \"eventData\": {\n      \"id\": \"monitoringsubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"validationRequestId\": null,\n      \"status\": \"live\",\n      \"createdAt\": \"2021-08-02T11:00:00.000Z\",\n      \"results\": {\n        \"complianceStatus\": \"fail\",\n        \"warning\": { \"status\": \"clear\" },\n        \"sanction\": { \"status\": \"flag\" },\n        \"hateSpeech\": { \"status\": \"clear\" },\n        \"commercial\": { \"status\": \"clear\" },\n        \"adverseMedia\": { \"status\": \"clear\" },\n        \"controversial\": { \"status\": \"flag\" },\n        \"registration\": { \"active\": \"yes\" }\n      }\n    }\n  }\n}\n```\n## Eligibility Subscription events\n\n| Event         | Description          |\n| ------------- |-------------|\n| eligibility_subscription.updated     | Eligibility Subscription was updated.     |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"eligibility_subscription.updated\",\n    \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n    \"eventData\": {\n      \"id\": \"eligibilitysubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"validationRequestId\": null,\n      \"status\": \"live\",\n      \"suggestedActivitySubTags\": [\n        {\n          \"id\": \"activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"name\": \"Primary School\"\n          \"description\": \"Includes all primary schools\",\n          \"tag\": {\n            \"id\": \"activitytag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n            \"name\": \"Educational\"\n            \"description\": \"Includes all educational institutions\"\n          }\n        }\n      ]\n      \"createdAt\": \"2021-08-02T11:00:00.000Z\",\n      \"updatedAt\": \"2021-08-02T11:00:00.000Z\",\n      \"results\": {\n        \"eligibilityStatus\": \"fail\",\n        \"confirmedActivitySubTags\": [\n          {\n            \"id\": \"activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n            \"name\": \"Primary School\"\n            \"description\": \"Includes all primary schools\",\n            \"tag\": {\n              \"id\": \"activitytag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n              \"name\": \"Educational\"\n              \"description\": \"Includes all educational institutions\"\n            }\n          }\n        ],\n        \"rejectedActivitySubTags\": [\n          {\n            \"id\": \"activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n            \"name\": \"Primary School\"\n            \"description\": \"Includes all primary schools\",\n            \"tag\": {\n              \"id\": \"activitytag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n              \"name\": \"Educational\"\n              \"description\": \"Includes all educational institutions\"\n            }\n          }\n        ]\n      }\n    }\n  }\n}\n```\n## Validation Submission events\n\n| Event        | Description           |\n| ------------- |-------------|\n| validation_submission.created      | Validation Submission was created.          |\n| validation_submission.succeeded    | Validation Submission has passed all checks |\n| validation_submission.failed       | Validation Submission has failed            |\n| validation_submission.updated      | Validation Submission status has updated    |\n\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"validation_submission.created\",\n    \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n    \"eventData\": {\n        \"id\": \"validationsubmission_xxxxx\",\n        \"agentVerificationId\": \"agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"agentVerification\": {\n          \"id\": \"agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"firstName\": \"Max\",\n          \"lastName\": \"Plank\",\n          \"email\": \"example@example.com\",\n          \"(deprecated) rejectionReason\": null,\n          \"rejectionReasonCode\": null,\n          \"status\": \"pending\"\n        },\n        \"createdAt\": \"2021-08-02T11:00:00.000Z\",\n        \"eligibilitySubscriptionId\": \"eligibilitysubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"monitoringSubscriptionId\": \"monitoringsubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"partnerFields\": {},\n        \"validationSubmissionHostedConfigurationId\": \"hostedconfiguration_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"metadata\": {},\n        \"status\": \"pending\",\n        \"validationInviteId\": \"validationinvite_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"validationRequestId\": \"validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"validationRequest\": {\n          \"id\": \"validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"name\": \"Charity\",\n          \"acceptedAt\": null,\n          \"rejectedAt\": null,\n          \"organisationTypes\": []\n        }\n    }\n  }\n}\n```\n\nN.B. Please be aware that the \"Validation Submission Failure\" event consists of a property named failureReasons. In the given example, we have included all possible reasons that may be encountered. It is important to note that only one of these reasons will be received when encountering this event.\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"validation_submission.failed\",\n    \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n    \"eventData\": {\n      \"id\": \"validationsubmission_xxxxx\",\n      \"agentVerificationId\": \"agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"agentVerification\": {\n          \"id\": \"agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"firstName\": \"Max\",\n          \"lastName\": \"Plank\",\n          \"email\": \"example@example.com\",\n          \"(deprecated) rejectionReason\": \"Other\",\n          \"rejectionReasonCode\": \"other\",\n          \"status\": \"rejected\"\n        },\n      \"createdAt\": \"2021-08-02T11:00:00.000Z\",\n      \"eligibilitySubscriptionId\": \"eligibilitysubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"monitoringSubscriptionId\": \"monitoringsubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"hostedconfiguration_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"metadata\": {},\n      \"status\": \"failed\",\n      \"validationInviteId\": \"validationinvite_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"validationRequestId\": \"validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"validationRequest\": {\n        \"id\": \"validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"name\": \"Charity\",\n        \"acceptedAt\": \"2021-08-01T12:00:00.000Z\",\n        \"rejectedAt\": null,\n        \"organisationTypes\": [\"nonprofit\"]\n      },\n      \"failureReasons\": [\n        {\n          \"check\": \"validation_request\",\n          \"reason\": {\n            \"rejectionReasonCode\": \"other\"\n          }\n        },\n        {\n          \"check\": \"agent_verification\",\n          \"reason\": {\n            \"rejectionReasonCode\": \"fake_email_used\"\n          }\n        },\n        {\n          \"check\": \"compliance\",\n          \"reason\": {\n            \"results\": {\n              \"complianceStatus\": \"fail\",\n              \"warning\": {\n                \"status\": \"flag\"\n              },\n              \"sanction\": {\n                \"status\": \"flag\"\n              },\n              \"hateSpeech\": {\n                \"status\": \"flag\"\n              },\n              \"commercial\": {\n                \"status\": \"flag\"\n              },\n              \"adverseMedia\": {\n                \"status\": \"flag\"\n              },\n              \"controversial\": {\n                \"status\": \"flag\"\n              },\n              \"registration\": {\n                \"active\": \"yes\"\n              }\n            }\n          }\n        },\n        {\n          \"check\": \"eligibility\",\n          \"reason\": {\n            \"status\": \"cannot_define_eligibility\",\n            \"results\": {\n              \"eligibilityStatus\": null,\n              \"confirmedActivitySubTags\": null,\n              \"rejectedActivitySubTags\": null\n            }\n          }\n        },\n        {\n          \"check\": \"eligibility\",\n          \"reason\": {\n            \"status\": \"live\",\n            \"results\": {\n              \"eligibilityStatus\": \"fail\",\n              \"confirmedActivitySubTags\": [{\n                \"id\": \"tag1\",\n                \"name\": \"Tag 1\",\n                \"tag\": {\n                  \"id\": \"tag1\",\n                  \"name\": \"Tag 1\",\n                  \"description\": \"Tag description\"\n                },\n                \"description\": \"Sub tag description\"\n              }],\n              \"rejectedActivitySubTags\": [{\n                \"id\": \"tag1\",\n                \"name\": \"Tag 1\",\n                \"tag\": {\n                  \"id\": \"tag1\",\n                  \"name\": \"Tag 1\",\n                  \"description\": \"Tag description\"\n                },\n                \"description\": \"Sub tag description\"\n              }]\n            }\n          }\n        }\n      ]\n    }\n  }\n}\n```\n\n## Donation events\n\nPII fields (`firstName`, `lastName` & `email`) will be included or excluded depending on your partner settings.\n\n| Event        | Description           |\n| ------------- |-------------|\n| donation.hosted.payment_received      |  Payment has been received from the user for a hosted donation.   |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"donation.hosted.payment_received\",\n    \"createdAt\": \"2021-08-07T11:00:30.000Z\",\n    \"eventData\": {\n      \"id\": \"donation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"userId\": \"user_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"type\": \"hosted\",\n      \"hosted\": {\n        \"sessionId\": \"donationsession_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"\n      },\n      \"amount\": 10000,\n      \"currencyCode\": \"AUD\",\n      \"status\": \"RECEIVED_PAYMENT\",\n      \"firstName\": \"Julia\",\n      \"lastName\": \"Russell\",\n      \"email\": \"example@example.com\",\n      \"consentedToBeContactedByOrg\": \"yes\",\n      \"anonymous\": \"no\",\n      \"giftAidId\": null,\n      \"cancelledAt\": null,\n      \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n      \"metadata\": {\n        \"username\": \"jr123\"\n      },\n      \"subscription\": {\n        \"initial\": true\n      }\n    }\n  }\n}\n```\n| Event                       | Description                                                                                                                                                                                      |\n| ----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| donation.created            |  A new donation record has been successfully created in the system.                                                                                                                              |\n| donation.payment_successful |  The payment for the donation has been successfully completed and verified.                                                                                                                      |\n| donation.settled            |  The donated funds have been received and reconciled by the partner foundation.                                                                                                                  |\n| donation.disbursed          |  The donated funds have been transferred to the intended nonprofit.                                                                                                                              |\n| donation.cancelled          |  The donation process has been terminated, either by the donor or due to system issues.                                                                                                          |\n| donation.reassigned         |  The donation has been reassigned to another organisation, either because it has failed compliance, we are unable to pay the organisation or the organisation has been merged with another id.   |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"donation.payment_successful\",\n    \"createdAt\": \"2021-08-07T11:00:30.000Z\",\n    \"eventData\": {\n      \"id\": \"donation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"userId\": \"user_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"type\": \"direct\",\n      \"amount\": { \"amount\": 10, \"currency\": \"GBP\" },\n      \"status\": \"ACTIVE\",\n      \"firstName\": \"Julia\",\n      \"lastName\": \"Russell\",\n      \"email\": \"example@example.com\",\n      \"consentedToBeContacted\": \"yes\",\n      \"anonymous\": \"no\",\n      \"giftAidId\": \"giftaid_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n      \"cancelledAt\": null,\n      \"donationRequestId\": \"donationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"donationRequestAmount\": { \"amount\": 10, \"currency\": \"GBP\" },\n      \"accountId\": \"account_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"metadata\": {\"data\": \"hash-value\"},\n      \"settledAmount\": { amount: 10, currency: \"GBP\" },\n      \"settledAt\": \"2021-08-07T11:00:00.000Z\",\n      \"disbursedAt\": \"2021-08-07T11:00:00.000Z\",\n      \"reassignedAt\": \"2021-08-07T11:00:00.000Z\",\n      \"reassignedFromOrganisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    }\n  }\n}\n```\n\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+      "type": "text/plain"
+    }
+  }
+}

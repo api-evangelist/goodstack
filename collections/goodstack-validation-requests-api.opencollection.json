@@ -1,0 +1,119 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Validation Requests API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Validation Requests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Validation Requests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/validation-requests",
+            "params": [
+              {
+                "name": "status",
+                "value": "pending",
+                "type": "query",
+                "description": "Filter for status of Validation Request"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "filter for name of ValidationRequest or assigned Organisation"
+              },
+              {
+                "name": "sort",
+                "value": "name",
+                "type": "query",
+                "description": "Field to sort by"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A cursor that points to where to start the page"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "How many items per page, for pagination."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Validation Requests"
+        },
+        {
+          "info": {
+            "name": "Create a Validation Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.goodstack.io/v1/validation-requests",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create a Validation Request"
+        },
+        {
+          "info": {
+            "name": "Retrieve a Validation Request",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/validation-requests/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Validation Request."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve a Validation Request"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

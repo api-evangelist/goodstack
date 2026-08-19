@@ -1,0 +1,58 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Gift Aid API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Gift Aid",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a GiftAid Declaration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.goodstack.io/v1/gift-aid",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a GiftAid Declaration"
+        },
+        {
+          "info": {
+            "name": "Retrieve GiftAid id for User",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/users/:id/has-gift-aid",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the user."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Returns the most recent gift aid id for a given user, returns 404 not found if no gift aid exists."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

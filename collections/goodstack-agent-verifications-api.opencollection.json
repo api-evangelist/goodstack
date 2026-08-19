@@ -1,0 +1,159 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Agent Verifications API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agent Verifications",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Agent Verifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/agent-verifications",
+            "params": [
+              {
+                "name": "status",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "email",
+                "value": "joe",
+                "type": "query",
+                "description": "filter on the Agent Verification list by email"
+              },
+              {
+                "name": "startDate",
+                "value": "2020-10-13T17:46:54.000Z",
+                "type": "query",
+                "description": "Start date to filter Agent Verifications."
+              },
+              {
+                "name": "endDate",
+                "value": "2020-10-13T17:46:54.000Z",
+                "type": "query",
+                "description": "End date to filter Agent Verifications."
+              },
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Which way to sort by the given 'sort' field.  Default DESC"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A cursor that points to where to start the page"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "How many items per page, for pagination."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Agent Verifications"
+        },
+        {
+          "info": {
+            "name": "Create an Agent Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.goodstack.io/v1/agent-verifications",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Create an Agent Verification"
+        },
+        {
+          "info": {
+            "name": "Retrieve an Agent Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/agent-verifications/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Agent Verification."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve an Agent Verification"
+        },
+        {
+          "info": {
+            "name": "Edit an Agent Verification",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.goodstack.io/v1/agent-verifications/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Agent Verification."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Update an Agent Verifications metadata."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

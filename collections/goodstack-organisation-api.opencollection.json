@@ -1,0 +1,80 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Organisation API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organisation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Add a Organisation to a Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.goodstack.io/v1/categories/:categoryId/:organisationId",
+            "params": [
+              {
+                "name": "categoryId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Category"
+              },
+              {
+                "name": "organisationId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the organisation"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Add a Organisation to a Category"
+        },
+        {
+          "info": {
+            "name": "Remove a Organisation from a Category",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.goodstack.io/v1/categories/:categoryId/:organisationId",
+            "params": [
+              {
+                "name": "categoryId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Category"
+              },
+              {
+                "name": "organisationId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the organisation"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Remove a Organisation from a Category"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

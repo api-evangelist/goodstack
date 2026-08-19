@@ -1,0 +1,43 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Countries API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Countries",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List available Countries",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/countries",
+            "params": [
+              {
+                "name": "hasRegistry",
+                "value": "",
+                "type": "query",
+                "description": "Only return Countries with Registries"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "This endpoint will return all the Countries that Goodstack currently supports.  If hasRegistry is true, it will return the subset of Countries that Goodstack currently has nonprofit data for."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

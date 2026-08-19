@@ -1,0 +1,209 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Organisations API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organisations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List an Organisations Milestones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/organisations/:id/milestones",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the organisation"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List an Organisations Milestones"
+        },
+        {
+          "info": {
+            "name": "Search Organisations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/organisations",
+            "params": [
+              {
+                "name": "countryCode",
+                "value": "",
+                "type": "query",
+                "description": "Filter search by three-letter ISO country code"
+              },
+              {
+                "name": "registryId",
+                "value": "",
+                "type": "query",
+                "description": "Filter search using an organisation’s ID within their registry. Useful with usaGroupExempt param"
+              },
+              {
+                "name": "category[]",
+                "value": "",
+                "type": "query",
+                "description": "Only return Organisations in the given Categories"
+              },
+              {
+                "name": "notCategory[]",
+                "value": "",
+                "type": "query",
+                "description": "Do not return Organisations in the given Categories"
+              },
+              {
+                "name": "tags[]",
+                "value": "",
+                "type": "query",
+                "description": "Only return Organisations with the specified tags. To fetch organisations with tag X AND Y use the following `?tags[]=X&tags[]=Y`. To fetch organisations with tag X OR Y use the following `?tags[]=X,Y`."
+              },
+              {
+                "name": "notTags[]",
+                "value": "",
+                "type": "query",
+                "description": "Do not return Organisations with the specified tags. To fetch organisations with tag X AND NOT with Y use the following `?tags[]=X&notTags[]=Y`. To fetch organisations with not include tag X OR Y use the following `?notTags[]=X,Y`. To fetch organisations with not include tag X AND Y use the following `?notTags[]=X&notTags[]=Y`"
+              },
+              {
+                "name": "type[]",
+                "value": "",
+                "type": "query",
+                "description": "Restrict search to a single type of organisation."
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "Search for organisations by name. Must not exceed 500 characters or 512 bytes."
+              },
+              {
+                "name": "usaGroupExempt",
+                "value": "",
+                "type": "query",
+                "description": "Filter search by USA-specific group exempt. Recommended to use with registryId param"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number, for pagination."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "How many items per page, for pagination."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Search for nonprofits. The Organisations search API provides up to 1,000 results for each search that are accessible by pagination. The boolean field `exhaustiveTotalResults` indicates whether the totalResults are exhaustive (true) or approximate (false)."
+        },
+        {
+          "info": {
+            "name": "Retrieve an Organisation",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/organisations/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the organisation"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve an Organisation"
+        },
+        {
+          "info": {
+            "name": "Retrieve an Organisation by country code, registry and registryId",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/organisations/:countryCode/:registry/:registryId",
+            "params": [
+              {
+                "name": "countryCode",
+                "value": "",
+                "type": "path",
+                "description": "3 letter ISO-3166 alpha 3 identifier of the country"
+              },
+              {
+                "name": "registry",
+                "value": "",
+                "type": "path",
+                "description": "Id of the registry"
+              },
+              {
+                "name": "registryId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Organisation within the registry"
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve an Organisation by country code, registry and registryId"
+        },
+        {
+          "info": {
+            "name": "Retrieve an Organisation profile info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/organisations/:id/profile",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the organisation"
+              }
+            ]
+          },
+          "docs": "Retrieve an Organisation profile info"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

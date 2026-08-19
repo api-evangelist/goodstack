@@ -1,0 +1,53 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Validation Request Documents API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Validation Request Documents",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a Validation Request Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.goodstack.io/v1/validation-requests/:validationRequestId/document",
+            "headers": [
+              {
+                "name": "Idempotency-Key",
+                "value": ""
+              }
+            ],
+            "params": [
+              {
+                "name": "validationRequestId",
+                "value": "",
+                "type": "path",
+                "description": "Id of the Validation Request to add a document to"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Uploads a document and updates the Validation Request to refer to that document. Valid file formats for documents are `jpg`, `png` and `pdf`. The maximum file size is 5MB."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,101 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Goodstack Services Activities Donation Sessions API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Donation Sessions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Donation Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/donation-sessions",
+            "params": [
+              {
+                "name": "direction",
+                "value": "",
+                "type": "query",
+                "description": "Which way to sort by the given 'sort' field.  Default DESC"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "A cursor that points to where to start the page"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "How many items per page, for pagination."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "List Donation Sessions"
+        },
+        {
+          "info": {
+            "name": "Create a Donation Session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.goodstack.io/v1/donation-sessions",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "To create a Donation Session you must supply the `organisationId` of the nonprofit you want to let your user donate to.\n\nAfter creating the Donation Session, direct your user to the URL for the hosted Donation gateway returned in the response. Your user will receive an email receipt after a successful Donation.\n\nThe status field of the Donation Session object after creation will be `open`. After a successful Donation is made the status will transition to `completed` otherwise if no Donation is c"
+        },
+        {
+          "info": {
+            "name": "Retrieve donation session",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.goodstack.io/v1/donation-sessions/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "Id of the donation session to retrieve."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Retrieve donation session"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
