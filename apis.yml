@@ -38,6 +38,17 @@ modified: '2026-07-19'
 image: https://goodstack.io/favicon.ico
 tags:
 - Company
+- Non-Profit
+- Donations
+- Charitable Giving
+- Fundraising
+- Verification
+- Compliance
+- Payments
+- Disbursements
+- Social Impact
+tags_raw:
+- Company
 - Nonprofits
 - Donations
 - Charitable Giving
@@ -253,6 +264,8 @@ apis:
   humanURL: https://docs.goodstack.io/docs/api/goodstack-services
   baseURL: https://api.goodstack.io/v1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
