@@ -478,14 +478,14 @@ paths:
       x-operation-id-source: derived
 components:
   examples:
-    ValidationSubmission.InvalidConfiguration:
-      summary: 404 Not Found
-      description: Provided configurationId is not valid
+    ValidationSubmission.ValidationRequestNotFound:
+      summary: 400 Bad request
+      description: Validation request not found
       value:
         error:
-          code: validation_submission/invalid_configuration_id
-          title: Not Found
-          message: Provided configurationId is not valid
+          code: validation_submission/validation_request_not_found
+          title: Bad request
+          message: Validation request was not found
     ValidationSubmission.OrganisationNotActive:
       summary: 400 Bad request
       description: Organisation is not active
@@ -494,14 +494,14 @@ components:
           code: validation_submission/organisation_not_active
           title: Bad request
           message: Organisation is not active
-    ValidationSubmission.ValidationSubmissionDocumentNotFound:
+    ValidationSubmission.ValidationRequestAlreadyRejected:
       summary: 400 Bad request
-      description: Validation submission document was not found
+      description: Validation request already rejected
       value:
         error:
-          code: validation_submission/validation_submission_document_not_found
+          code: validation_submission/validation_request_already_rejected
           title: Bad request
-          message: Validation submission document was not found
+          message: Validation request already rejected
     Idempotency.OriginalCallInProgress:
       summary: Idempotency - Original call in progress
       description: Original call with this idempotency key is still in progress, please wait and try again
@@ -510,6 +510,30 @@ components:
           code: idempotency/original_call_in_progress
           title: Bad request
           message: Original call with this idempotency key is still in progress
+    ValidationSubmission.InvalidSubTags:
+      summary: 400 Bad request
+      description: At least one of provided subtags is invalid
+      value:
+        error:
+          code: validation_submission/invalid_sub_tags
+          title: Bad request
+          message: At least one of provided subtags is invalid
+    ValidationSubmission.ValidationSubmissionDocumentNotFound:
+      summary: 400 Bad request
+      description: Validation submission document was not found
+      value:
+        error:
+          code: validation_submission/validation_submission_document_not_found
+          title: Bad request
+          message: Validation submission document was not found
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
     IncorrectParams:
       summary: 400 Incorrect Parameters
       description: Bad Request - Incorrect parameters
@@ -520,30 +544,22 @@ components:
           message: One or more of the inputs were invalid
           reasons:
           - pageSize must be greater than or equal to 0
-    ValidationSubmission.ValidationRequestAlreadyRejected:
-      summary: 400 Bad request
-      description: Validation request already rejected
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
       value:
         error:
-          code: validation_submission/validation_request_already_rejected
+          code: idempotency/same_key_different_data
           title: Bad request
-          message: Validation request already rejected
-    ValidationSubmission.InvalidSubTags:
-      summary: 400 Bad request
-      description: At least one of provided subtags is invalid
+          message: Data has changed from previous request
+    ValidationSubmission.InvalidConfiguration:
+      summary: 404 Not Found
+      description: Provided configurationId is not valid
       value:
         error:
-          code: validation_submission/invalid_sub_tags
-          title: Bad request
-          message: At least one of provided subtags is invalid
-    Pagination.CursorError:
-      summary: Error in cursor parameter
-      description: We were unable to decode the cursor
-      value:
-        error:
-          code: pagination/cursor_error
-          title: Bad request
-          message: Unable to find the next page
+          code: validation_submission/invalid_configuration_id
+          title: Not Found
+          message: Provided configurationId is not valid
     ValidationSubmission.EntityNotFound:
       summary: 400 Bad request
       description: Organisation or validation request was not found
@@ -568,263 +584,25 @@ components:
           code: idempotency/key_already_in_use
           title: Bad request
           message: Idempotency Key is already in use
-    ValidationSubmission.ValidationRequestNotFound:
-      summary: 400 Bad request
-      description: Validation request not found
-      value:
-        error:
-          code: validation_submission/validation_request_not_found
-          title: Bad request
-          message: Validation request was not found
-    Idempotency.SameKeyDifferentData:
-      summary: Idempotency - Data has changed from previous request
-      description: Data has changed from previous request with this key
-      value:
-        error:
-          code: idempotency/same_key_different_data
-          title: Bad request
-          message: Data has changed from previous request
   schemas:
-    SingleApiValidationSubmission:
+    Error:
       type: object
       properties:
-        id:
-          type: string
-          example: validationsubmission_xxxxxxxxxxxx
-        validationInviteId:
-          type:
-          - string
-          - 'null'
-          example: validationinvite_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        status:
-          type: string
-          example: pending
-          enum:
-          - pending
-          - failed
-          - succeeded
-          - processed
-        processedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-          example: '2022-02-02T17:46:54.000Z'
-        organisationId:
-          type:
-          - string
-          - 'null'
-          example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        organisationName:
-          type:
-          - string
-          - 'null'
-        monitoringSubscriptionId:
-          type:
-          - string
-          - 'null'
-          example: monitoringsubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        eligibilitySubscriptionId:
-          type:
-          - string
-          - 'null'
-          example: eligibilitysubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        createdAt:
-          type: string
-          format: date-time
-          example: '2022-02-02T17:46:54.000Z'
-        agentVerificationId:
-          type:
-          - string
-          - 'null'
-          example: agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        agentVerification:
-          type:
-          - object
-          - 'null'
+        error:
+          type: object
           properties:
-            id:
+            code:
               type: string
-              example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-            email:
+            title:
               type: string
-            firstName:
+            message:
               type: string
-            lastName:
-              type: string
-            status:
-              type: string
-              enum:
-              - pending
-              - pending_user_verification
-              - pending_review
-              - approved
-              - rejected
-            rejectionReason:
+            reasons:
               type:
-              - string
+              - array
               - 'null'
-              deprecated: true
-              description: Reason for rejecting agent verification
-              enum:
-              - Validation request failed
-              - User verification expired
-              - Identity check failed
-              - No evidence agent’s email is associated with organisation
-              - Agent/nonprofit will reapply
-              - Agent used fake or test email
-              - No online presence to complete check
-              - Nonprofit association expired
-              - Other
-            rejectionReasonCode:
-              type:
-              - string
-              - 'null'
-              description: Reason code for rejecting agent verification
-              enum:
-              - validation_request_failed
-              - user_verification_expired
-              - user_failed_percent_review
-              - reapply
-              - fake_email_used
-              - no_online_presence
-              - invalid_documentation
-              - nonprofit_association_expired
-              - fake_documentation
-              - mismatched_information
-              - blank_corrupted_documentation
-              - suspicious_application
-              - other
-        validationRequestId:
-          type:
-          - string
-          - 'null'
-          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        validationRequest:
-          type:
-          - object
-          - 'null'
-          properties:
-            acceptedAt:
-              type:
-              - string
-              - 'null'
-              format: date-time
-              example: '2022-02-02T17:46:54.000Z'
-            rejectedAt:
-              type:
-              - string
-              - 'null'
-              format: date-time
-              example: '2022-02-02T17:46:54.000Z'
-            id:
-              type: string
-              example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-            name:
-              type:
-              - string
-              - 'null'
-            organisationTypes:
-              type: array
               items:
                 type: string
-                enum:
-                - nonprofit
-                - social_impact
-        eligibility:
-          type: object
-          properties:
-            status:
-              type: string
-              example: live
-              enum:
-              - live
-              - pending_validation_request
-              - validation_request_failed
-              - pending
-              - cancelled
-              - cannot_define_eligibility
-            results:
-              type: object
-              properties:
-                eligibilityStatus:
-                  type:
-                  - string
-                  - 'null'
-                  enum:
-                  - pass
-                  - fail
-                  example: fail
-                confirmedActivitySubTags:
-                  type:
-                  - array
-                  - 'null'
-                  items:
-                    type: string
-                    example: activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                rejectedActivitySubTags:
-                  description: Confirmed organisation's activity subtags that are not allowed in partner's configuration
-                  type:
-                  - array
-                  - 'null'
-                  items:
-                    type: string
-                    example: activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        monitoring:
-          type: object
-          properties:
-            status:
-              type: string
-              example: live
-              enum:
-              - live
-              - pending_validation_request
-              - validation_request_failed
-              - pending
-              - cancelled
-            results:
-              $ref: '#/components/schemas/MonitoringSubscriptionResults'
-        metadata:
-          type:
-          - object
-          - 'null'
-          description: '[Key-value data](/#section/Formats/Metadata) that you can attach to an object.
-
-            '
-          example:
-            key1: value1
-            key2: value2
-        partnerFields:
-          type:
-          - object
-          - 'null'
-          description: Responses for custom partner questions
-          example:
-            key1: value1
-            key2: value2
-        configuration:
-          type: object
-          properties:
-            id:
-              type: string
-              description: Validation Submission configuration id
-              example: hostedconfiguration_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-            name:
-              type:
-              - string
-              - 'null'
-              description: Validation Submission configuration name
-            allowedOrganisations:
-              type: object
-              properties:
-                types:
-                  type: array
-                  items:
-                    type: string
-                    enum:
-                    - social_impact
-                    - nonprofit
-                    - education
     ValidationSubmission:
       type: object
       properties:
@@ -1072,36 +850,246 @@ components:
                     - social_impact
                     - nonprofit
                     - education
-    CursorLinks:
+    SingleApiValidationSubmission:
       type: object
       properties:
-        current:
+        id:
           type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        next:
+          example: validationsubmission_xxxxxxxxxxxx
+        validationInviteId:
+          type:
+          - string
+          - 'null'
+          example: validationinvite_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        status:
           type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        prev:
+          example: pending
+          enum:
+          - pending
+          - failed
+          - succeeded
+          - processed
+        processedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2022-02-02T17:46:54.000Z'
+        organisationId:
+          type:
+          - string
+          - 'null'
+          example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        organisationName:
+          type:
+          - string
+          - 'null'
+        monitoringSubscriptionId:
+          type:
+          - string
+          - 'null'
+          example: monitoringsubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        eligibilitySubscriptionId:
+          type:
+          - string
+          - 'null'
+          example: eligibilitysubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        createdAt:
           type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
+          format: date-time
+          example: '2022-02-02T17:46:54.000Z'
+        agentVerificationId:
+          type:
+          - string
+          - 'null'
+          example: agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        agentVerification:
+          type:
+          - object
+          - 'null'
           properties:
-            code:
+            id:
               type: string
-            title:
+              example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            email:
               type: string
-            message:
+            firstName:
               type: string
-            reasons:
+            lastName:
+              type: string
+            status:
+              type: string
+              enum:
+              - pending
+              - pending_user_verification
+              - pending_review
+              - approved
+              - rejected
+            rejectionReason:
               type:
-              - array
+              - string
               - 'null'
+              deprecated: true
+              description: Reason for rejecting agent verification
+              enum:
+              - Validation request failed
+              - User verification expired
+              - Identity check failed
+              - No evidence agent’s email is associated with organisation
+              - Agent/nonprofit will reapply
+              - Agent used fake or test email
+              - No online presence to complete check
+              - Nonprofit association expired
+              - Other
+            rejectionReasonCode:
+              type:
+              - string
+              - 'null'
+              description: Reason code for rejecting agent verification
+              enum:
+              - validation_request_failed
+              - user_verification_expired
+              - user_failed_percent_review
+              - reapply
+              - fake_email_used
+              - no_online_presence
+              - invalid_documentation
+              - nonprofit_association_expired
+              - fake_documentation
+              - mismatched_information
+              - blank_corrupted_documentation
+              - suspicious_application
+              - other
+        validationRequestId:
+          type:
+          - string
+          - 'null'
+          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        validationRequest:
+          type:
+          - object
+          - 'null'
+          properties:
+            acceptedAt:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              example: '2022-02-02T17:46:54.000Z'
+            rejectedAt:
+              type:
+              - string
+              - 'null'
+              format: date-time
+              example: '2022-02-02T17:46:54.000Z'
+            id:
+              type: string
+              example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            name:
+              type:
+              - string
+              - 'null'
+            organisationTypes:
+              type: array
               items:
                 type: string
+                enum:
+                - nonprofit
+                - social_impact
+        eligibility:
+          type: object
+          properties:
+            status:
+              type: string
+              example: live
+              enum:
+              - live
+              - pending_validation_request
+              - validation_request_failed
+              - pending
+              - cancelled
+              - cannot_define_eligibility
+            results:
+              type: object
+              properties:
+                eligibilityStatus:
+                  type:
+                  - string
+                  - 'null'
+                  enum:
+                  - pass
+                  - fail
+                  example: fail
+                confirmedActivitySubTags:
+                  type:
+                  - array
+                  - 'null'
+                  items:
+                    type: string
+                    example: activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                rejectedActivitySubTags:
+                  description: Confirmed organisation's activity subtags that are not allowed in partner's configuration
+                  type:
+                  - array
+                  - 'null'
+                  items:
+                    type: string
+                    example: activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        monitoring:
+          type: object
+          properties:
+            status:
+              type: string
+              example: live
+              enum:
+              - live
+              - pending_validation_request
+              - validation_request_failed
+              - pending
+              - cancelled
+            results:
+              $ref: '#/components/schemas/MonitoringSubscriptionResults'
+        metadata:
+          type:
+          - object
+          - 'null'
+          description: '[Key-value data](/#section/Formats/Metadata) that you can attach to an object.
+
+            '
+          example:
+            key1: value1
+            key2: value2
+        partnerFields:
+          type:
+          - object
+          - 'null'
+          description: Responses for custom partner questions
+          example:
+            key1: value1
+            key2: value2
+        configuration:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Validation Submission configuration id
+              example: hostedconfiguration_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            name:
+              type:
+              - string
+              - 'null'
+              description: Validation Submission configuration name
+            allowedOrganisations:
+              type: object
+              properties:
+                types:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - social_impact
+                    - nonprofit
+                    - education
     MonitoringSubscriptionResults:
       type: object
       properties:
@@ -1188,6 +1176,18 @@ components:
               - clear
               - flag
               example: flag
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
   responses:
     ForbiddenScope:
       description: Forbidden (scope)
@@ -1208,6 +1208,8 @@ components:
                   message:
                     type: string
                     example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
     NotFound:
       description: The specified resource was not found
       content:
@@ -1227,26 +1229,7 @@ components:
                   message:
                     type: string
                     example: This endpoint is unavailable or can not be found
-    Unauthorized:
-      description: Unauthorized
   parameters:
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
-      description: A cursor that points to where to start the page
-    pageSize:
-      in: query
-      name: pageSize
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 25
-      description: How many items per page, for pagination.
     direction:
       in: query
       name: direction
@@ -1257,6 +1240,23 @@ components:
         - ASC
         - DESC
       description: Which way to sort by the given 'sort' field.  Default DESC
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
   securitySchemes:
     PublishableApiKey:
       type: apiKey

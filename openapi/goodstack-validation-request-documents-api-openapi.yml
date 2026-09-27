@@ -93,46 +93,6 @@ paths:
       x-operation-id-source: derived
 components:
   examples:
-    Upload.TooManyAttachments:
-      summary: Upload - Too many attachments
-      description: Too many files attached
-      value:
-        error:
-          code: upload/too_many_files
-          title: Bad request
-          message: 'Too many files attached (max: 1)'
-    BadRequest:
-      summary: 400 Bad Request
-      description: Bad Request
-      value:
-        error:
-          code: bad_request
-          title: Bad request
-          message: Something is wrong with your request, please check any parameters and try again
-    Upload.ContentTypeError:
-      summary: Upload - Content type error
-      description: Unsupported content type
-      value:
-        error:
-          code: upload/content_type_error
-          title: Bad request
-          message: 'Unsupported content type: xls'
-    Upload.MaxFileSize:
-      summary: Upload - File exceeded max size
-      description: File exceeded max size for this endpoint
-      value:
-        error:
-          code: upload/max_file_size
-          title: Bad request
-          message: Request size exceeded maximum for this endpoint (5242880 bytes)
-    Upload.MultipartBoundaryNotFound:
-      summary: Upload - Multipart boundary not found
-      description: Multipart boundary not found
-      value:
-        error:
-          code: upload/multipart_boundary_not_found
-          title: Bad request
-          message: Please provide multipart boundary
     Upload.FiletypeNotSupported:
       summary: Upload - Filetype not supported
       description: Filetype not supported
@@ -141,25 +101,108 @@ components:
           code: upload/filetype_not_supported
           title: Bad request
           message: 'Filetype not supported.  Supported types include: pdf, png, jpg'
+    Upload.MultipartBoundaryNotFound:
+      summary: Upload - Multipart boundary not found
+      description: Multipart boundary not found
+      value:
+        error:
+          code: upload/multipart_boundary_not_found
+          title: Bad request
+          message: Please provide multipart boundary
+    Upload.ContentTypeError:
+      summary: Upload - Content type error
+      description: Unsupported content type
+      value:
+        error:
+          code: upload/content_type_error
+          title: Bad request
+          message: 'Unsupported content type: xls'
+    Upload.TooManyAttachments:
+      summary: Upload - Too many attachments
+      description: Too many files attached
+      value:
+        error:
+          code: upload/too_many_files
+          title: Bad request
+          message: 'Too many files attached (max: 1)'
+    Upload.MaxFileSize:
+      summary: Upload - File exceeded max size
+      description: File exceeded max size for this endpoint
+      value:
+        error:
+          code: upload/max_file_size
+          title: Bad request
+          message: Request size exceeded maximum for this endpoint (5242880 bytes)
+    BadRequest:
+      summary: 400 Bad Request
+      description: Bad Request
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: Something is wrong with your request, please check any parameters and try again
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    Unauthorized:
+      description: Unauthorized
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
   schemas:
-    Error:
+    ValidationRequestDocument:
       type: object
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            title:
-              type: string
-            message:
-              type: string
-            reasons:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
+        id:
+          type: string
+          example: validationrequestdocument_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        validationRequestId:
+          type: string
+          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        url:
+          type: string
+          example: https://s3-eu-west-1.amazonaws.com/assets.poweredbypercent.com/document.docx
+        createdAt:
+          type: string
+          format: date-time
+        deletedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
     ValidationRequest:
       type: object
       properties:
@@ -278,67 +321,24 @@ components:
             enum:
             - social_impact
             - nonprofit
-    ValidationRequestDocument:
+    Error:
       type: object
       properties:
-        id:
-          type: string
-          example: validationrequestdocument_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        validationRequestId:
-          type: string
-          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        url:
-          type: string
-          example: https://s3-eu-west-1.amazonaws.com/assets.poweredbypercent.com/document.docx
-        createdAt:
-          type: string
-          format: date-time
-        deletedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
-  responses:
-    Unauthorized:
-      description: Unauthorized
-    ForbiddenScope:
-      description: Forbidden (scope)
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: forbidden
-                  title:
-                    type: string
-                    example: Forbidden
-                  message:
-                    type: string
-                    example: Access is denied due to missing scope permissions
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
   securitySchemes:
     PublishableApiKey:
       type: apiKey

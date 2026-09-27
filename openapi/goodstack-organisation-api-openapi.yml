@@ -77,25 +77,6 @@ paths:
       x-operation-id-source: derived
 components:
   responses:
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
     Forbidden:
       description: Forbidden
       content:
@@ -115,6 +96,25 @@ components:
                   message:
                     type: string
                     example: Access is denied due to insufficient privileges
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
     IncorrectParams:
       description: Error validating inputs
       content:

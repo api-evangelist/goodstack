@@ -96,11 +96,25 @@ paths:
       operationId: getV1RegistriesById
       x-operation-id-source: derived
 components:
+  schemas:
+    Registry:
+      type: object
+      properties:
+        id:
+          type: string
+          example: registry_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name:
+          type: string
+          example: Charity Registry
+        englishName:
+          type: string
+          example: Charity Registry
+        code:
+          type: string
+          example: CR
   responses:
-    Unauthorized:
-      description: Unauthorized
-    ForbiddenScope:
-      description: Forbidden (scope)
+    NotFound:
+      description: The specified resource was not found
       content:
         application/json:
           schema:
@@ -111,13 +125,15 @@ components:
                 properties:
                   code:
                     type: string
-                    example: forbidden
+                    example: not_found
                   title:
                     type: string
-                    example: Forbidden
+                    example: Resource not found
                   message:
                     type: string
-                    example: Access is denied due to missing scope permissions
+                    example: This endpoint is unavailable or can not be found
+    Unauthorized:
+      description: Unauthorized
     IncorrectParams:
       description: Error validating inputs
       content:
@@ -142,8 +158,8 @@ components:
                     items:
                       type: string
                       example: pageSize must be greater than or equal to 0
-    NotFound:
-      description: The specified resource was not found
+    ForbiddenScope:
+      description: Forbidden (scope)
       content:
         application/json:
           schema:
@@ -154,29 +170,13 @@ components:
                 properties:
                   code:
                     type: string
-                    example: not_found
+                    example: forbidden
                   title:
                     type: string
-                    example: Resource not found
+                    example: Forbidden
                   message:
                     type: string
-                    example: This endpoint is unavailable or can not be found
-  schemas:
-    Registry:
-      type: object
-      properties:
-        id:
-          type: string
-          example: registry_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        name:
-          type: string
-          example: Charity Registry
-        englishName:
-          type: string
-          example: Charity Registry
-        code:
-          type: string
-          example: CR
+                    example: Access is denied due to missing scope permissions
   securitySchemes:
     PublishableApiKey:
       type: apiKey

@@ -139,6 +139,55 @@ paths:
       operationId: getV1UsersByIdHasGiftAid
       x-operation-id-source: derived
 components:
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    Unauthorized:
+      description: Unauthorized
+  examples:
+    GiftAid.UserNotFound:
+      summary: GiftAid - User not found
+      description: GiftAid - User not found
+      value:
+        error:
+          code: gift_aid/user_not_found
+          title: Bad request
+          message: User not found
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+    BadRequest:
+      summary: 400 Bad Request
+      description: Bad Request
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: Something is wrong with your request, please check any parameters and try again
   schemas:
     GiftAid:
       type: object
@@ -192,55 +241,6 @@ components:
               - 'null'
               items:
                 type: string
-  examples:
-    BadRequest:
-      summary: 400 Bad Request
-      description: Bad Request
-      value:
-        error:
-          code: bad_request
-          title: Bad request
-          message: Something is wrong with your request, please check any parameters and try again
-    IncorrectParams:
-      summary: 400 Incorrect Parameters
-      description: Bad Request - Incorrect parameters
-      value:
-        error:
-          code: bad_request
-          title: Bad request
-          message: One or more of the inputs were invalid
-          reasons:
-          - pageSize must be greater than or equal to 0
-    GiftAid.UserNotFound:
-      summary: GiftAid - User not found
-      description: GiftAid - User not found
-      value:
-        error:
-          code: gift_aid/user_not_found
-          title: Bad request
-          message: User not found
-  responses:
-    Unauthorized:
-      description: Unauthorized
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
   securitySchemes:
     PublishableApiKey:
       type: apiKey

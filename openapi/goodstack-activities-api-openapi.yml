@@ -85,6 +85,52 @@ paths:
       operationId: getV1ActivityTagsByTagId
       x-operation-id-source: derived
 components:
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    Unauthorized:
+      description: Unauthorized
+    IncorrectParams:
+      description: Error validating inputs
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: bad_request
+                  title:
+                    type: string
+                    example: Bad request
+                  message:
+                    type: string
+                    example: One or more of the inputs were invalid
+                  reasons:
+                    type: array
+                    items:
+                      type: string
+                      example: pageSize must be greater than or equal to 0
   schemas:
     ActivityTag:
       type: object
@@ -144,52 +190,6 @@ components:
           - 'null'
           format: date-time
           example: '2020-10-13T17:46:54.000Z'
-  responses:
-    Unauthorized:
-      description: Unauthorized
-    IncorrectParams:
-      description: Error validating inputs
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: bad_request
-                  title:
-                    type: string
-                    example: Bad request
-                  message:
-                    type: string
-                    example: One or more of the inputs were invalid
-                  reasons:
-                    type: array
-                    items:
-                      type: string
-                      example: pageSize must be greater than or equal to 0
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
   securitySchemes:
     PublishableApiKey:
       type: apiKey

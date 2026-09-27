@@ -244,81 +244,7 @@ paths:
       operationId: deleteV1WebhookSubscriptionsById
       x-operation-id-source: derived
 components:
-  parameters:
-    pageSize:
-      in: query
-      name: pageSize
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 25
-      description: How many items per page, for pagination.
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
-      description: A cursor that points to where to start the page
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            title:
-              type: string
-            message:
-              type: string
-            reasons:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
-    WebhookEventsArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/WebhookEventsEnum'
-    WebhookEventsEnum:
-      type: string
-      enum:
-      - validation_request.approved
-      - validation_request.rejected
-      - agent_verification.pending_review
-      - agent_verification.pending_user_verification
-      - agent_verification.approved
-      - agent_verification.rejected
-      - monitoring_subscription.updated
-      - eligibility_subscription.updated
-      - validation_submission.created
-      - validation_submission.succeeded
-      - validation_submission.failed
-      - validation_submission.updated
-      - donation.hosted.payment_received
-      - donation.created
-      - donation.settled
-      - donation.disbursed
-      - donation.payment_successful
-      - donation.cancelled
-      - donation.reassigned
-    CursorLinks:
-      type: object
-      properties:
-        current:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        next:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        prev:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
     WebhookSubscription:
       type: object
       properties:
@@ -346,7 +272,82 @@ components:
           - string
           - 'null'
           format: date-time
+    WebhookEventsArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/WebhookEventsEnum'
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+    WebhookEventsEnum:
+      type: string
+      enum:
+      - validation_request.approved
+      - validation_request.rejected
+      - agent_verification.pending_review
+      - agent_verification.pending_user_verification
+      - agent_verification.approved
+      - agent_verification.rejected
+      - monitoring_subscription.updated
+      - eligibility_subscription.updated
+      - validation_submission.created
+      - validation_submission.succeeded
+      - validation_submission.failed
+      - validation_submission.updated
+      - donation.hosted.payment_received
+      - donation.created
+      - donation.settled
+      - donation.disbursed
+      - donation.payment_successful
+      - donation.cancelled
+      - donation.reassigned
   responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
     Unauthorized:
       description: Unauthorized
     ForbiddenScope:
@@ -368,26 +369,33 @@ components:
                   message:
                     type: string
                     example: Access is denied due to missing scope permissions
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
+  parameters:
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
   examples:
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
     IncorrectParams:
       summary: 400 Incorrect Parameters
       description: Bad Request - Incorrect parameters
@@ -398,14 +406,6 @@ components:
           message: One or more of the inputs were invalid
           reasons:
           - pageSize must be greater than or equal to 0
-    Pagination.CursorError:
-      summary: Error in cursor parameter
-      description: We were unable to decode the cursor
-      value:
-        error:
-          code: pagination/cursor_error
-          title: Bad request
-          message: Unable to find the next page
   securitySchemes:
     PublishableApiKey:
       type: apiKey

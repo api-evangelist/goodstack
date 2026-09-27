@@ -104,25 +104,48 @@ paths:
       operationId: getV1ValidationSubmissionConfigurationsById
       x-operation-id-source: derived
 components:
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    Unauthorized:
+      description: Unauthorized
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            title:
-              type: string
-            message:
-              type: string
-            reasons:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
     PartnerProgramConfiguration:
       type: object
       properties:
@@ -173,47 +196,24 @@ components:
           items:
             type: string
             description: Eligibility exception rule name
-  responses:
-    Unauthorized:
-      description: Unauthorized
-    ForbiddenScope:
-      description: Forbidden (scope)
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: forbidden
-                  title:
-                    type: string
-                    example: Forbidden
-                  message:
-                    type: string
-                    example: Access is denied due to missing scope permissions
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
   securitySchemes:
     PublishableApiKey:
       type: apiKey

@@ -84,24 +84,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            title:
-              type: string
-            message:
-              type: string
-            reasons:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
     ValidationInvite:
       type: object
       properties:
@@ -147,6 +129,24 @@ components:
           type: string
           format: date-time
           example: '2020-10-20T17:46:54.000Z'
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
   responses:
     Unauthorized:
       description: Unauthorized

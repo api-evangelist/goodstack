@@ -248,6 +248,71 @@ paths:
       operationId: getV1ValidationRequestsById
       x-operation-id-source: derived
 components:
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    Unauthorized:
+      description: Unauthorized
+    IncorrectParams:
+      description: Error validating inputs
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: bad_request
+                  title:
+                    type: string
+                    example: Bad request
+                  message:
+                    type: string
+                    example: One or more of the inputs were invalid
+                  reasons:
+                    type: array
+                    items:
+                      type: string
+                      example: pageSize must be greater than or equal to 0
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
   examples:
     Idempotency.KeyInUse:
       summary: Idempotency - Key in use
@@ -257,14 +322,6 @@ components:
           code: idempotency/key_already_in_use
           title: Bad request
           message: Idempotency Key is already in use
-    Idempotency.SameKeyDifferentData:
-      summary: Idempotency - Data has changed from previous request
-      description: Data has changed from previous request with this key
-      value:
-        error:
-          code: idempotency/same_key_different_data
-          title: Bad request
-          message: Data has changed from previous request
     Idempotency.OriginalCallInProgress:
       summary: Idempotency - Original call in progress
       description: Original call with this idempotency key is still in progress, please wait and try again
@@ -273,6 +330,22 @@ components:
           code: idempotency/original_call_in_progress
           title: Bad request
           message: Original call with this idempotency key is still in progress
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
+      value:
+        error:
+          code: idempotency/same_key_different_data
+          title: Bad request
+          message: Data has changed from previous request
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
     IncorrectParams:
       summary: 400 Incorrect Parameters
       description: Bad Request - Incorrect parameters
@@ -283,51 +356,27 @@ components:
           message: One or more of the inputs were invalid
           reasons:
           - pageSize must be greater than or equal to 0
-    Pagination.CursorError:
-      summary: Error in cursor parameter
-      description: We were unable to decode the cursor
-      value:
-        error:
-          code: pagination/cursor_error
-          title: Bad request
-          message: Unable to find the next page
-  parameters:
-    pageSize:
-      in: query
-      name: pageSize
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 25
-      description: How many items per page, for pagination.
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
-      description: A cursor that points to where to start the page
   schemas:
-    Error:
+    ValidationRequestDocument:
       type: object
       properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            title:
-              type: string
-            message:
-              type: string
-            reasons:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
+        id:
+          type: string
+          example: validationrequestdocument_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        validationRequestId:
+          type: string
+          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        url:
+          type: string
+          example: https://s3-eu-west-1.amazonaws.com/assets.poweredbypercent.com/document.docx
+        createdAt:
+          type: string
+          format: date-time
+        deletedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
     ValidationRequest:
       type: object
       properties:
@@ -446,26 +495,24 @@ components:
             enum:
             - social_impact
             - nonprofit
-    ValidationRequestDocument:
+    Error:
       type: object
       properties:
-        id:
-          type: string
-          example: validationrequestdocument_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        validationRequestId:
-          type: string
-          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        url:
-          type: string
-          example: https://s3-eu-west-1.amazonaws.com/assets.poweredbypercent.com/document.docx
-        createdAt:
-          type: string
-          format: date-time
-        deletedAt:
-          type:
-          - string
-          - 'null'
-          format: date-time
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
     CursorLinks:
       type: object
       properties:
@@ -478,71 +525,24 @@ components:
         prev:
           type: string
           example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-  responses:
-    Unauthorized:
-      description: Unauthorized
-    ForbiddenScope:
-      description: Forbidden (scope)
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: forbidden
-                  title:
-                    type: string
-                    example: Forbidden
-                  message:
-                    type: string
-                    example: Access is denied due to missing scope permissions
-    IncorrectParams:
-      description: Error validating inputs
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: bad_request
-                  title:
-                    type: string
-                    example: Bad request
-                  message:
-                    type: string
-                    example: One or more of the inputs were invalid
-                  reasons:
-                    type: array
-                    items:
-                      type: string
-                      example: pageSize must be greater than or equal to 0
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
+  parameters:
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
   securitySchemes:
     PublishableApiKey:
       type: apiKey
