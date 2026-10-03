@@ -244,50 +244,82 @@ paths:
       operationId: postV1MonitoringSubscriptionsByIdCancel
       x-operation-id-source: derived
 components:
-  schemas:
-    Error:
-      type: object
-      properties:
+  examples:
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
         error:
-          type: object
-          properties:
-            code:
-              type: string
-            title:
-              type: string
-            message:
-              type: string
-            reasons:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
-    MonitoringSubscriptionCancelledResponseData:
-      type: object
-      properties:
-        id:
-          type: string
-          example: monitoringsubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        organisationId:
-          type:
-          - string
-          - 'null'
-          example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        validationRequestId:
-          type:
-          - string
-          - 'null'
-          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        status:
-          type: string
-          example: cancelled
-          enum:
-          - cancelled
-        createdAt:
-          type: string
-          format: date-time
-          example: '2020-10-13T17:46:54.000Z'
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
+    MonitoringSubscription.OrganisationNotActive:
+      summary: 400 Bad request
+      description: Organisation is not active
+      value:
+        error:
+          code: monitoring_subscription/organisation_not_active
+          title: Bad request
+          message: Organisation is not active
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
+      value:
+        error:
+          code: idempotency/same_key_different_data
+          title: Bad request
+          message: Data has changed from previous request
+    BadRequest:
+      summary: 400 Bad Request
+      description: Bad Request
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: Something is wrong with your request, please check any parameters and try again
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+    Idempotency.KeyInUse:
+      summary: Idempotency - Key in use
+      description: Idempotency Key is already in use
+      value:
+        error:
+          code: idempotency/key_already_in_use
+          title: Bad request
+          message: Idempotency Key is already in use
+    MonitoringSubscription.MonitoringSubscriptionAlreadyCancelled:
+      summary: Monitoring Subscription already cancelled
+      description: Monitoring Subscription already cancelled
+      value:
+        error:
+          code: monitoring_subscription/monitoring_subscription_already_cancelled
+          title: Bad request
+          message: Monitoring subscription is already cancelled
+    Idempotency.OriginalCallInProgress:
+      summary: Idempotency - Original call in progress
+      description: Original call with this idempotency key is still in progress, please wait and try again
+      value:
+        error:
+          code: idempotency/original_call_in_progress
+          title: Bad request
+          message: Original call with this idempotency key is still in progress
+    MonitoringSubscription.EntityNotFound:
+      summary: Subscription Entity Not Found
+      description: Subscription Entity Not Found
+      value:
+        error:
+          code: monitoring_subscription/entity_not_found
+          title: Bad request
+          message: Organisation or validation request was not found
+  schemas:
     MonitoringSubscription:
       type: object
       properties:
@@ -330,6 +362,36 @@ components:
               - string
               - 'null'
               example: Name of the organisation the Monitoring Subscription is attached to
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
     MonitoringSubscriptionResults:
       type: object
       properties:
@@ -416,59 +478,32 @@ components:
               - clear
               - flag
               example: flag
-    CursorLinks:
+    MonitoringSubscriptionCancelledResponseData:
       type: object
       properties:
-        current:
+        id:
           type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        next:
+          example: monitoringsubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        organisationId:
+          type:
+          - string
+          - 'null'
+          example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        validationRequestId:
+          type:
+          - string
+          - 'null'
+          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        status:
           type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        prev:
+          example: cancelled
+          enum:
+          - cancelled
+        createdAt:
           type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
   responses:
-    ForbiddenScope:
-      description: Forbidden (scope)
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: forbidden
-                  title:
-                    type: string
-                    example: Forbidden
-                  message:
-                    type: string
-                    example: Access is denied due to missing scope permissions
-    Unauthorized:
-      description: Unauthorized
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
     IncorrectParams:
       description: Error validating inputs
       content:
@@ -493,81 +528,46 @@ components:
                     items:
                       type: string
                       example: pageSize must be greater than or equal to 0
-  examples:
-    Idempotency.OriginalCallInProgress:
-      summary: Idempotency - Original call in progress
-      description: Original call with this idempotency key is still in progress, please wait and try again
-      value:
-        error:
-          code: idempotency/original_call_in_progress
-          title: Bad request
-          message: Original call with this idempotency key is still in progress
-    Pagination.CursorError:
-      summary: Error in cursor parameter
-      description: We were unable to decode the cursor
-      value:
-        error:
-          code: pagination/cursor_error
-          title: Bad request
-          message: Unable to find the next page
-    IncorrectParams:
-      summary: 400 Incorrect Parameters
-      description: Bad Request - Incorrect parameters
-      value:
-        error:
-          code: bad_request
-          title: Bad request
-          message: One or more of the inputs were invalid
-          reasons:
-          - pageSize must be greater than or equal to 0
-    MonitoringSubscription.EntityNotFound:
-      summary: Subscription Entity Not Found
-      description: Subscription Entity Not Found
-      value:
-        error:
-          code: monitoring_subscription/entity_not_found
-          title: Bad request
-          message: Organisation or validation request was not found
-    BadRequest:
-      summary: 400 Bad Request
-      description: Bad Request
-      value:
-        error:
-          code: bad_request
-          title: Bad request
-          message: Something is wrong with your request, please check any parameters and try again
-    MonitoringSubscription.MonitoringSubscriptionAlreadyCancelled:
-      summary: Monitoring Subscription already cancelled
-      description: Monitoring Subscription already cancelled
-      value:
-        error:
-          code: monitoring_subscription/monitoring_subscription_already_cancelled
-          title: Bad request
-          message: Monitoring subscription is already cancelled
-    Idempotency.SameKeyDifferentData:
-      summary: Idempotency - Data has changed from previous request
-      description: Data has changed from previous request with this key
-      value:
-        error:
-          code: idempotency/same_key_different_data
-          title: Bad request
-          message: Data has changed from previous request
-    Idempotency.KeyInUse:
-      summary: Idempotency - Key in use
-      description: Idempotency Key is already in use
-      value:
-        error:
-          code: idempotency/key_already_in_use
-          title: Bad request
-          message: Idempotency Key is already in use
-    MonitoringSubscription.OrganisationNotActive:
-      summary: 400 Bad request
-      description: Organisation is not active
-      value:
-        error:
-          code: monitoring_subscription/organisation_not_active
-          title: Bad request
-          message: Organisation is not active
+    Unauthorized:
+      description: Unauthorized
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
   parameters:
     pageSize:
       in: query

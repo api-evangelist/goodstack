@@ -322,28 +322,26 @@ paths:
       operationId: getV1OrganisationsByIdProfile
       x-operation-id-source: derived
 components:
+  parameters:
+    page:
+      in: query
+      name: page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number, for pagination.
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
   responses:
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
-    Unauthorized:
-      description: Unauthorized
     IncorrectParams:
       description: Error validating inputs
       content:
@@ -368,6 +366,8 @@ components:
                     items:
                       type: string
                       example: pageSize must be greater than or equal to 0
+    Unauthorized:
+      description: Unauthorized
     ForbiddenScope:
       description: Forbidden (scope)
       content:
@@ -387,6 +387,25 @@ components:
                   message:
                     type: string
                     example: Access is denied due to missing scope permissions
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
   schemas:
     Organisation:
       type: object
@@ -512,24 +531,22 @@ components:
           type: boolean
           description: Whether this organisation is a parent of a branch
           example: false
-    OffsetLinks:
+    Milestone:
       type: object
       properties:
-        current:
+        id:
           type: string
-          example: https://.../v1/...?query=climate&page=4
-        first:
+          example: milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        amount:
+          type: integer
+          example: 1000
+        reward:
           type: string
-          example: https://.../v1/...?query=climate&page=1
-        last:
+          example: This is a reward
+        currencyCode:
           type: string
-          example: https://.../v1/...?query=climate&page=9
-        prev:
+        organisationId:
           type: string
-          example: https://.../v1/...?query=climate&page=3
-        next:
-          type: string
-          example: https://.../v1/...?query=climate&page=5
     Category:
       type: object
       properties:
@@ -548,41 +565,24 @@ components:
           type: string
           format: date-time
           example: '2020-10-13T17:46:54.000Z'
-    Milestone:
+    OffsetLinks:
       type: object
       properties:
-        id:
+        current:
           type: string
-          example: milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        amount:
-          type: integer
-          example: 1000
-        reward:
+          example: https://.../v1/...?query=climate&page=4
+        first:
           type: string
-          example: This is a reward
-        currencyCode:
+          example: https://.../v1/...?query=climate&page=1
+        last:
           type: string
-        organisationId:
+          example: https://.../v1/...?query=climate&page=9
+        prev:
           type: string
-  parameters:
-    pageSize:
-      in: query
-      name: pageSize
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 25
-      description: How many items per page, for pagination.
-    page:
-      in: query
-      name: page
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-      description: Page number, for pagination.
+          example: https://.../v1/...?query=climate&page=3
+        next:
+          type: string
+          example: https://.../v1/...?query=climate&page=5
   securitySchemes:
     PublishableApiKey:
       type: apiKey

@@ -244,7 +244,89 @@ paths:
       operationId: deleteV1WebhookSubscriptionsById
       x-operation-id-source: derived
 components:
+  examples:
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+  responses:
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
   schemas:
+    WebhookEventsEnum:
+      type: string
+      enum:
+      - validation_request.approved
+      - validation_request.rejected
+      - agent_verification.pending_review
+      - agent_verification.pending_user_verification
+      - agent_verification.approved
+      - agent_verification.rejected
+      - monitoring_subscription.updated
+      - eligibility_subscription.updated
+      - validation_submission.created
+      - validation_submission.succeeded
+      - validation_submission.failed
+      - validation_submission.updated
+      - donation.hosted.payment_received
+      - donation.created
+      - donation.settled
+      - donation.disbursed
+      - donation.payment_successful
+      - donation.cancelled
+      - donation.reassigned
     WebhookSubscription:
       type: object
       properties:
@@ -272,10 +354,6 @@ components:
           - string
           - 'null'
           format: date-time
-    WebhookEventsArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/WebhookEventsEnum'
     Error:
       type: object
       properties:
@@ -306,69 +384,10 @@ components:
         prev:
           type: string
           example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-    WebhookEventsEnum:
-      type: string
-      enum:
-      - validation_request.approved
-      - validation_request.rejected
-      - agent_verification.pending_review
-      - agent_verification.pending_user_verification
-      - agent_verification.approved
-      - agent_verification.rejected
-      - monitoring_subscription.updated
-      - eligibility_subscription.updated
-      - validation_submission.created
-      - validation_submission.succeeded
-      - validation_submission.failed
-      - validation_submission.updated
-      - donation.hosted.payment_received
-      - donation.created
-      - donation.settled
-      - donation.disbursed
-      - donation.payment_successful
-      - donation.cancelled
-      - donation.reassigned
-  responses:
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
-    Unauthorized:
-      description: Unauthorized
-    ForbiddenScope:
-      description: Forbidden (scope)
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: forbidden
-                  title:
-                    type: string
-                    example: Forbidden
-                  message:
-                    type: string
-                    example: Access is denied due to missing scope permissions
+    WebhookEventsArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/WebhookEventsEnum'
   parameters:
     cursor:
       in: query
@@ -387,25 +406,6 @@ components:
         minimum: 0
         default: 25
       description: How many items per page, for pagination.
-  examples:
-    Pagination.CursorError:
-      summary: Error in cursor parameter
-      description: We were unable to decode the cursor
-      value:
-        error:
-          code: pagination/cursor_error
-          title: Bad request
-          message: Unable to find the next page
-    IncorrectParams:
-      summary: 400 Incorrect Parameters
-      description: Bad Request - Incorrect parameters
-      value:
-        error:
-          code: bad_request
-          title: Bad request
-          message: One or more of the inputs were invalid
-          reasons:
-          - pageSize must be greater than or equal to 0
   securitySchemes:
     PublishableApiKey:
       type: apiKey

@@ -147,6 +147,17 @@ components:
               - 'null'
               items:
                 type: string
+  examples:
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
   responses:
     Unauthorized:
       description: Unauthorized
@@ -169,17 +180,6 @@ components:
                   message:
                     type: string
                     example: Access is denied due to missing scope permissions
-  examples:
-    IncorrectParams:
-      summary: 400 Incorrect Parameters
-      description: Bad Request - Incorrect parameters
-      value:
-        error:
-          code: bad_request
-          title: Bad request
-          message: One or more of the inputs were invalid
-          reasons:
-          - pageSize must be greater than or equal to 0
   securitySchemes:
     PublishableApiKey:
       type: apiKey

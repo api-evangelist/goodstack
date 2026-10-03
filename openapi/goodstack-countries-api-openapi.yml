@@ -62,25 +62,6 @@ paths:
       operationId: getV1Countries
       x-operation-id-source: derived
 components:
-  schemas:
-    Country:
-      type: object
-      properties:
-        code:
-          type: string
-          example: BEL
-        name:
-          type: string
-          example: Belgium
-        hasRegistry:
-          type: boolean
-          example: true
-        endonyms:
-          type: object
-          example:
-            de: Belgien
-            fr: Belgique
-            nl: België
   responses:
     ForbiddenScope:
       description: Forbidden (scope)
@@ -101,6 +82,8 @@ components:
                   message:
                     type: string
                     example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
     IncorrectParams:
       description: Error validating inputs
       content:
@@ -125,8 +108,25 @@ components:
                     items:
                       type: string
                       example: pageSize must be greater than or equal to 0
-    Unauthorized:
-      description: Unauthorized
+  schemas:
+    Country:
+      type: object
+      properties:
+        code:
+          type: string
+          example: BEL
+        name:
+          type: string
+          example: Belgium
+        hasRegistry:
+          type: boolean
+          example: true
+        endonyms:
+          type: object
+          example:
+            de: Belgien
+            fr: Belgique
+            nl: België
   securitySchemes:
     PublishableApiKey:
       type: apiKey
