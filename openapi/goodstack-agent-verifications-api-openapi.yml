@@ -335,6 +335,14 @@ paths:
       x-operation-id-source: derived
 components:
   examples:
+    Idempotency.OriginalCallInProgress:
+      summary: Idempotency - Original call in progress
+      description: Original call with this idempotency key is still in progress, please wait and try again
+      value:
+        error:
+          code: idempotency/original_call_in_progress
+          title: Bad request
+          message: Original call with this idempotency key is still in progress
     Pagination.CursorError:
       summary: Error in cursor parameter
       description: We were unable to decode the cursor
@@ -351,6 +359,22 @@ components:
           title: Bad request
           message: Metadata can only contain from 1 up to 20 keys, with key names up to 50 characters long and values up to 500 characters long
           code: agent_verification/invalid_metadata
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
+      value:
+        error:
+          code: idempotency/same_key_different_data
+          title: Bad request
+          message: Data has changed from previous request
+    Idempotency.KeyInUse:
+      summary: Idempotency - Key in use
+      description: Idempotency Key is already in use
+      value:
+        error:
+          code: idempotency/key_already_in_use
+          title: Bad request
+          message: Idempotency Key is already in use
     IncorrectParams:
       summary: 400 Incorrect Parameters
       description: Bad Request - Incorrect parameters
@@ -361,31 +385,54 @@ components:
           message: One or more of the inputs were invalid
           reasons:
           - pageSize must be greater than or equal to 0
-    Idempotency.KeyInUse:
-      summary: Idempotency - Key in use
-      description: Idempotency Key is already in use
-      value:
-        error:
-          code: idempotency/key_already_in_use
-          title: Bad request
-          message: Idempotency Key is already in use
-    Idempotency.SameKeyDifferentData:
-      summary: Idempotency - Data has changed from previous request
-      description: Data has changed from previous request with this key
-      value:
-        error:
-          code: idempotency/same_key_different_data
-          title: Bad request
-          message: Data has changed from previous request
-    Idempotency.OriginalCallInProgress:
-      summary: Idempotency - Original call in progress
-      description: Original call with this idempotency key is still in progress, please wait and try again
-      value:
-        error:
-          code: idempotency/original_call_in_progress
-          title: Bad request
-          message: Original call with this idempotency key is still in progress
+  parameters:
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
+    direction:
+      in: query
+      name: direction
+      required: false
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+      description: Which way to sort by the given 'sort' field.  Default DESC
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
   responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
     ForbiddenScope:
       description: Forbidden (scope)
       content:
@@ -405,6 +452,8 @@ components:
                   message:
                     type: string
                     example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
     IncorrectParams:
       description: Error validating inputs
       content:
@@ -429,56 +478,37 @@ components:
                     items:
                       type: string
                       example: pageSize must be greater than or equal to 0
-    Unauthorized:
-      description: Unauthorized
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
-  parameters:
-    direction:
-      in: query
-      name: direction
-      required: false
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-      description: Which way to sort by the given 'sort' field.  Default DESC
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
-      description: A cursor that points to where to start the page
-    pageSize:
-      in: query
-      name: pageSize
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 25
-      description: How many items per page, for pagination.
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
     AgentVerification:
       type: object
       properties:
@@ -591,36 +621,6 @@ components:
         externalActionRequired:
           type: boolean
           example: true
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            title:
-              type: string
-            message:
-              type: string
-            reasons:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
-    CursorLinks:
-      type: object
-      properties:
-        current:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        next:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        prev:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
   securitySchemes:
     PublishableApiKey:
       type: apiKey

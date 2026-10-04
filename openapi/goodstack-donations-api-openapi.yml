@@ -430,22 +430,32 @@ paths:
       x-operation-id-source: derived
 components:
   examples:
-    Donations.CannotAcceptDonations:
-      summary: Donation - Organisation can not accept donations
-      description: This Organisation can not accept donations at this time
+    Donations.GiftAidMissing:
+      summary: Donation - GiftAid missing
+      description: Can not find required gift aid for this donation
       value:
         error:
-          code: donation/cannot_accept_donations
+          code: donation/gift_aid_missing
           title: Bad request
-          message: This organisation is currently unable to accept donations
-    Donations.InvalidState:
-      summary: Donation - Invalid state
-      description: Donation is not in a valid state to update
+          message: Can not find required gift aid for this donation
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
       value:
         error:
-          code: donation/invalid_state
+          code: bad_request
           title: Bad request
-          message: Donation is not in a valid state to update
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+    Donations.UserNotFound:
+      summary: Donation - User not found
+      description: User not found
+      value:
+        error:
+          code: donation/user_not_found
+          title: Bad request
+          message: User not found
     Pagination.CursorError:
       summary: Error in cursor parameter
       description: We were unable to decode the cursor
@@ -454,6 +464,62 @@ components:
           code: pagination/cursor_error
           title: Bad request
           message: Unable to find the next page
+    Idempotency.KeyInUse:
+      summary: Idempotency - Key in use
+      description: Idempotency Key is already in use
+      value:
+        error:
+          code: idempotency/key_already_in_use
+          title: Bad request
+          message: Idempotency Key is already in use
+    Idempotency.OriginalCallInProgress:
+      summary: Idempotency - Original call in progress
+      description: Original call with this idempotency key is still in progress, please wait and try again
+      value:
+        error:
+          code: idempotency/original_call_in_progress
+          title: Bad request
+          message: Original call with this idempotency key is still in progress
+    Donations.CannotAcceptDonations:
+      summary: Donation - Organisation can not accept donations
+      description: This Organisation can not accept donations at this time
+      value:
+        error:
+          code: donation/cannot_accept_donations
+          title: Bad request
+          message: This organisation is currently unable to accept donations
+    Donations.InvalidTypeForEditOrganisation:
+      summary: Donation - Organisation cannot be updated for this type of donation
+      description: Organisation cannot be updated for this type of donation
+      value:
+        error:
+          code: donation/cannot_edit_organisation_invalid_donation_type
+          title: Bad request
+          message: Organisation cannot be updated for this type of donation
+    Donations.InvalidState:
+      summary: Donation - Invalid state
+      description: Donation is not in a valid state to update
+      value:
+        error:
+          code: donation/invalid_state
+          title: Bad request
+          message: Donation is not in a valid state to update
+    Donations.WrongTargetCurrency:
+      summary: Donation - Wrong target currency
+      description: The organisation can not accept donations in this currency
+      value:
+        error:
+          code: donation/wrong_target_currency
+          title: Bad request
+          message: This organisation can not accept donations in GBP
+    Donations.InvalidMetadata:
+      summary: 400 Bad request
+      description: Metadata provided not correct format
+      value:
+        error:
+          title: Bad request
+          message: Metadata can only contain from 1 up to 20 keys, with key names up to 50 characters long and values up to 500 characters long
+          code: donation/invalid_metadata
     Donations.WrongPartnerCurrency:
       summary: Donation - Wrong partner currency
       description: You can not accept donations in this currency
@@ -470,40 +536,6 @@ components:
           code: idempotency/same_key_different_data
           title: Bad request
           message: Data has changed from previous request
-    Donations.UserNotFound:
-      summary: Donation - User not found
-      description: User not found
-      value:
-        error:
-          code: donation/user_not_found
-          title: Bad request
-          message: User not found
-    IncorrectParams:
-      summary: 400 Incorrect Parameters
-      description: Bad Request - Incorrect parameters
-      value:
-        error:
-          code: bad_request
-          title: Bad request
-          message: One or more of the inputs were invalid
-          reasons:
-          - pageSize must be greater than or equal to 0
-    Donations.WrongTargetCurrency:
-      summary: Donation - Wrong target currency
-      description: The organisation can not accept donations in this currency
-      value:
-        error:
-          code: donation/wrong_target_currency
-          title: Bad request
-          message: This organisation can not accept donations in GBP
-    Idempotency.KeyInUse:
-      summary: Idempotency - Key in use
-      description: Idempotency Key is already in use
-      value:
-        error:
-          code: idempotency/key_already_in_use
-          title: Bad request
-          message: Idempotency Key is already in use
     Donations.MissingOrganisation:
       summary: Donation - Organisation missing
       description: User must be supporting a cause, or organisationId must be provided
@@ -512,39 +544,59 @@ components:
           code: donation/missing_organisation
           title: Bad request
           message: User must be supporting a cause, or organisationId must be provided
-    Donations.GiftAidMissing:
-      summary: Donation - GiftAid missing
-      description: Can not find required gift aid for this donation
-      value:
-        error:
-          code: donation/gift_aid_missing
-          title: Bad request
-          message: Can not find required gift aid for this donation
-    Idempotency.OriginalCallInProgress:
-      summary: Idempotency - Original call in progress
-      description: Original call with this idempotency key is still in progress, please wait and try again
-      value:
-        error:
-          code: idempotency/original_call_in_progress
-          title: Bad request
-          message: Original call with this idempotency key is still in progress
-    Donations.InvalidTypeForEditOrganisation:
-      summary: Donation - Organisation cannot be updated for this type of donation
-      description: Organisation cannot be updated for this type of donation
-      value:
-        error:
-          code: donation/cannot_edit_organisation_invalid_donation_type
-          title: Bad request
-          message: Organisation cannot be updated for this type of donation
-    Donations.InvalidMetadata:
-      summary: 400 Bad request
-      description: Metadata provided not correct format
-      value:
-        error:
-          title: Bad request
-          message: Metadata can only contain from 1 up to 20 keys, with key names up to 50 characters long and values up to 500 characters long
-          code: donation/invalid_metadata
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
   schemas:
+    DonationDirect:
+      title: direct donation
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/DonationBase'
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - direct
     DonationBase:
       type: object
       properties:
@@ -637,18 +689,6 @@ components:
           - string
           - 'null'
           example: account_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    CursorLinks:
-      type: object
-      properties:
-        current:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        next:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        prev:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
     Error:
       type: object
       properties:
@@ -667,17 +707,6 @@ components:
               - 'null'
               items:
                 type: string
-    DonationDirect:
-      title: direct donation
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/DonationBase'
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - direct
     DonationHosted:
       type: object
       title: hosted donation
@@ -697,48 +726,27 @@ components:
                 type: string
                 example: donationsession_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                 description: Donation Session Id
-  responses:
-    Unauthorized:
-      description: Unauthorized
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
-    ForbiddenScope:
-      description: Forbidden (scope)
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: forbidden
-                  title:
-                    type: string
-                    example: Forbidden
-                  message:
-                    type: string
-                    example: Access is denied due to missing scope permissions
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
   parameters:
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
     pageSize:
       in: query
       name: pageSize
@@ -748,14 +756,6 @@ components:
         minimum: 0
         default: 25
       description: How many items per page, for pagination.
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
-      description: A cursor that points to where to start the page
   securitySchemes:
     PublishableApiKey:
       type: apiKey

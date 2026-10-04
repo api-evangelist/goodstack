@@ -297,22 +297,6 @@ paths:
       x-operation-id-source: derived
 components:
   examples:
-    Upload.MaxFileSize:
-      summary: Upload - File exceeded max size
-      description: File exceeded max size for this endpoint
-      value:
-        error:
-          code: upload/max_file_size
-          title: Bad request
-          message: Request size exceeded maximum for this endpoint (5242880 bytes)
-    BadRequest:
-      summary: 400 Bad Request
-      description: Bad Request
-      value:
-        error:
-          code: bad_request
-          title: Bad request
-          message: Something is wrong with your request, please check any parameters and try again
     Pagination.CursorError:
       summary: Error in cursor parameter
       description: We were unable to decode the cursor
@@ -329,6 +313,30 @@ components:
           code: upload/filetype_not_supported
           title: Bad request
           message: 'Filetype not supported.  Supported types include: pdf, png, jpg'
+    Upload.ContentTypeError:
+      summary: Upload - Content type error
+      description: Unsupported content type
+      value:
+        error:
+          code: upload/content_type_error
+          title: Bad request
+          message: 'Unsupported content type: xls'
+    BadRequest:
+      summary: 400 Bad Request
+      description: Bad Request
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: Something is wrong with your request, please check any parameters and try again
+    Upload.TooManyAttachments:
+      summary: Upload - Too many attachments
+      description: Too many files attached
+      value:
+        error:
+          code: upload/too_many_files
+          title: Bad request
+          message: 'Too many files attached (max: 1)'
     IncorrectParams:
       summary: 400 Incorrect Parameters
       description: Bad Request - Incorrect parameters
@@ -339,23 +347,55 @@ components:
           message: One or more of the inputs were invalid
           reasons:
           - pageSize must be greater than or equal to 0
-    Upload.ContentTypeError:
-      summary: Upload - Content type error
-      description: Unsupported content type
+    Upload.MaxFileSize:
+      summary: Upload - File exceeded max size
+      description: File exceeded max size for this endpoint
       value:
         error:
-          code: upload/content_type_error
+          code: upload/max_file_size
           title: Bad request
-          message: 'Unsupported content type: xls'
-    Upload.TooManyAttachments:
-      summary: Upload - Too many attachments
-      description: Too many files attached
-      value:
-        error:
-          code: upload/too_many_files
-          title: Bad request
-          message: 'Too many files attached (max: 1)'
+          message: Request size exceeded maximum for this endpoint (5242880 bytes)
   responses:
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to insufficient privileges
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    Unauthorized:
+      description: Unauthorized
     IncorrectParams:
       description: Error validating inputs
       content:
@@ -380,46 +420,6 @@ components:
                     items:
                       type: string
                       example: pageSize must be greater than or equal to 0
-    Unauthorized:
-      description: Unauthorized
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
-    Forbidden:
-      description: Forbidden
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: forbidden
-                  title:
-                    type: string
-                    example: Forbidden
-                  message:
-                    type: string
-                    example: Access is denied due to insufficient privileges
   schemas:
     Error:
       type: object
@@ -439,18 +439,6 @@ components:
               - 'null'
               items:
                 type: string
-    CursorLinks:
-      type: object
-      properties:
-        current:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        next:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-        prev:
-          type: string
-          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
     Category:
       type: object
       properties:
@@ -469,6 +457,18 @@ components:
           type: string
           format: date-time
           example: '2020-10-13T17:46:54.000Z'
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
   securitySchemes:
     PublishableApiKey:
       type: apiKey

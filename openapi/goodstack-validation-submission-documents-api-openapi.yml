@@ -146,22 +146,14 @@ paths:
       x-operation-id-source: derived
 components:
   examples:
-    ValidationSubmission.InvalidConfiguration:
-      summary: 404 Not Found
-      description: Provided configurationId is not valid
+    Idempotency.OriginalCallInProgress:
+      summary: Idempotency - Original call in progress
+      description: Original call with this idempotency key is still in progress, please wait and try again
       value:
         error:
-          code: validation_submission/invalid_configuration_id
-          title: Not Found
-          message: Provided configurationId is not valid
-    Upload.MaxFileSize:
-      summary: Upload - File exceeded max size
-      description: File exceeded max size for this endpoint
-      value:
-        error:
-          code: upload/max_file_size
+          code: idempotency/original_call_in_progress
           title: Bad request
-          message: Request size exceeded maximum for this endpoint (5242880 bytes)
+          message: Original call with this idempotency key is still in progress
     Upload.FiletypeNotSupported:
       summary: Upload - Filetype not supported
       description: Filetype not supported
@@ -170,14 +162,14 @@ components:
           code: upload/filetype_not_supported
           title: Bad request
           message: 'Filetype not supported.  Supported types include: pdf, png, jpg'
-    Upload.FileIsMissing:
-      summary: Upload - File is missing
-      description: File is missing
+    ValidationSubmission.InvalidConfiguration:
+      summary: 404 Not Found
+      description: Provided configurationId is not valid
       value:
         error:
-          code: upload/file_is_missing
-          title: Bad request
-          message: File is missing. File is a required field
+          code: validation_submission/invalid_configuration_id
+          title: Not Found
+          message: Provided configurationId is not valid
     IncorrectParams:
       summary: 400 Incorrect Parameters
       description: Bad Request - Incorrect parameters
@@ -188,6 +180,22 @@ components:
           message: One or more of the inputs were invalid
           reasons:
           - pageSize must be greater than or equal to 0
+    Upload.FileIsMissing:
+      summary: Upload - File is missing
+      description: File is missing
+      value:
+        error:
+          code: upload/file_is_missing
+          title: Bad request
+          message: File is missing. File is a required field
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
+      value:
+        error:
+          code: idempotency/same_key_different_data
+          title: Bad request
+          message: Data has changed from previous request
     ValidationSubmissionDocument.ValidationSubmissionNotFound:
       summary: 400 Bad request
       description: Validation submission not found
@@ -204,82 +212,15 @@ components:
           code: idempotency/key_already_in_use
           title: Bad request
           message: Idempotency Key is already in use
-    Idempotency.SameKeyDifferentData:
-      summary: Idempotency - Data has changed from previous request
-      description: Data has changed from previous request with this key
+    Upload.MaxFileSize:
+      summary: Upload - File exceeded max size
+      description: File exceeded max size for this endpoint
       value:
         error:
-          code: idempotency/same_key_different_data
+          code: upload/max_file_size
           title: Bad request
-          message: Data has changed from previous request
-    Idempotency.OriginalCallInProgress:
-      summary: Idempotency - Original call in progress
-      description: Original call with this idempotency key is still in progress, please wait and try again
-      value:
-        error:
-          code: idempotency/original_call_in_progress
-          title: Bad request
-          message: Original call with this idempotency key is still in progress
-  responses:
-    Unauthorized:
-      description: Unauthorized
-    ForbiddenScope:
-      description: Forbidden (scope)
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: forbidden
-                  title:
-                    type: string
-                    example: Forbidden
-                  message:
-                    type: string
-                    example: Access is denied due to missing scope permissions
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
+          message: Request size exceeded maximum for this endpoint (5242880 bytes)
   schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            title:
-              type: string
-            message:
-              type: string
-            reasons:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
     ValidationSubmissionDocumentWithoutValidationInviteId:
       type: object
       properties:
@@ -302,6 +243,65 @@ components:
           enum:
           - validation_request
           - agent_verification
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
   securitySchemes:
     PublishableApiKey:
       type: apiKey

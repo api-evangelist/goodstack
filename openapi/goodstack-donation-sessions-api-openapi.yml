@@ -242,6 +242,14 @@ paths:
       x-operation-id-source: derived
 components:
   examples:
+    Idempotency.OriginalCallInProgress:
+      summary: Idempotency - Original call in progress
+      description: Original call with this idempotency key is still in progress, please wait and try again
+      value:
+        error:
+          code: idempotency/original_call_in_progress
+          title: Bad request
+          message: Original call with this idempotency key is still in progress
     Pagination.CursorError:
       summary: Error in cursor parameter
       description: We were unable to decode the cursor
@@ -250,14 +258,30 @@ components:
           code: pagination/cursor_error
           title: Bad request
           message: Unable to find the next page
-    BadRequest:
-      summary: 400 Bad Request
-      description: Bad Request
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
       value:
         error:
-          code: bad_request
+          code: idempotency/same_key_different_data
           title: Bad request
-          message: Something is wrong with your request, please check any parameters and try again
+          message: Data has changed from previous request
+    Idempotency.KeyInUse:
+      summary: Idempotency - Key in use
+      description: Idempotency Key is already in use
+      value:
+        error:
+          code: idempotency/key_already_in_use
+          title: Bad request
+          message: Idempotency Key is already in use
+    DonationSession.OrganisationNotFound:
+      summary: 400 Bad request
+      description: Organisation not found
+      value:
+        error:
+          title: Bad request
+          message: Organisation not found
+          code: donation_session/organisation_not_found
     IncorrectParams:
       summary: 400 Incorrect Parameters
       description: Bad Request - Incorrect parameters
@@ -268,38 +292,14 @@ components:
           message: One or more of the inputs were invalid
           reasons:
           - pageSize must be greater than or equal to 0
-    DonationSession.OrganisationNotFound:
-      summary: 400 Bad request
-      description: Organisation not found
+    BadRequest:
+      summary: 400 Bad Request
+      description: Bad Request
       value:
         error:
+          code: bad_request
           title: Bad request
-          message: Organisation not found
-          code: donation_session/organisation_not_found
-    Idempotency.KeyInUse:
-      summary: Idempotency - Key in use
-      description: Idempotency Key is already in use
-      value:
-        error:
-          code: idempotency/key_already_in_use
-          title: Bad request
-          message: Idempotency Key is already in use
-    Idempotency.SameKeyDifferentData:
-      summary: Idempotency - Data has changed from previous request
-      description: Data has changed from previous request with this key
-      value:
-        error:
-          code: idempotency/same_key_different_data
-          title: Bad request
-          message: Data has changed from previous request
-    Idempotency.OriginalCallInProgress:
-      summary: Idempotency - Original call in progress
-      description: Original call with this idempotency key is still in progress, please wait and try again
-      value:
-        error:
-          code: idempotency/original_call_in_progress
-          title: Bad request
-          message: Original call with this idempotency key is still in progress
+          message: Something is wrong with your request, please check any parameters and try again
     DonationSession.InvalidMetadata:
       summary: 400 Bad request
       description: Metadata provided not correct format
@@ -308,7 +308,54 @@ components:
           title: Bad request
           message: Metadata can only contain from 1 up to 20 keys, with key names up to 50 characters long and values up to 500 characters long
           code: donation_session/invalid_metadata
+  parameters:
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
+    direction:
+      in: query
+      name: direction
+      required: false
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+      description: Which way to sort by the given 'sort' field.  Default DESC
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
   responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
     ForbiddenScope:
       description: Forbidden (scope)
       content:
@@ -330,53 +377,6 @@ components:
                     example: Access is denied due to missing scope permissions
     Unauthorized:
       description: Unauthorized
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
-  parameters:
-    direction:
-      in: query
-      name: direction
-      required: false
-      schema:
-        type: string
-        enum:
-        - ASC
-        - DESC
-      description: Which way to sort by the given 'sort' field.  Default DESC
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
-      description: A cursor that points to where to start the page
-    pageSize:
-      in: query
-      name: pageSize
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 25
-      description: How many items per page, for pagination.
   schemas:
     DonationSession:
       type: object

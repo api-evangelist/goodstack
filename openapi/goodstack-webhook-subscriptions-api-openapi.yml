@@ -263,7 +263,44 @@ components:
           message: One or more of the inputs were invalid
           reasons:
           - pageSize must be greater than or equal to 0
+  parameters:
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
   responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
     ForbiddenScope:
       description: Forbidden (scope)
       content:
@@ -285,48 +322,7 @@ components:
                     example: Access is denied due to missing scope permissions
     Unauthorized:
       description: Unauthorized
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
   schemas:
-    WebhookEventsEnum:
-      type: string
-      enum:
-      - validation_request.approved
-      - validation_request.rejected
-      - agent_verification.pending_review
-      - agent_verification.pending_user_verification
-      - agent_verification.approved
-      - agent_verification.rejected
-      - monitoring_subscription.updated
-      - eligibility_subscription.updated
-      - validation_submission.created
-      - validation_submission.succeeded
-      - validation_submission.failed
-      - validation_submission.updated
-      - donation.hosted.payment_received
-      - donation.created
-      - donation.settled
-      - donation.disbursed
-      - donation.payment_successful
-      - donation.cancelled
-      - donation.reassigned
     WebhookSubscription:
       type: object
       properties:
@@ -354,6 +350,10 @@ components:
           - string
           - 'null'
           format: date-time
+    WebhookEventsArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/WebhookEventsEnum'
     Error:
       type: object
       properties:
@@ -372,6 +372,28 @@ components:
               - 'null'
               items:
                 type: string
+    WebhookEventsEnum:
+      type: string
+      enum:
+      - validation_request.approved
+      - validation_request.rejected
+      - agent_verification.pending_review
+      - agent_verification.pending_user_verification
+      - agent_verification.approved
+      - agent_verification.rejected
+      - monitoring_subscription.updated
+      - eligibility_subscription.updated
+      - validation_submission.created
+      - validation_submission.succeeded
+      - validation_submission.failed
+      - validation_submission.updated
+      - donation.hosted.payment_received
+      - donation.created
+      - donation.settled
+      - donation.disbursed
+      - donation.payment_successful
+      - donation.cancelled
+      - donation.reassigned
     CursorLinks:
       type: object
       properties:
@@ -384,28 +406,6 @@ components:
         prev:
           type: string
           example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
-    WebhookEventsArray:
-      type: array
-      items:
-        $ref: '#/components/schemas/WebhookEventsEnum'
-  parameters:
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
-      description: A cursor that points to where to start the page
-    pageSize:
-      in: query
-      name: pageSize
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 25
-      description: How many items per page, for pagination.
   securitySchemes:
     PublishableApiKey:
       type: apiKey

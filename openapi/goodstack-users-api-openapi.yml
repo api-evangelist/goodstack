@@ -137,15 +137,49 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  examples:
-    BadRequest:
-      summary: 400 Bad Request
-      description: Bad Request
-      value:
+  schemas:
+    UserOrganisation:
+      type: object
+      properties:
+        userId:
+          type: string
+        organisationId:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: user_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        createdAt:
+          type: string
+          format: date-time
+        deletedAt:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
         error:
-          code: bad_request
-          title: Bad request
-          message: Something is wrong with your request, please check any parameters and try again
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+  examples:
     IncorrectParams:
       summary: 400 Incorrect Parameters
       description: Bad Request - Incorrect parameters
@@ -156,7 +190,17 @@ components:
           message: One or more of the inputs were invalid
           reasons:
           - pageSize must be greater than or equal to 0
+    BadRequest:
+      summary: 400 Bad Request
+      description: Bad Request
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: Something is wrong with your request, please check any parameters and try again
   responses:
+    Unauthorized:
+      description: Unauthorized
     IncorrectParams:
       description: Error validating inputs
       content:
@@ -181,50 +225,6 @@ components:
                     items:
                       type: string
                       example: pageSize must be greater than or equal to 0
-    Unauthorized:
-      description: Unauthorized
-  schemas:
-    User:
-      type: object
-      properties:
-        id:
-          type: string
-          example: user_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-        createdAt:
-          type: string
-          format: date-time
-        deletedAt:
-          type: string
-          format: date-time
-    UserOrganisation:
-      type: object
-      properties:
-        userId:
-          type: string
-        organisationId:
-          type: string
-        timestamp:
-          type: string
-          format: date-time
-          example: '2020-10-13T17:46:54.000Z'
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            title:
-              type: string
-            message:
-              type: string
-            reasons:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
   securitySchemes:
     PublishableApiKey:
       type: apiKey
