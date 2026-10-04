@@ -50,6 +50,10 @@ specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-07-19'
 image: https://goodstack.io/favicon.ico
+x-docs-platform: docusaurus
+x-docs-platform-confidence: medium
+x-docs-platform-checked: 2026-10-03
+x-docs-hosting: vercel
 tags:
 - Company
 - Non-Profit
@@ -401,6 +405,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/goodstack-capability-edges.yml
+  name: Goodstack Business Capability Map
 - type: Website
   url: https://www.goodstack.io/
 - type: AgentSkill
