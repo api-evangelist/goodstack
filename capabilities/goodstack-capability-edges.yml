@@ -1,0 +1,26 @@
+slug: goodstack
+provider: Goodstack
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Webhook Subscriptions
+  spec_file: goodstack-webhook-subscriptions-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.72
+  evidence: 'POST /v1/webhook-subscriptions  Create a Webhook Subscription; schemas: WebhookEventsEnum,
+    WebhookSubscription'
+  reason: Full CRUD lifecycle over outbound webhook subscriptions and their event types, which is exactly
+    the surface described by Webhook & Event Subscription Management in the developer-platform capability.
+    Confidence held below 0.8 because this is generic integration plumbing.
