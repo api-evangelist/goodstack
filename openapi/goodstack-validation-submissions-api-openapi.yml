@@ -477,155 +477,25 @@ paths:
       operationId: getV1ValidationSubmissionsById
       x-operation-id-source: derived
 components:
-  responses:
-    NotFound:
-      description: The specified resource was not found
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: not_found
-                  title:
-                    type: string
-                    example: Resource not found
-                  message:
-                    type: string
-                    example: This endpoint is unavailable or can not be found
-    ForbiddenScope:
-      description: Forbidden (scope)
-      content:
-        application/json:
-          schema:
-            type: object
-            properties:
-              error:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    example: forbidden
-                  title:
-                    type: string
-                    example: Forbidden
-                  message:
-                    type: string
-                    example: Access is denied due to missing scope permissions
-    Unauthorized:
-      description: Unauthorized
-  examples:
-    ValidationSubmission.InvalidSubTags:
-      summary: 400 Bad request
-      description: At least one of provided subtags is invalid
-      value:
-        error:
-          code: validation_submission/invalid_sub_tags
-          title: Bad request
-          message: At least one of provided subtags is invalid
-    IncorrectParams:
-      summary: 400 Incorrect Parameters
-      description: Bad Request - Incorrect parameters
-      value:
-        error:
-          code: bad_request
-          title: Bad request
-          message: One or more of the inputs were invalid
-          reasons:
-          - pageSize must be greater than or equal to 0
-    ValidationSubmission.OrganisationNotActive:
-      summary: 400 Bad request
-      description: Organisation is not active
-      value:
-        error:
-          code: validation_submission/organisation_not_active
-          title: Bad request
-          message: Organisation is not active
-    Pagination.CursorError:
-      summary: Error in cursor parameter
-      description: We were unable to decode the cursor
-      value:
-        error:
-          code: pagination/cursor_error
-          title: Bad request
-          message: Unable to find the next page
-    Idempotency.OriginalCallInProgress:
-      summary: Idempotency - Original call in progress
-      description: Original call with this idempotency key is still in progress, please wait and try again
-      value:
-        error:
-          code: idempotency/original_call_in_progress
-          title: Bad request
-          message: Original call with this idempotency key is still in progress
-    ValidationSubmission.OrganisationNotFound:
-      summary: 400 Bad request
-      description: Organisation was not found
-      value:
-        error:
-          code: validation_submission/organisation_not_found
-          title: Bad request
-          message: Organisation was not found
-    ValidationSubmission.EntityNotFound:
-      summary: 400 Bad request
-      description: Organisation or validation request was not found
-      value:
-        error:
-          code: validation_submission/entity_not_found
-          title: Bad request
-          message: Organisation or validation request was not found
-    ValidationSubmission.ValidationSubmissionDocumentNotFound:
-      summary: 400 Bad request
-      description: Validation submission document was not found
-      value:
-        error:
-          code: validation_submission/validation_submission_document_not_found
-          title: Bad request
-          message: Validation submission document was not found
-    ValidationSubmission.ValidationRequestAlreadyRejected:
-      summary: 400 Bad request
-      description: Validation request already rejected
-      value:
-        error:
-          code: validation_submission/validation_request_already_rejected
-          title: Bad request
-          message: Validation request already rejected
-    ValidationSubmission.ValidationRequestNotFound:
-      summary: 400 Bad request
-      description: Validation request not found
-      value:
-        error:
-          code: validation_submission/validation_request_not_found
-          title: Bad request
-          message: Validation request was not found
-    ValidationSubmission.InvalidConfiguration:
-      summary: 404 Not Found
-      description: Provided configurationId is not valid
-      value:
-        error:
-          code: validation_submission/invalid_configuration_id
-          title: Not Found
-          message: Provided configurationId is not valid
-    Idempotency.SameKeyDifferentData:
-      summary: Idempotency - Data has changed from previous request
-      description: Data has changed from previous request with this key
-      value:
-        error:
-          code: idempotency/same_key_different_data
-          title: Bad request
-          message: Data has changed from previous request
-    Idempotency.KeyInUse:
-      summary: Idempotency - Key in use
-      description: Idempotency Key is already in use
-      value:
-        error:
-          code: idempotency/key_already_in_use
-          title: Bad request
-          message: Idempotency Key is already in use
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
     ValidationSubmission:
       type: object
       properties:
@@ -959,24 +829,6 @@ components:
               - clear
               - flag
               example: flag
-    Error:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            code:
-              type: string
-            title:
-              type: string
-            message:
-              type: string
-            reasons:
-              type:
-              - array
-              - 'null'
-              items:
-                type: string
     CursorLinks:
       type: object
       properties:
@@ -1230,23 +1082,6 @@ components:
                     - nonprofit
                     - education
   parameters:
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
-      description: A cursor that points to where to start the page
-    pageSize:
-      in: query
-      name: pageSize
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 25
-      description: How many items per page, for pagination.
     direction:
       in: query
       name: direction
@@ -1257,6 +1092,171 @@ components:
         - ASC
         - DESC
       description: Which way to sort by the given 'sort' field.  Default DESC
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
+  examples:
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
+      value:
+        error:
+          code: idempotency/same_key_different_data
+          title: Bad request
+          message: Data has changed from previous request
+    ValidationSubmission.OrganisationNotFound:
+      summary: 400 Bad request
+      description: Organisation was not found
+      value:
+        error:
+          code: validation_submission/organisation_not_found
+          title: Bad request
+          message: Organisation was not found
+    ValidationSubmission.ValidationSubmissionDocumentNotFound:
+      summary: 400 Bad request
+      description: Validation submission document was not found
+      value:
+        error:
+          code: validation_submission/validation_submission_document_not_found
+          title: Bad request
+          message: Validation submission document was not found
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
+    Idempotency.KeyInUse:
+      summary: Idempotency - Key in use
+      description: Idempotency Key is already in use
+      value:
+        error:
+          code: idempotency/key_already_in_use
+          title: Bad request
+          message: Idempotency Key is already in use
+    ValidationSubmission.ValidationRequestAlreadyRejected:
+      summary: 400 Bad request
+      description: Validation request already rejected
+      value:
+        error:
+          code: validation_submission/validation_request_already_rejected
+          title: Bad request
+          message: Validation request already rejected
+    Idempotency.OriginalCallInProgress:
+      summary: Idempotency - Original call in progress
+      description: Original call with this idempotency key is still in progress, please wait and try again
+      value:
+        error:
+          code: idempotency/original_call_in_progress
+          title: Bad request
+          message: Original call with this idempotency key is still in progress
+    ValidationSubmission.InvalidConfiguration:
+      summary: 404 Not Found
+      description: Provided configurationId is not valid
+      value:
+        error:
+          code: validation_submission/invalid_configuration_id
+          title: Not Found
+          message: Provided configurationId is not valid
+    ValidationSubmission.ValidationRequestNotFound:
+      summary: 400 Bad request
+      description: Validation request not found
+      value:
+        error:
+          code: validation_submission/validation_request_not_found
+          title: Bad request
+          message: Validation request was not found
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+    ValidationSubmission.InvalidSubTags:
+      summary: 400 Bad request
+      description: At least one of provided subtags is invalid
+      value:
+        error:
+          code: validation_submission/invalid_sub_tags
+          title: Bad request
+          message: At least one of provided subtags is invalid
+    ValidationSubmission.EntityNotFound:
+      summary: 400 Bad request
+      description: Organisation or validation request was not found
+      value:
+        error:
+          code: validation_submission/entity_not_found
+          title: Bad request
+          message: Organisation or validation request was not found
+    ValidationSubmission.OrganisationNotActive:
+      summary: 400 Bad request
+      description: Organisation is not active
+      value:
+        error:
+          code: validation_submission/organisation_not_active
+          title: Bad request
+          message: Organisation is not active
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    Unauthorized:
+      description: Unauthorized
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
   securitySchemes:
     PublishableApiKey:
       type: apiKey
