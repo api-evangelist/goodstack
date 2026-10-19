@@ -1,0 +1,515 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Categories API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Categories
+  description: Categories represent collections of Organisations, which can be used to group and filter Organisations.
+paths:
+  /v1/categories:
+    get:
+      security:
+      - PublishableApiKey: []
+      summary: List Categories
+      tags:
+      - Categories
+      responses:
+        '200':
+          description: Successfully retrieved a list of Categories
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Category'
+                  totalResults:
+                    type: integer
+                    example: 33
+                  pageSize:
+                    type: integer
+                    example: 25
+                  _links:
+                    $ref: '#/components/schemas/CursorLinks'
+                  object:
+                    type: string
+                    example: Category
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                IncorrectParams:
+                  $ref: '#/components/examples/IncorrectParams'
+                CursorError:
+                  $ref: '#/components/examples/Pagination.CursorError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      operationId: getV1Categories
+      x-operation-id-source: derived
+    post:
+      summary: Create a Category
+      tags:
+      - Categories
+      security:
+      - SecretApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: New Category name
+      responses:
+        '200':
+          description: Successfully created a Category
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Category'
+                  object:
+                    type: string
+                    example: Category
+        '400':
+          $ref: '#/components/responses/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      operationId: postV1Categories
+      x-operation-id-source: derived
+  /v1/categories/{id}:
+    parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: Id of the Category
+    patch:
+      summary: Edit a Category
+      tags:
+      - Categories
+      security:
+      - SecretApiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: New Category name
+      responses:
+        '200':
+          description: Successfully edited a Category
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Category'
+                  object:
+                    type: string
+                    example: Category
+        '400':
+          $ref: '#/components/responses/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+      operationId: patchV1CategoriesById
+      x-operation-id-source: derived
+    delete:
+      security:
+      - SecretApiKey: []
+      summary: Delete a Category
+      tags:
+      - Categories
+      responses:
+        '204':
+          description: Successfully deleted a Category
+        '400':
+          $ref: '#/components/responses/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      operationId: deleteV1CategoriesById
+      x-operation-id-source: derived
+    get:
+      security:
+      - PublishableApiKey: []
+      summary: Retrieve a Category
+      tags:
+      - Categories
+      responses:
+        '200':
+          description: Successfully retrieved a Category
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Category'
+                  object:
+                    type: string
+                    example: Category
+        '400':
+          $ref: '#/components/responses/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getV1CategoriesById
+      x-operation-id-source: derived
+  /v1/categories/{categoryId}/{organisationId}:
+    parameters:
+    - in: path
+      name: categoryId
+      schema:
+        type: string
+      required: true
+      description: Id of the Category
+    - in: path
+      name: organisationId
+      schema:
+        type: string
+      required: true
+      description: Id of the organisation
+    put:
+      security:
+      - SecretApiKey: []
+      summary: Add a Organisation to a Category
+      tags:
+      - Categories
+      responses:
+        '200':
+          description: Successfully add an Organisation to a Category
+        '400':
+          $ref: '#/components/responses/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: putV1CategoriesByCategoryIdByOrganisationId
+      x-operation-id-source: derived
+    delete:
+      security:
+      - SecretApiKey: []
+      summary: Remove a Organisation from a Category
+      tags:
+      - Categories
+      responses:
+        '204':
+          description: Successfully remove a Organisation from a Category
+        '400':
+          $ref: '#/components/responses/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: deleteV1CategoriesByCategoryIdByOrganisationId
+      x-operation-id-source: derived
+  /v1/categories/{categoryId}/image:
+    parameters:
+    - in: path
+      name: categoryId
+      schema:
+        type: string
+      required: true
+      description: Id of the Category
+    post:
+      security:
+      - SecretApiKey: []
+      summary: Set an Image for a Category
+      tags:
+      - Categories
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successfully add an image to a Category
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                TooManyAttachments:
+                  $ref: '#/components/examples/Upload.TooManyAttachments'
+                ContentTypeError:
+                  $ref: '#/components/examples/Upload.ContentTypeError'
+                MaxFileSize:
+                  $ref: '#/components/examples/Upload.MaxFileSize'
+                FiletypeNotSupported:
+                  $ref: '#/components/examples/Upload.FiletypeNotSupported'
+                BadRequest:
+                  $ref: '#/components/examples/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+      operationId: postV1CategoriesByCategoryIdImage
+      x-operation-id-source: derived
+components:
+  responses:
+    IncorrectParams:
+      description: Error validating inputs
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: bad_request
+                  title:
+                    type: string
+                    example: Bad request
+                  message:
+                    type: string
+                    example: One or more of the inputs were invalid
+                  reasons:
+                    type: array
+                    items:
+                      type: string
+                      example: pageSize must be greater than or equal to 0
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to insufficient privileges
+    Unauthorized:
+      description: Unauthorized
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+  examples:
+    Upload.MaxFileSize:
+      summary: Upload - File exceeded max size
+      description: File exceeded max size for this endpoint
+      value:
+        error:
+          code: upload/max_file_size
+          title: Bad request
+          message: Request size exceeded maximum for this endpoint (5242880 bytes)
+    Upload.FiletypeNotSupported:
+      summary: Upload - Filetype not supported
+      description: Filetype not supported
+      value:
+        error:
+          code: upload/filetype_not_supported
+          title: Bad request
+          message: 'Filetype not supported.  Supported types include: pdf, png, jpg'
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+    Upload.TooManyAttachments:
+      summary: Upload - Too many attachments
+      description: Too many files attached
+      value:
+        error:
+          code: upload/too_many_files
+          title: Bad request
+          message: 'Too many files attached (max: 1)'
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
+    Upload.ContentTypeError:
+      summary: Upload - Content type error
+      description: Unsupported content type
+      value:
+        error:
+          code: upload/content_type_error
+          title: Bad request
+          message: 'Unsupported content type: xls'
+    BadRequest:
+      summary: 400 Bad Request
+      description: Bad Request
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: Something is wrong with your request, please check any parameters and try again
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          example: category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name:
+          type: string
+          example: Environmental
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          example: categories/3.png
+        createdAt:
+          type: string
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions

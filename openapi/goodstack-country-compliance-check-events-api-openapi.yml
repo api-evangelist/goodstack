@@ -1,0 +1,301 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Country Compliance Check Events API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API''s listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication
+
+
+    Authenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats
+
+
+    ## IDs
+
+
+    All ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates
+
+
+    Dates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination
+
+
+    A maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values
+
+
+    Throughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata
+
+
+    Some objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors
+
+
+    The API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,
+
+    an optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:
+
+    ```json
+
+    {
+
+    error: {
+
+    code: ''bad_request'',
+
+    title: ''Bad request'',
+
+    message: ''Something is wrong with your request, please check any parameters and try again'',
+
+    reasons: [''amount is a required field'']
+
+    }
+
+    }
+
+    ```
+
+
+    A summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |
+
+    | ------------- |-------------| -----|
+
+    | 200 | Success | Request successful |
+
+    | 204 | No Content | Request successful with no content returned |
+
+    | 400 | Bad Request | Request was invalid |
+
+    | 401 | Unauthorised | Authorization header is invalid |
+
+    | 403 | Forbidden | Insufficient permissions |
+
+    | 404 | Not Found | Resource does not exist |
+
+    | 429 | Too Many Requests | Rate Limited |
+
+    | 500s | Internal Server Error | Something went wrong with the Goodstack API |
+
+
+    # Enum Values
+
+
+    Generally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely
+
+
+    If your code handles enum values exhaustively — for example, a switch without a default case, or deserialisation into a strict typed enum — an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Country Compliance Check Events
+  description: Webhook events triggered when a country compliance check result is stored or re-evaluated for an organisation in your program.
+paths:
+  /webhooks/country-compliance-check-updated:
+    post:
+      summary: Country compliance check result was stored
+      description: 'Triggered when the result of the country compliance check is stored for an organisation in one of
+
+        your programs, and again whenever it is re-evaluated to a different outcome because the organisation''s
+
+        country-specific data changed. Only sent for programs whose configuration requires country-specific
+
+        regulations.'
+      operationId: webhookCountryComplianceCheckUpdated
+      tags:
+      - Country Compliance Check Events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CountryComplianceCheckWebhookEvent'
+            example:
+              object: event
+              data:
+                id: event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                eventType: country_compliance_check.updated
+                createdAt: '2026-10-02T11:00:00.000Z'
+                eventData:
+                  id: 01999999-0000-7000-8000-000000000000
+                  organisationId: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  configurationId: hostedconfiguration_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  status: pass
+                  createdAt: '2026-10-02T11:00:00.000Z'
+                  updatedAt: null
+      responses:
+        '200':
+          description: Webhook received successfully
+        '400':
+          description: Invalid webhook payload or signature verification failed
+      x-internal: false
+      x-webhook: true
+components:
+  schemas:
+    CountryComplianceCheckWebhookEvent:
+      allOf:
+      - $ref: '#/components/schemas/WebhookEvent'
+      - type: object
+        additionalProperties: true
+        properties:
+          data:
+            type: object
+            additionalProperties: true
+            properties:
+              eventType:
+                type: string
+                enum:
+                - country_compliance_check.updated
+              eventData:
+                type: object
+                required:
+                - id
+                - organisationId
+                - configurationId
+                - status
+                - createdAt
+                - updatedAt
+                properties:
+                  id:
+                    type: string
+                    description: ID of the country compliance check result
+                  organisationId:
+                    type: string
+                  configurationId:
+                    type: string
+                  status:
+                    type: string
+                    enum:
+                    - pass
+                    - fail
+                    - unknown
+                  createdAt:
+                    type: string
+                    format: date-time
+                  updatedAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    description: When the result was last re-evaluated; null until then
+    WebhookEvent:
+      type: object
+      properties:
+        object:
+          type: string
+          enum:
+          - event
+          description: Type of object
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+              description: Id of the event
+            createdAt:
+              type: string
+              format: date-time
+              description: Timestamp of when the event was created
+            eventType:
+              type: string
+              description: The type of the event
+            eventData:
+              type: object
+              description: Data associated with the event
+          required:
+          - id
+          - createdAt
+          - eventType
+          - eventData
+      required:
+      - object
+      - data
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+    SCIMBearer:
+      type: http
+      scheme: bearer
+      description: 'SCIM API key issued for the partner, presented as a bearer token in the
+
+        `Authorization` header. The key is bound to a single partner and the
+
+        partner must have the `scim_api` scope enabled. A missing or invalid key
+
+        returns `401`; a valid key for a partner without the scope also returns
+
+        `401` (`detail: "scim feature not enabled for this partner"`).
+
+        '
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+  - Organisation Branding
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+  - Monetary Donation Verifications
+- name: WORKPLACE GIVING
+  tags:
+  - Employees
+  - Giving Donations
+  - Donation Match Request
+  - Fundraising
+  - Volunteering
+  - Gamification
+  - Campaigns
+  - Budgets
+  - Donation Wallets
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions
+- name: WEBHOOK EVENTS
+  tags:
+  - Agent Verification Events
+  - Country Compliance Check Events
+  - Donation Events
+  - Eligibility Subscription Events
+  - Monitoring Subscription Events
+  - Validation Request Events
+  - Validation Submission Events
+  - Monetary Donation Verification Events

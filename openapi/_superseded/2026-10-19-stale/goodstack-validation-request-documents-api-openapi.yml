@@ -1,0 +1,385 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Validation Request Documents API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Validation Request Documents
+paths:
+  /v1/validation-requests/{validationRequestId}/document:
+    parameters:
+    - in: path
+      name: validationRequestId
+      schema:
+        type: string
+      required: true
+      description: Id of the Validation Request to add a document to
+    post:
+      security:
+      - SecretApiKey: []
+      summary: Create a Validation Request Document
+      description: Uploads a document and updates the Validation Request to refer to that document. Valid file formats for documents are `jpg`, `png` and `pdf`. The maximum file size is 5MB.
+      tags:
+      - Validation Request Documents
+      parameters:
+      - in: header
+        name: Idempotency-Key
+        schema:
+          type: string
+        required: false
+        description: Idempotency key
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '200':
+          description: Successfully uploaded document and updated Validation Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ValidationRequest'
+                  object:
+                    type: string
+                    example: validation_request
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                MultipartBoundaryNotFound:
+                  $ref: '#/components/examples/Upload.MultipartBoundaryNotFound'
+                TooManyAttachments:
+                  $ref: '#/components/examples/Upload.TooManyAttachments'
+                ContentTypeError:
+                  $ref: '#/components/examples/Upload.ContentTypeError'
+                MaxFileSize:
+                  $ref: '#/components/examples/Upload.MaxFileSize'
+                FiletypeNotSupported:
+                  $ref: '#/components/examples/Upload.FiletypeNotSupported'
+                BadRequest:
+                  $ref: '#/components/examples/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: postV1ValidationRequestsByValidationRequestIdDocument
+      x-operation-id-source: derived
+components:
+  responses:
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+  examples:
+    Upload.MaxFileSize:
+      summary: Upload - File exceeded max size
+      description: File exceeded max size for this endpoint
+      value:
+        error:
+          code: upload/max_file_size
+          title: Bad request
+          message: Request size exceeded maximum for this endpoint (5242880 bytes)
+    Upload.FiletypeNotSupported:
+      summary: Upload - Filetype not supported
+      description: Filetype not supported
+      value:
+        error:
+          code: upload/filetype_not_supported
+          title: Bad request
+          message: 'Filetype not supported.  Supported types include: pdf, png, jpg'
+    Upload.TooManyAttachments:
+      summary: Upload - Too many attachments
+      description: Too many files attached
+      value:
+        error:
+          code: upload/too_many_files
+          title: Bad request
+          message: 'Too many files attached (max: 1)'
+    Upload.MultipartBoundaryNotFound:
+      summary: Upload - Multipart boundary not found
+      description: Multipart boundary not found
+      value:
+        error:
+          code: upload/multipart_boundary_not_found
+          title: Bad request
+          message: Please provide multipart boundary
+    Upload.ContentTypeError:
+      summary: Upload - Content type error
+      description: Unsupported content type
+      value:
+        error:
+          code: upload/content_type_error
+          title: Bad request
+          message: 'Unsupported content type: xls'
+    BadRequest:
+      summary: 400 Bad Request
+      description: Bad Request
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: Something is wrong with your request, please check any parameters and try again
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    ValidationRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name:
+          type: string
+          example: Some charity
+        registryName:
+          type: string
+          example: National Charities Registry
+        registryId:
+          type: string
+          example: I34324
+          description: Charity's ID in registry
+        email:
+          type:
+          - string
+          - 'null'
+          format: email
+          example: test@percent.internal
+        addressLine1:
+          type:
+          - string
+          - 'null'
+          example: Testowa street 15
+        addressLine2:
+          type:
+          - string
+          - 'null'
+          example: Testowa street 22/15
+        city:
+          type:
+          - string
+          - 'null'
+          example: Katowice
+        postal:
+          type:
+          - string
+          - 'null'
+          example: 44-100
+        state:
+          type:
+          - string
+          - 'null'
+          example: Silesia
+        website:
+          type: string
+          format: website
+          example: https://percent.internal
+        organisationId:
+          type:
+          - string
+          - 'null'
+          example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        countryCode:
+          type: string
+          example: POL
+        rejectionReason:
+          type:
+          - string
+          - 'null'
+          description: Reason for rejecting
+          deprecated: true
+          enum:
+          - Organisation is not a nonprofit.
+          - Organisation didn’t provide sufficient proof of nonprofit status.
+          - Organisation is a nonprofit but doesn’t have an official registry ID.
+          - Other
+        rejectionReasonCode:
+          type:
+          - string
+          - 'null'
+          description: Reason code for rejecting
+          enum:
+          - other
+          - not_eligible
+          - incorrect_documentation
+          - not_attributable_to_registry
+        usaGroupExempt:
+          type:
+          - boolean
+          - 'null'
+          deprecated: true
+        createdAt:
+          type: string
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+        deletedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+        acceptedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+        rejectedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationRequestDocument'
+        organisationTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - social_impact
+            - nonprofit
+    ValidationRequestDocument:
+      type: object
+      properties:
+        id:
+          type: string
+          example: validationrequestdocument_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        validationRequestId:
+          type: string
+          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        url:
+          type: string
+          example: https://s3-eu-west-1.amazonaws.com/assets.poweredbypercent.com/document.docx
+        createdAt:
+          type: string
+          format: date-time
+        deletedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions

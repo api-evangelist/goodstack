@@ -14,7 +14,83 @@ info:
   description: '# Introduction
 
 
-    Goodstack API allows you to build good into your product by facilitating charitable donations.'
+    Goodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API''s listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication
+
+
+    Authenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats
+
+
+    ## IDs
+
+
+    All ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates
+
+
+    Dates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination
+
+
+    A maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values
+
+
+    Throughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata
+
+
+    Some objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors
+
+
+    The API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,
+
+    an optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:
+
+    ```json
+
+    {
+
+    error: {
+
+    code: ''bad_request'',
+
+    title: ''Bad request'',
+
+    message: ''Something is wrong with your request, please check any parameters and try again'',
+
+    reasons: [''amount is a required field'']
+
+    }
+
+    }
+
+    ```
+
+
+    A summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |
+
+    | ------------- |-------------| -----|
+
+    | 200 | Success | Request successful |
+
+    | 204 | No Content | Request successful with no content returned |
+
+    | 400 | Bad Request | Request was invalid |
+
+    | 401 | Unauthorised | Authorization header is invalid |
+
+    | 403 | Forbidden | Insufficient permissions |
+
+    | 404 | Not Found | Resource does not exist |
+
+    | 429 | Too Many Requests | Rate Limited |
+
+    | 500s | Internal Server Error | Something went wrong with the Goodstack API |
+
+
+    # Enum Values
+
+
+    Generally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely
+
+
+    If your code handles enum values exhaustively — for example, a switch without a default case, or deserialisation into a strict typed enum — an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.'
 servers:
 - url: https://api.goodstack.io
   description: Production server
@@ -49,15 +125,79 @@ paths:
       - in: query
         name: status
         schema:
-          type: string
-          enum:
-          - ACTIVE
-          - REQUESTED_PAYMENT
-          - RECEIVED_PAYMENT
-          - DISBURSED
-          - CANCELLED
+          type: array
+          items:
+            type: string
+            enum:
+            - ACTIVE
+            - REQUESTED_PAYMENT
+            - RECEIVED_PAYMENT
+            - SETTLED
+            - DISBURSED
+            - CANCELLED
         required: false
-        description: Filter results by status.
+        description: 'Filter results by status. One value or a list.
+
+          RECEIVED_PAYMENT also includes settled donations.
+
+          '
+      - in: query
+        name: kinds
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - hosted
+            - direct
+            - matched
+            - external
+            - wallet
+            - payroll
+        required: false
+        description: Filter results by donation kind. One value or a list. This is data[].type.
+      - in: query
+        name: category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - grant
+            - corporate_donation
+            - consumer_giving
+            - employee_impact
+            - unclassified
+        required: false
+        description: 'Filter results by donation category. One value or a list.
+
+          Use `unclassified` to include donations that have no category assigned.
+
+          '
+      - in: query
+        name: query
+        schema:
+          type: string
+        required: false
+        description: 'Match a donation id, account id, or organisation id, or a similarity match on organisation name.
+
+          Donor name and email are included only when the partner allows donor details.
+
+          '
+      - in: query
+        name: fundraiserId
+        schema:
+          type: string
+          example: fundraiser_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        required: false
+        description: Filter results by fundraiser id.
+      - in: query
+        name: subsidiaryId
+        schema:
+          type: string
+          example: subsidiary_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        required: false
+        description: Filter results by subsidiary id.
       - in: query
         name: startDate
         schema:
@@ -79,6 +219,13 @@ paths:
           example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         required: false
         description: Filter results by organisationId.
+      - in: query
+        name: excludeImported
+        schema:
+          type: boolean
+        required: false
+        description: When true, exclude donations that have an import date.
+      - $ref: '#/components/parameters/direction'
       - $ref: '#/components/parameters/cursor'
       - $ref: '#/components/parameters/pageSize'
       responses:
@@ -159,6 +306,9 @@ paths:
                     example: GBP
                   organisationId:
                     type: string
+                  subsidiaryId:
+                    type: string
+                    example: subsidiary_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                   firstName:
                     type: string
                     maxLength: 255
@@ -186,6 +336,19 @@ paths:
                     example:
                       key1: value1
                       key2: value2
+                  giftNote:
+                    type: string
+                    maxLength: 500
+                    description: Optional gift note message to accompany the donation
+                    example: Happy Birthday!
+                  category:
+                    type: string
+                    description: Assign donation to a specific category
+                    enum:
+                    - consumer_giving
+                    - grant
+                    - employee_impact
+                    - corporate_donation
                 required:
                 - amount
                 - currencyCode
@@ -205,6 +368,9 @@ paths:
                     example: user_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                   organisationId:
                     type: string
+                  subsidiaryId:
+                    type: string
+                    example: subsidiary_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
                   firstName:
                     type: string
                     maxLength: 255
@@ -232,6 +398,19 @@ paths:
                     example:
                       key1: value1
                       key2: value2
+                  giftNote:
+                    type: string
+                    maxLength: 500
+                    description: Optional gift note message to accompany the donation
+                    example: Happy Birthday!
+                  category:
+                    type: string
+                    description: Assign donation to a specific category
+                    enum:
+                    - consumer_giving
+                    - grant
+                    - employee_impact
+                    - corporate_donation
                 required:
                 - amount
                 - currencyCode
@@ -287,7 +466,7 @@ paths:
     - in: path
       name: id
       schema:
-        type: integer
+        type: string
       required: true
       description: Id of the Donation.
     get:
@@ -430,14 +609,6 @@ paths:
       x-operation-id-source: derived
 components:
   examples:
-    Donations.GiftAidMissing:
-      summary: Donation - GiftAid missing
-      description: Can not find required gift aid for this donation
-      value:
-        error:
-          code: donation/gift_aid_missing
-          title: Bad request
-          message: Can not find required gift aid for this donation
     Donations.WrongPartnerCurrency:
       summary: Donation - Wrong partner currency
       description: You can not accept donations in this currency
@@ -446,14 +617,6 @@ components:
           code: donation/wrong_partner_currency
           title: Bad request
           message: You can only donate in GBP
-    Idempotency.SameKeyDifferentData:
-      summary: Idempotency - Data has changed from previous request
-      description: Data has changed from previous request with this key
-      value:
-        error:
-          code: idempotency/same_key_different_data
-          title: Bad request
-          message: Data has changed from previous request
     Donations.WrongTargetCurrency:
       summary: Donation - Wrong target currency
       description: The organisation can not accept donations in this currency
@@ -462,62 +625,6 @@ components:
           code: donation/wrong_target_currency
           title: Bad request
           message: This organisation can not accept donations in GBP
-    Donations.InvalidState:
-      summary: Donation - Invalid state
-      description: Donation is not in a valid state to update
-      value:
-        error:
-          code: donation/invalid_state
-          title: Bad request
-          message: Donation is not in a valid state to update
-    Donations.InvalidMetadata:
-      summary: 400 Bad request
-      description: Metadata provided not correct format
-      value:
-        error:
-          title: Bad request
-          message: Metadata can only contain from 1 up to 20 keys, with key names up to 50 characters long and values up to 500 characters long
-          code: donation/invalid_metadata
-    Pagination.CursorError:
-      summary: Error in cursor parameter
-      description: We were unable to decode the cursor
-      value:
-        error:
-          code: pagination/cursor_error
-          title: Bad request
-          message: Unable to find the next page
-    Idempotency.KeyInUse:
-      summary: Idempotency - Key in use
-      description: Idempotency Key is already in use
-      value:
-        error:
-          code: idempotency/key_already_in_use
-          title: Bad request
-          message: Idempotency Key is already in use
-    Idempotency.OriginalCallInProgress:
-      summary: Idempotency - Original call in progress
-      description: Original call with this idempotency key is still in progress, please wait and try again
-      value:
-        error:
-          code: idempotency/original_call_in_progress
-          title: Bad request
-          message: Original call with this idempotency key is still in progress
-    Donations.CannotAcceptDonations:
-      summary: Donation - Organisation can not accept donations
-      description: This Organisation can not accept donations at this time
-      value:
-        error:
-          code: donation/cannot_accept_donations
-          title: Bad request
-          message: This organisation is currently unable to accept donations
-    Donations.UserNotFound:
-      summary: Donation - User not found
-      description: User not found
-      value:
-        error:
-          code: donation/user_not_found
-          title: Bad request
-          message: User not found
     Donations.InvalidTypeForEditOrganisation:
       summary: Donation - Organisation cannot be updated for this type of donation
       description: Organisation cannot be updated for this type of donation
@@ -526,6 +633,54 @@ components:
           code: donation/cannot_edit_organisation_invalid_donation_type
           title: Bad request
           message: Organisation cannot be updated for this type of donation
+    Idempotency.KeyInUse:
+      summary: Idempotency - Key in use
+      description: Idempotency Key is already in use
+      value:
+        error:
+          code: idempotency/key_already_in_use
+          title: Bad request
+          message: Idempotency Key is already in use
+    Donations.InvalidMetadata:
+      summary: 400 Bad request
+      description: Metadata provided not correct format
+      value:
+        error:
+          title: Bad request
+          message: Metadata can only contain from 1 up to 20 keys, with key names up to 50 characters long and values up to 500 characters long
+          code: donation/invalid_metadata
+    Donations.GiftAidMissing:
+      summary: Donation - GiftAid missing
+      description: Can not find required gift aid for this donation
+      value:
+        error:
+          code: donation/gift_aid_missing
+          title: Bad request
+          message: Can not find required gift aid for this donation
+    Donations.CannotAcceptDonations:
+      summary: Donation - Organisation can not accept donations
+      description: This Organisation can not accept donations at this time
+      value:
+        error:
+          code: donation/cannot_accept_donations
+          title: Bad request
+          message: This organisation is currently unable to accept donations
+    Idempotency.OriginalCallInProgress:
+      summary: Idempotency - Original call in progress
+      description: Original call with this idempotency key is still in progress, please wait and try again
+      value:
+        error:
+          code: idempotency/original_call_in_progress
+          title: Bad request
+          message: Original call with this idempotency key is still in progress
+    Donations.InvalidState:
+      summary: Donation - Invalid state
+      description: Donation is not in a valid state to update
+      value:
+        error:
+          code: donation/invalid_state
+          title: Bad request
+          message: Donation is not in a valid state to update
     IncorrectParams:
       summary: 400 Incorrect Parameters
       description: Bad Request - Incorrect parameters
@@ -536,6 +691,30 @@ components:
           message: One or more of the inputs were invalid
           reasons:
           - pageSize must be greater than or equal to 0
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
+    Donations.UserNotFound:
+      summary: Donation - User not found
+      description: User not found
+      value:
+        error:
+          code: donation/user_not_found
+          title: Bad request
+          message: User not found
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
+      value:
+        error:
+          code: idempotency/same_key_different_data
+          title: Bad request
+          message: Data has changed from previous request
     Donations.MissingOrganisation:
       summary: Donation - Organisation missing
       description: User must be supporting a cause, or organisationId must be provided
@@ -563,36 +742,32 @@ components:
               - 'null'
               items:
                 type: string
-    DonationHosted:
+    DonationDisbursement:
       type: object
-      title: hosted donation
-      allOf:
-      - $ref: '#/components/schemas/DonationBase'
-      - type: object
-        properties:
+      properties:
+        id:
+          type: string
+          example: disbursement_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        type:
+          type: string
+          enum:
+          - bank_transfer
+          - cheque
+          - card
+        status:
+          type: string
+          example: paid
+        updatedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        inTransitAt:
           type:
-            type: string
-            enum:
-            - hosted
-          hosted:
-            type: object
-            description: Contains additional fields available for hosted Donations.
-            properties:
-              sessionId:
-                type: string
-                example: donationsession_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-                description: Donation Session Id
-    DonationDirect:
-      title: direct donation
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/DonationBase'
-      - type: object
-        properties:
-          type:
-            type: string
-            enum:
-            - direct
+          - string
+          - 'null'
+          format: date-time
     DonationBase:
       type: object
       properties:
@@ -659,12 +834,7 @@ components:
           - 'no'
           description: Whether the user wants to share their donation publicly or not.
         metadata:
-          type:
-          - object
-          - 'null'
-          additionalProperties:
-            type: string
-          description: Key-value data that you can attach to an object.
+          $ref: '#/components/schemas/Metadata'
         giftAidId:
           type:
           - string
@@ -685,6 +855,62 @@ components:
           - string
           - 'null'
           example: account_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        disbursement:
+          $ref: '#/components/schemas/DonationDisbursement'
+        organisation:
+          $ref: '#/components/schemas/DonationOrganisation'
+        category:
+          type:
+          - string
+          - 'null'
+          enum:
+          - grant
+          - corporate_donation
+          - consumer_giving
+          - employee_impact
+          description: Null when the donation has no category.
+    Metadata:
+      type:
+      - object
+      - 'null'
+      description: '[Key-value data](/docs/api/goodstack-services#metadata) that you can attach to an object.
+
+        '
+      additionalProperties:
+        type: string
+      example:
+        key1: value1
+        key2: value2
+    DonationHosted:
+      type: object
+      title: hosted donation
+      allOf:
+      - $ref: '#/components/schemas/DonationBase'
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - hosted
+          hosted:
+            type: object
+            description: Contains additional fields available for hosted Donations.
+            properties:
+              sessionId:
+                type: string
+                example: donationsession_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                description: Donation Session Id
+    DonationDirect:
+      title: direct donation
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/DonationBase'
+      - type: object
+        properties:
+          type:
+            type: string
+            enum:
+            - direct
     CursorLinks:
       type: object
       properties:
@@ -697,7 +923,67 @@ components:
         prev:
           type: string
           example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+    DonationOrganisation:
+      type: object
+      properties:
+        id:
+          type: string
+          example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name:
+          type: string
+        logo:
+          type:
+          - string
+          - 'null'
+          format: url
+  parameters:
+    direction:
+      in: query
+      name: direction
+      required: false
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+      description: Which way to sort by the given 'sort' field.  Default DESC
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
   responses:
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
     NotFound:
       description: The specified resource was not found
       content:
@@ -719,8 +1005,6 @@ components:
                     example: This endpoint is unavailable or can not be found
     Unauthorized:
       description: Unauthorized
-    ForbiddenScope:
-      description: Forbidden (scope)
       content:
         application/json:
           schema:
@@ -731,31 +1015,13 @@ components:
                 properties:
                   code:
                     type: string
-                    example: forbidden
+                    example: unauthorized
                   title:
                     type: string
-                    example: Forbidden
+                    example: Unauthorized
                   message:
                     type: string
-                    example: Access is denied due to missing scope permissions
-  parameters:
-    pageSize:
-      in: query
-      name: pageSize
-      required: false
-      schema:
-        type: integer
-        minimum: 0
-        default: 25
-      description: How many items per page, for pagination.
-    cursor:
-      in: query
-      name: cursor
-      required: false
-      schema:
-        type: string
-        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
-      description: A cursor that points to where to start the page
+                    example: Access is denied due to invalid credentials
   securitySchemes:
     PublishableApiKey:
       type: apiKey
@@ -772,6 +1038,20 @@ components:
       in: header
       name: donation-session-token
       description: Donation session token
+    SCIMBearer:
+      type: http
+      scheme: bearer
+      description: 'SCIM API key issued for the partner, presented as a bearer token in the
+
+        `Authorization` header. The key is bound to a single partner and the
+
+        partner must have the `scim_api` scope enabled. A missing or invalid key
+
+        returns `401`; a valid key for a partner without the scope also returns
+
+        `401` (`detail: "scim feature not enabled for this partner"`).
+
+        '
 x-tagGroups:
 - name: NONPROFIT DATA
   tags:
@@ -779,6 +1059,7 @@ x-tagGroups:
   - Countries
   - Registries
   - Categories
+  - Organisation Branding
 - name: NONPROFIT VALIDATIONS
   tags:
   - Validation Requests
@@ -797,6 +1078,28 @@ x-tagGroups:
   - Donation Sessions
   - Users
   - Gift Aid
+  - Monetary Donation Verifications
+- name: WORKPLACE GIVING
+  tags:
+  - Employees
+  - Giving Donations
+  - Donation Match Request
+  - Fundraising
+  - Volunteering
+  - Gamification
+  - Campaigns
+  - Budgets
+  - Donation Wallets
 - name: WEBHOOK SUBSCRIPTIONS
   tags:
   - Webhook Subscriptions
+- name: WEBHOOK EVENTS
+  tags:
+  - Agent Verification Events
+  - Country Compliance Check Events
+  - Donation Events
+  - Eligibility Subscription Events
+  - Monitoring Subscription Events
+  - Validation Request Events
+  - Validation Submission Events
+  - Monetary Donation Verification Events

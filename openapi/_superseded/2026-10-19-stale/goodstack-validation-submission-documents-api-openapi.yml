@@ -1,0 +1,348 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Validation Submission Documents API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Validation Submission Documents
+paths:
+  /v1/validation-submission-documents:
+    post:
+      security:
+      - SecretApiKey: []
+      summary: Create Validation Submission Document
+      description: Uploads a Validation Submission document. Valid file formats for documents are `jpg`, `png` and `pdf`. The maximum file size is 5MB.
+      tags:
+      - Validation Submission Documents
+      parameters:
+      - in: header
+        name: Idempotency-Key
+        schema:
+          type: string
+        required: false
+        description: Idempotency key
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: Document to validate. Valid file formats for documents are `jpg`, `png` and `pdf`. The maximum file size is 5MB.
+                validationSubmissionId:
+                  type: string
+                  example: validationsubmission_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  description: Validation submission id
+              required:
+              - validationSubmissionId
+              - file
+      responses:
+        '200':
+          description: Successfully uploaded Validation Submission document
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ValidationSubmissionDocumentWithoutValidationInviteId'
+                  object:
+                    type: string
+                    example: validation_submission_document
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                FiletypeNotSupported:
+                  $ref: '#/components/examples/Upload.FiletypeNotSupported'
+                FileIsMissing:
+                  $ref: '#/components/examples/Upload.FileIsMissing'
+                MaxFileSize:
+                  $ref: '#/components/examples/Upload.MaxFileSize'
+                ValidationSubmissionNotFound:
+                  $ref: '#/components/examples/ValidationSubmissionDocument.ValidationSubmissionNotFound'
+                IncorrectParamsBody:
+                  $ref: '#/components/examples/IncorrectParams'
+                InvalidConfiguration:
+                  $ref: '#/components/examples/ValidationSubmission.InvalidConfiguration'
+                OriginalCallInProgress:
+                  $ref: '#/components/examples/Idempotency.OriginalCallInProgress'
+                SameKeyDifferentData:
+                  $ref: '#/components/examples/Idempotency.SameKeyDifferentData'
+                KeyInUse:
+                  $ref: '#/components/examples/Idempotency.KeyInUse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: postV1ValidationSubmissionDocuments
+      x-operation-id-source: derived
+  /v1/validation-submissions/{id}/documents:
+    parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: Id of the Validation Submission.
+    get:
+      security:
+      - SecretApiKey: []
+      summary: Get Validation Submission Documents
+      tags:
+      - Validation Submission Documents
+      responses:
+        '200':
+          description: Successfully retrieved list of Validation Submissions Documents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      allOf:
+                      - $ref: '#/components/schemas/ValidationSubmissionDocumentWithoutValidationInviteId'
+                      - type: object
+                        properties:
+                          validationInviteId:
+                            type:
+                            - string
+                            - 'null'
+                            example: validationinvite_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                  object:
+                    type: string
+                    example: validation_submission_document
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getV1ValidationSubmissionsByIdDocuments
+      x-operation-id-source: derived
+components:
+  examples:
+    Idempotency.OriginalCallInProgress:
+      summary: Idempotency - Original call in progress
+      description: Original call with this idempotency key is still in progress, please wait and try again
+      value:
+        error:
+          code: idempotency/original_call_in_progress
+          title: Bad request
+          message: Original call with this idempotency key is still in progress
+    ValidationSubmission.InvalidConfiguration:
+      summary: 404 Not Found
+      description: Provided configurationId is not valid
+      value:
+        error:
+          code: validation_submission/invalid_configuration_id
+          title: Not Found
+          message: Provided configurationId is not valid
+    Upload.MaxFileSize:
+      summary: Upload - File exceeded max size
+      description: File exceeded max size for this endpoint
+      value:
+        error:
+          code: upload/max_file_size
+          title: Bad request
+          message: Request size exceeded maximum for this endpoint (5242880 bytes)
+    Upload.FiletypeNotSupported:
+      summary: Upload - Filetype not supported
+      description: Filetype not supported
+      value:
+        error:
+          code: upload/filetype_not_supported
+          title: Bad request
+          message: 'Filetype not supported.  Supported types include: pdf, png, jpg'
+    Upload.FileIsMissing:
+      summary: Upload - File is missing
+      description: File is missing
+      value:
+        error:
+          code: upload/file_is_missing
+          title: Bad request
+          message: File is missing. File is a required field
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+    ValidationSubmissionDocument.ValidationSubmissionNotFound:
+      summary: 400 Bad request
+      description: Validation submission not found
+      value:
+        error:
+          code: validation_submission_document/validation_submission_not_found
+          title: Bad request
+          message: validation submission not found
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
+      value:
+        error:
+          code: idempotency/same_key_different_data
+          title: Bad request
+          message: Data has changed from previous request
+    Idempotency.KeyInUse:
+      summary: Idempotency - Key in use
+      description: Idempotency Key is already in use
+      value:
+        error:
+          code: idempotency/key_already_in_use
+          title: Bad request
+          message: Idempotency Key is already in use
+  responses:
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    ValidationSubmissionDocumentWithoutValidationInviteId:
+      type: object
+      properties:
+        id:
+          type: string
+          example: validationsubmissiondocument_xxxxxxxxxxxx
+        validationSubmissionId:
+          type: string
+          example: validationsubmission_xxxxxxxxxxxx
+        createdAt:
+          type: string
+          format: date-time
+          example: '2022-02-02T17:46:54.000Z'
+        url:
+          type: string
+          format: url
+          example: https://s3-eu-west-1.amazonaws.com/assets.poweredbypercent.com/document.pdf
+        type:
+          type: string
+          enum:
+          - validation_request
+          - agent_verification
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions

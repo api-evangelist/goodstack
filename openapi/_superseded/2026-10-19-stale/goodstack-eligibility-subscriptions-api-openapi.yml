@@ -1,0 +1,727 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Eligibility Subscriptions API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Eligibility Subscriptions
+paths:
+  /v1/eligibility-subscriptions:
+    get:
+      security:
+      - SecretApiKey: []
+      summary: List Eligibility Subscriptions
+      tags:
+      - Eligibility Subscriptions
+      parameters:
+      - in: query
+        name: sort
+        schema:
+          type: string
+          enum:
+          - id
+        description: Field to sort
+      - in: query
+        name: query
+        schema:
+          type: string
+          example: Example organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          description: Organisation ID
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - pending_validation_request
+          - validation_request_failed
+          - pending
+          - live
+          - cancelled
+          - cannot_define_eligibility
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date-time
+        description: Start date to retrieve monitoring from.
+        example: '2020-10-13T17:46:54.000Z'
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+      - in: query
+        name: hasOrganisation
+        description: Filter eligibility subscriptions based on whether there is a recognised Organisation tied to the subscription
+        schema:
+          type: boolean
+          example: true
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/pageSize'
+      - $ref: '#/components/parameters/direction'
+      responses:
+        '200':
+          description: Successfully retrieved a page of Eligibility Subscriptions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EligibilitySubscription'
+                  object:
+                    type: string
+                    example: eligibility_subscription
+                  totalResults:
+                    type: integer
+                    example: 33
+                  pageSize:
+                    type: integer
+                    example: 25
+                  _links:
+                    $ref: '#/components/schemas/CursorLinks'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                IncorrectParams:
+                  $ref: '#/components/examples/IncorrectParams'
+                CursorError:
+                  $ref: '#/components/examples/Pagination.CursorError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: getV1EligibilitySubscriptions
+      x-operation-id-source: derived
+    post:
+      security:
+      - SecretApiKey: []
+      summary: Create an Eligibility Subscription
+      tags:
+      - Eligibility Subscriptions
+      parameters:
+      - in: header
+        name: Idempotency-Key
+        schema:
+          type: string
+        required: false
+        description: Idempotency key
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - type: object
+                properties:
+                  organisationId:
+                    type: string
+                  suggestedActivitySubTags:
+                    type:
+                    - array
+                    - 'null'
+                    items:
+                      type: string
+                      example: activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                required:
+                - organisationId
+              - type: object
+                properties:
+                  validationRequestId:
+                    type: string
+                  suggestedActivitySubTags:
+                    type:
+                    - array
+                    - 'null'
+                    items:
+                      type: string
+                      example: activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                required:
+                - validationRequestId
+      responses:
+        '200':
+          description: Successfully created a Eligibility Subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/EligibilitySubscription'
+                  object:
+                    type: string
+                    example: eligibility_subscription
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                EntityNotFound:
+                  $ref: '#/components/examples/EligibilitySubscription.EntityNotFound'
+                OrganisationNotActive:
+                  $ref: '#/components/examples/EligibilitySubscription.OrganisationNotActive'
+                InvalidSubTags:
+                  $ref: '#/components/examples/EligibilitySubscription.InvalidSubTags'
+                BadRequest:
+                  $ref: '#/components/examples/BadRequest'
+                IncorrectParams:
+                  $ref: '#/components/examples/IncorrectParams'
+                OriginalCallInProgress:
+                  $ref: '#/components/examples/Idempotency.OriginalCallInProgress'
+                SameKeyDifferentData:
+                  $ref: '#/components/examples/Idempotency.SameKeyDifferentData'
+                KeyInUse:
+                  $ref: '#/components/examples/Idempotency.KeyInUse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: postV1EligibilitySubscriptions
+      x-operation-id-source: derived
+  /v1/eligibility-subscriptions/{id}:
+    parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: Id of the Eligibility Subscription.
+    get:
+      security:
+      - SecretApiKey: []
+      summary: Retrieve an single Eligibility Subscription
+      tags:
+      - Eligibility Subscriptions
+      responses:
+        '200':
+          description: Successfully retrieved an Eligibility Subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/EligibilitySubscription'
+                  object:
+                    type: string
+                    example: eligibility_subscription
+        '400':
+          $ref: '#/components/responses/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getV1EligibilitySubscriptionsById
+      x-operation-id-source: derived
+    patch:
+      security:
+      - SecretApiKey: []
+      summary: Edit an Eligibility Subscription
+      description: Update an Eligibility Subscription's metadata.
+      tags:
+      - Eligibility Subscriptions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                metadata:
+                  description: Metadata object that will be merged with current metadata object.
+                  type: object
+                  maxProperties: 20
+                  additionalProperties:
+                    description: Max key size is 40 characters. If key matches already existing key, it will override old value
+                    type: string
+                    maxLength: 250
+      responses:
+        '200':
+          description: Successfully updates Eligibility Subscription's metadata
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/EligibilitySubscription'
+                  object:
+                    type: string
+                    example: eligibility_subscription
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                InvalidMetadata:
+                  $ref: '#/components/examples/EligibilitySubscription.InvalidMetadata'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: patchV1EligibilitySubscriptionsById
+      x-operation-id-source: derived
+  /v1/eligibility-subscriptions/{id}/cancel:
+    parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: Id of the Eligibility Subscription.
+    post:
+      security:
+      - SecretApiKey: []
+      summary: Cancel an Eligibility Subscription
+      tags:
+      - Eligibility Subscriptions
+      responses:
+        '200':
+          description: Successfully cancel an Eligibility Subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/EligibilitySubscription'
+                  object:
+                    type: string
+                    example: eligibility_subscription
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                EligibilitySubscriptionAlreadyCancelled:
+                  $ref: '#/components/examples/EligibilitySubscription.EligibilitySubscriptionAlreadyCancelled'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: postV1EligibilitySubscriptionsByIdCancel
+      x-operation-id-source: derived
+components:
+  schemas:
+    EligibilitySubscriptionResults:
+      type: object
+      properties:
+        eligibilityStatus:
+          type:
+          - string
+          - 'null'
+          enum:
+          - pass
+          - fail
+          example: fail
+        confirmedActivitySubTags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ActivitySubTagWithTag'
+        rejectedActivitySubTags:
+          description: Confirmed organisation's activity subtags that are not allowed in partner's configuration
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ActivitySubTagWithTag'
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    EligibilitySubscription:
+      type: object
+      properties:
+        id:
+          type: string
+          example: eligibilitysubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        organisationId:
+          type:
+          - string
+          - 'null'
+          example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        organisationName:
+          type:
+          - string
+          - 'null'
+        partnerId:
+          type: string
+        configurationId:
+          type: string
+        validationRequestId:
+          type:
+          - string
+          - 'null'
+          example: validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        suggestedActivitySubTags:
+          type:
+          - array
+          - 'null'
+          items:
+            $ref: '#/components/schemas/ActivitySubTagWithTag'
+        status:
+          type: string
+          example: live
+          enum:
+          - live
+          - pending_validation_request
+          - validation_request_failed
+          - pending
+          - cancelled
+          - cannot_define_eligibility
+        results:
+          $ref: '#/components/schemas/EligibilitySubscriptionResults'
+        createdAt:
+          type: string
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+    ActivityTagWithoutSubTags:
+      type: object
+      properties:
+        id:
+          type: string
+          example: activitytag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name:
+          type: string
+          example: Education
+          description: Tag name
+        description:
+          type:
+          - string
+          - 'null'
+          description: Tag description
+        createdAt:
+          type: string
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+    ActivitySubTagWithTag:
+      type: object
+      properties:
+        id:
+          type: string
+          example: activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name:
+          type: string
+          example: Sport school
+          description: SubTag name
+        tag:
+          $ref: '#/components/schemas/ActivityTagWithoutSubTags'
+        description:
+          type:
+          - string
+          - 'null'
+          description: SubTag description
+        createdAt:
+          type: string
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+  parameters:
+    direction:
+      in: query
+      name: direction
+      required: false
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+      description: Which way to sort by the given 'sort' field.  Default DESC
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
+  examples:
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
+      value:
+        error:
+          code: idempotency/same_key_different_data
+          title: Bad request
+          message: Data has changed from previous request
+    EligibilitySubscription.InvalidSubTags:
+      summary: 400 Bad request
+      description: At least one of provided suggested subtags is invalid
+      value:
+        error:
+          code: eligibility_subscription/invalid_sub_tags
+          title: Bad request
+          message: At least one of provided suggested subtags is invalid
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
+    Idempotency.KeyInUse:
+      summary: Idempotency - Key in use
+      description: Idempotency Key is already in use
+      value:
+        error:
+          code: idempotency/key_already_in_use
+          title: Bad request
+          message: Idempotency Key is already in use
+    Idempotency.OriginalCallInProgress:
+      summary: Idempotency - Original call in progress
+      description: Original call with this idempotency key is still in progress, please wait and try again
+      value:
+        error:
+          code: idempotency/original_call_in_progress
+          title: Bad request
+          message: Original call with this idempotency key is still in progress
+    EligibilitySubscription.OrganisationNotActive:
+      summary: 400 Bad request
+      description: Organisation is not active
+      value:
+        error:
+          code: eligibility_subscription/organisation_not_active
+          title: Bad request
+          message: Organisation is not active
+    EligibilitySubscription.EligibilitySubscriptionAlreadyCancelled:
+      summary: Eligibility Subscription already cancelled
+      description: Eligibility Subscription already cancelled
+      value:
+        error:
+          code: eligibility_subscription/already_cancelled
+          title: Bad request
+          message: Eligibility Subscription already cancelled
+    EligibilitySubscription.InvalidMetadata:
+      summary: 400 Bad request
+      description: Metadata provided not correct format
+      value:
+        error:
+          title: Bad request
+          message: Metadata can only contain from 1 up to 20 keys, with key names up to 50 characters long and values up to 500 characters long
+          code: eligibility_subscription/invalid_metadata
+    EligibilitySubscription.EntityNotFound:
+      summary: Subscription Entity Not Found
+      description: Subscription Entity Not Found
+      value:
+        error:
+          code: eligibility_subscription/entity_not_found
+          title: Bad request
+          message: Organisation or validation request was not found
+    BadRequest:
+      summary: 400 Bad Request
+      description: Bad Request
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: Something is wrong with your request, please check any parameters and try again
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+    IncorrectParams:
+      description: Error validating inputs
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: bad_request
+                  title:
+                    type: string
+                    example: Bad request
+                  message:
+                    type: string
+                    example: One or more of the inputs were invalid
+                  reasons:
+                    type: array
+                    items:
+                      type: string
+                      example: pageSize must be greater than or equal to 0
+    Unauthorized:
+      description: Unauthorized
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions

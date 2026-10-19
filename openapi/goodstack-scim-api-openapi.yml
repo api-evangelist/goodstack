@@ -1,0 +1,988 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services SCIM API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API''s listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication
+
+
+    Authenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats
+
+
+    ## IDs
+
+
+    All ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates
+
+
+    Dates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination
+
+
+    A maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values
+
+
+    Throughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata
+
+
+    Some objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors
+
+
+    The API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,
+
+    an optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:
+
+    ```json
+
+    {
+
+    error: {
+
+    code: ''bad_request'',
+
+    title: ''Bad request'',
+
+    message: ''Something is wrong with your request, please check any parameters and try again'',
+
+    reasons: [''amount is a required field'']
+
+    }
+
+    }
+
+    ```
+
+
+    A summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |
+
+    | ------------- |-------------| -----|
+
+    | 200 | Success | Request successful |
+
+    | 204 | No Content | Request successful with no content returned |
+
+    | 400 | Bad Request | Request was invalid |
+
+    | 401 | Unauthorised | Authorization header is invalid |
+
+    | 403 | Forbidden | Insufficient permissions |
+
+    | 404 | Not Found | Resource does not exist |
+
+    | 429 | Too Many Requests | Rate Limited |
+
+    | 500s | Internal Server Error | Something went wrong with the Goodstack API |
+
+
+    # Enum Values
+
+
+    Generally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely
+
+
+    If your code handles enum values exhaustively — for example, a switch without a default case, or deserialisation into a strict typed enum — an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: SCIM
+  description: 'SCIM 2.0 compliant API for provisioning and managing users. All `/scim/v2`
+
+    endpoints authenticate with a partner SCIM API key as a bearer token and
+
+    require the partner''s `scim_api` scope. Responses use the
+
+    `application/scim+json` media type.'
+paths:
+  /scim/v2/Users:
+    get:
+      summary: List users
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: 'Return a paginated, optionally filtered and sorted list of users that
+
+        belong to the partner the SCIM key is bound to. The response is a SCIM
+
+        ListResponse envelope.'
+      parameters:
+      - in: query
+        name: filter
+        required: false
+        schema:
+          type: string
+        description: 'SCIM filter expression, e.g. `userName eq "johndoe@example.com"`.
+
+          String comparison values must be quoted. Supports logical operators
+
+          (`and`, `or`, `not`), grouping and value paths.
+
+          '
+        example: userName eq "johndoe@example.com"
+      - in: query
+        name: startIndex
+        required: false
+        schema:
+          type: integer
+          default: 1
+        description: 1-based index of the first result to return.
+      - in: query
+        name: count
+        required: false
+        schema:
+          type: integer
+          default: 20
+        description: Maximum number of results to return (max 100).
+      - in: query
+        name: sortBy
+        required: false
+        schema:
+          type: string
+        description: Attribute to sort by, e.g. `userName`. Unknown attributes are ignored.
+      - in: query
+        name: sortOrder
+        required: false
+        schema:
+          type: string
+          enum:
+          - ascending
+          - descending
+          default: ascending
+      responses:
+        '200':
+          description: A SCIM list of users.
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimListResponse'
+        '400':
+          $ref: '#/components/responses/ScimBadRequest'
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+      operationId: getScimV2Users
+      x-operation-id-source: derived
+    post:
+      summary: Create a user
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: Provision a new user for the partner the SCIM key is bound to.
+      requestBody:
+        required: true
+        content:
+          application/scim+json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/ScimUser'
+              - type: object
+                required:
+                - schemas
+                - userName
+      responses:
+        '201':
+          description: The created user.
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+        '400':
+          $ref: '#/components/responses/ScimBadRequest'
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+        '409':
+          $ref: '#/components/responses/ScimConflict'
+      operationId: postScimV2Users
+      x-operation-id-source: derived
+  /scim/v2/Users/{id}:
+    parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: string
+      description: The unique identifier of the user (account id).
+      example: account_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    get:
+      summary: Retrieve a user
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: Retrieve a single user by id. The user must belong to the partner the SCIM key is bound to.
+      responses:
+        '200':
+          description: The requested user.
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+        '404':
+          $ref: '#/components/responses/ScimNotFound'
+      operationId: getScimV2UsersById
+      x-operation-id-source: derived
+    put:
+      summary: Replace a user
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: 'Replace a user''s attributes. Attributes omitted from the request are
+
+        cleared. `userName` (email) and other fields are validated; an invalid
+
+        email returns `400`.'
+      requestBody:
+        required: true
+        content:
+          application/scim+json:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/ScimUser'
+              - type: object
+                required:
+                - schemas
+                - userName
+      responses:
+        '200':
+          description: The updated user.
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+        '400':
+          $ref: '#/components/responses/ScimBadRequest'
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+        '404':
+          $ref: '#/components/responses/ScimNotFound'
+        '409':
+          $ref: '#/components/responses/ScimConflict'
+      operationId: putScimV2UsersById
+      x-operation-id-source: derived
+    patch:
+      summary: Update a user
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: Apply a SCIM PATCH operation set to a user.
+      requestBody:
+        required: true
+        content:
+          application/scim+json:
+            schema:
+              type: object
+              properties:
+                schemas:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - urn:ietf:params:scim:api:messages:2.0:PatchOp
+                Operations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      op:
+                        type: string
+                        enum:
+                        - add
+                        - replace
+                        - remove
+                        example: replace
+                      path:
+                        type: string
+                        description: 'Attribute path to modify. May be namespaced for
+
+                          extensions, e.g.
+
+                          `urn:ietf:params:scim:schemas:extension:goodstack:2.0:User:startDate`.
+
+                          '
+                        example: name.formatted
+                      value:
+                        description: The new value. Type depends on the target attribute.
+                        example: John Doe
+              required:
+              - schemas
+              - Operations
+      responses:
+        '200':
+          description: The updated user.
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimUser'
+        '400':
+          $ref: '#/components/responses/ScimBadRequest'
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+        '404':
+          $ref: '#/components/responses/ScimNotFound'
+      operationId: patchScimV2UsersById
+      x-operation-id-source: derived
+    delete:
+      summary: Deactivate a user
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: Soft-delete (deactivate) a user. The user must belong to the partner the SCIM key is bound to.
+      responses:
+        '204':
+          description: The user was deactivated.
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+        '404':
+          $ref: '#/components/responses/ScimNotFound'
+      operationId: deleteScimV2UsersById
+      x-operation-id-source: derived
+  /scim/v2/Bulk:
+    post:
+      summary: Bulk operations
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: 'Apply up to 100 user operations in a single request. Each operation is a
+
+        `POST`, `PUT`, `PATCH` or `DELETE` against `/Users`. The response is a
+
+        SCIM BulkResponse; per-operation failures are reported inline and do not
+
+        fail the whole request unless `failOnErrors` is reached.'
+      requestBody:
+        required: true
+        content:
+          application/scim+json:
+            schema:
+              type: object
+              properties:
+                schemas:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - urn:ietf:params:scim:api:messages:2.0:BulkRequest
+                failOnErrors:
+                  type: integer
+                  description: Stop processing after this many errors.
+                  example: 1
+                Operations:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      method:
+                        type: string
+                        enum:
+                        - POST
+                        - PUT
+                        - PATCH
+                        - DELETE
+                      bulkId:
+                        type: string
+                        description: Client-supplied temporary id for POST operations.
+                      path:
+                        type: string
+                        example: /Users
+                      data:
+                        type: object
+                        description: The user payload or PATCH op set for the operation.
+              required:
+              - schemas
+              - Operations
+      responses:
+        '200':
+          description: A SCIM bulk response.
+          content:
+            application/scim+json:
+              schema:
+                type: object
+                properties:
+                  schemas:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                    - urn:ietf:params:scim:api:messages:2.0:BulkResponse
+                  Operations:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        method:
+                          type: string
+                          example: POST
+                        bulkId:
+                          type: string
+                        location:
+                          type: string
+                          example: https://api.goodstack.io/scim/v2/Users/account_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        status:
+                          type: string
+                          example: '201'
+                        response:
+                          $ref: '#/components/schemas/ScimError'
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+        '413':
+          description: The number of operations exceeds the maximum (100).
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimError'
+              example:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '413'
+                detail: Number of operations in BulkRequest exceeds maxOperations limit (100)
+      operationId: postScimV2Bulk
+      x-operation-id-source: derived
+  /scim/v2/Schemas:
+    get:
+      summary: List supported schemas
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: 'Discovery endpoint listing the supported SCIM schemas: the Core User,
+
+        the Enterprise User extension and the Goodstack User extension. Truncated
+
+        attributes are excluded.'
+      responses:
+        '200':
+          description: A SCIM list of schema definitions.
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimListResponse'
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+      operationId: getScimV2Schemas
+      x-operation-id-source: derived
+  /scim/v2/Schemas/{id}:
+    get:
+      summary: Retrieve a schema
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: Retrieve a single schema definition by its URN.
+      parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: The schema URN.
+        examples:
+          coreUser:
+            value: urn:ietf:params:scim:schemas:core:2.0:User
+          enterpriseUser:
+            value: urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+          goodstackUser:
+            value: urn:ietf:params:scim:schemas:extension:goodstack:2.0:User
+      responses:
+        '200':
+          description: A SCIM schema definition.
+          content:
+            application/scim+json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+        '404':
+          $ref: '#/components/responses/ScimNotFound'
+      operationId: getScimV2SchemasById
+      x-operation-id-source: derived
+  /scim/v2/ResourceTypes:
+    get:
+      summary: List resource types
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: 'Discovery endpoint listing the supported resource types. The `User`
+
+        resource type advertises the Enterprise User and Goodstack User
+
+        extensions under `schemaExtensions`.'
+      responses:
+        '200':
+          description: A SCIM list of resource types.
+          content:
+            application/scim+json:
+              schema:
+                $ref: '#/components/schemas/ScimListResponse'
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+      operationId: getScimV2ResourceTypes
+      x-operation-id-source: derived
+  /scim/v2/ServiceProviderConfig:
+    get:
+      summary: Retrieve service provider configuration
+      security:
+      - SCIMBearer: []
+      tags:
+      - SCIM
+      description: 'Discovery endpoint describing the SCIM features supported by the service
+
+        provider (patch, bulk, filter, sort, change password, etag and
+
+        authentication schemes).'
+      responses:
+        '200':
+          description: The SCIM service provider configuration.
+          content:
+            application/scim+json:
+              schema:
+                type: object
+        '401':
+          $ref: '#/components/responses/ScimUnauthorized'
+      operationId: getScimV2ServiceProviderConfig
+      x-operation-id-source: derived
+components:
+  schemas:
+    ScimUser:
+      type: object
+      description: 'SCIM Core User (`urn:ietf:params:scim:schemas:core:2.0:User`). Only the
+
+        attributes below are supported; unsupported core attributes
+
+        (`password`, `phoneNumbers`, `ims`, `photos`, `groups`, `entitlements`,
+
+        `roles`, `x509Certificates`, `profileUrl`, and the
+
+        `streetAddress`/`postalCode`/`formatted` address sub-attributes) are
+
+        truncated from the schema and ignored.
+
+        '
+      properties:
+        schemas:
+          type: array
+          description: The SCIM schema URNs declared on the resource.
+          items:
+            type: string
+          example:
+          - urn:ietf:params:scim:schemas:core:2.0:User
+          - urn:ietf:params:scim:schemas:extension:enterprise:2.0:User
+          - urn:ietf:params:scim:schemas:extension:goodstack:2.0:User
+        id:
+          type: string
+          description: The unique identifier of the user (read-only).
+          example: account_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        externalId:
+          type: string
+          description: An identifier for the user defined by the provisioning client.
+          example: ext-12345
+        meta:
+          type: object
+          description: Resource metadata (read-only).
+          properties:
+            resourceType:
+              type: string
+              example: User
+            created:
+              type: string
+              format: date-time
+              example: '2023-12-19T15:32:00.000Z'
+            lastModified:
+              type: string
+              format: date-time
+              example: '2023-12-19T15:32:00.000Z'
+            location:
+              type: string
+              example: https://api.goodstack.io/scim/v2/Users/account_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        userName:
+          type: string
+          description: The user's login identifier. Must be a valid email address.
+          example: johndoe@example.com
+        name:
+          type: object
+          properties:
+            formatted:
+              type: string
+              example: John Doe
+            familyName:
+              type: string
+              example: Doe
+            givenName:
+              type: string
+              example: John
+            middleName:
+              type: string
+            honorificPrefix:
+              type: string
+            honorificSuffix:
+              type: string
+        displayName:
+          type: string
+          example: John Doe
+        nickName:
+          type: string
+          example: Johnny
+        title:
+          type: string
+          example: Engineer
+        userType:
+          type: string
+          example: Employee
+        locale:
+          type: string
+          example: en-US
+        preferredLanguage:
+          type: string
+          example: en
+        timezone:
+          type: string
+          example: Europe/London
+        emails:
+          type: array
+          description: 'Email addresses for the user. On read a single primary work email is
+
+            returned (derived from `userName`).
+
+            '
+          items:
+            type: object
+            properties:
+              value:
+                type: string
+                example: johndoe@example.com
+              display:
+                type: string
+                description: Human-readable display name for the email (read-only).
+              type:
+                type: string
+                description: A label for the email (free-form, e.g. `work`).
+                example: work
+              primary:
+                type: boolean
+                example: true
+        addresses:
+          type: array
+          description: 'Postal addresses. Only `type`, `primary`, `country`, `region` and
+
+            `locality` are retained; `streetAddress`, `postalCode` and
+
+            `formatted` are ignored.
+
+            '
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+                example: work
+              primary:
+                type: boolean
+                example: true
+              country:
+                type: string
+                example: GB
+              region:
+                type: string
+                example: England
+              locality:
+                type: string
+                example: London
+        active:
+          type: boolean
+          description: Whether the user is active. Setting `false` deactivates the user.
+          example: true
+        urn:ietf:params:scim:schemas:extension:enterprise:2.0:User:
+          $ref: '#/components/schemas/EnterpriseUser'
+        urn:ietf:params:scim:schemas:extension:goodstack:2.0:User:
+          $ref: '#/components/schemas/GoodstackUser'
+    ScimError:
+      type: object
+      description: SCIM error response (`urn:ietf:params:scim:api:messages:2.0:Error`).
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          example:
+          - urn:ietf:params:scim:api:messages:2.0:Error
+        status:
+          type: string
+          description: HTTP status code, as a string, per the SCIM spec.
+          example: '400'
+        scimType:
+          type: string
+          description: SCIM detail error keyword. Omitted for some statuses (e.g. plain 401/404).
+          enum:
+          - invalidValue
+          - invalidFilter
+          - uniqueness
+          example: invalidValue
+        detail:
+          type: string
+          description: Human-readable description of the error.
+          example: body.userName Invalid email
+      required:
+      - schemas
+      - status
+    ScimListResponse:
+      type: object
+      description: SCIM list response envelope (`urn:ietf:params:scim:api:messages:2.0:ListResponse`).
+      properties:
+        schemas:
+          type: array
+          items:
+            type: string
+          example:
+          - urn:ietf:params:scim:api:messages:2.0:ListResponse
+        totalResults:
+          type: integer
+          example: 1
+        startIndex:
+          type: integer
+          example: 1
+        itemsPerPage:
+          type: integer
+          example: 20
+        Resources:
+          type: array
+          items:
+            $ref: '#/components/schemas/ScimUser'
+    EnterpriseUser:
+      type: object
+      description: 'Enterprise User extension
+
+        (`urn:ietf:params:scim:schemas:extension:enterprise:2.0:User`).
+
+        '
+      properties:
+        employeeNumber:
+          type: string
+          example: '701984'
+        costCenter:
+          type: string
+          example: '4130'
+        organization:
+          type: string
+          example: Goodstack
+        division:
+          type: string
+          example: Engineering
+        department:
+          type: string
+          example: Platform
+        manager:
+          type: object
+          properties:
+            value:
+              type: string
+              description: The account id of the user's manager.
+              example: account_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    GoodstackUser:
+      type: object
+      description: 'Goodstack User extension
+
+        (`urn:ietf:params:scim:schemas:extension:goodstack:2.0:User`,
+
+        schema name `GoodstackUser`). Both attributes are classified
+
+        confidential.
+
+        '
+      properties:
+        startDate:
+          type: string
+          description: 'The user''s start date. On input, ONLY a `YYYY-MM-DD` date
+
+            (e.g. `2014-04-06`) or a full RFC 3339 datetime
+
+            (e.g. `2014-04-06T09:30:00Z`) is accepted. Any other format
+
+            (slashes such as `06/04/2014`, compact `20140406`, or prose) is
+
+            rejected with a SCIM `400` (`scimType: invalidValue`). On read, the
+
+            value is returned normalized to ISO 8601, e.g. `2014-04-06` becomes
+
+            `2014-04-06T00:00:00.000Z`.
+
+            '
+          example: '2014-04-06T00:00:00.000Z'
+        team:
+          type: string
+          description: Free-form team name for the user.
+          example: Platform Engineering
+  responses:
+    ScimUnauthorized:
+      description: 'Unauthorized. The SCIM bearer key is missing or invalid, or the key is
+
+        valid but the partner does not have the `scim_api` scope enabled.
+
+        '
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/ScimError'
+          examples:
+            invalidKey:
+              summary: Missing or invalid key
+              value:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '401'
+            scopeNotEnabled:
+              summary: Valid key, partner lacks the SCIM scope
+              value:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '401'
+                detail: scim feature not enabled for this partner
+    ScimConflict:
+      description: Conflict. A user with this `userName` already exists for the partner.
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/ScimError'
+          example:
+            schemas:
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            status: '409'
+            scimType: uniqueness
+            detail: User already exists
+    ScimNotFound:
+      description: 'Not found. The user does not exist, or exists but belongs to a different
+
+        partner than the one the key is bound to. An invalid account id format
+
+        also resolves to `404`.
+
+        '
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/ScimError'
+          example:
+            schemas:
+            - urn:ietf:params:scim:api:messages:2.0:Error
+            status: '404'
+            detail: User not found
+    ScimBadRequest:
+      description: Bad request. Input validation failed or a filter could not be parsed.
+      content:
+        application/scim+json:
+          schema:
+            $ref: '#/components/schemas/ScimError'
+          examples:
+            invalidValue:
+              value:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '400'
+                scimType: invalidValue
+                detail: body.userName Invalid email
+            invalidFilter:
+              value:
+                schemas:
+                - urn:ietf:params:scim:api:messages:2.0:Error
+                status: '400'
+                scimType: invalidFilter
+                detail: 'invalid filter: Unexpected token'
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+    SCIMBearer:
+      type: http
+      scheme: bearer
+      description: 'SCIM API key issued for the partner, presented as a bearer token in the
+
+        `Authorization` header. The key is bound to a single partner and the
+
+        partner must have the `scim_api` scope enabled. A missing or invalid key
+
+        returns `401`; a valid key for a partner without the scope also returns
+
+        `401` (`detail: "scim feature not enabled for this partner"`).
+
+        '
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+  - Organisation Branding
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+  - Monetary Donation Verifications
+- name: WORKPLACE GIVING
+  tags:
+  - Employees
+  - Giving Donations
+  - Donation Match Request
+  - Fundraising
+  - Volunteering
+  - Gamification
+  - Campaigns
+  - Budgets
+  - Donation Wallets
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions
+- name: WEBHOOK EVENTS
+  tags:
+  - Agent Verification Events
+  - Country Compliance Check Events
+  - Donation Events
+  - Eligibility Subscription Events
+  - Monitoring Subscription Events
+  - Validation Request Events
+  - Validation Submission Events
+  - Monetary Donation Verification Events

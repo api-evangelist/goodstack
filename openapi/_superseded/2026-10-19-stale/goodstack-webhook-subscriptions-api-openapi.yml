@@ -1,0 +1,452 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Webhook Subscriptions API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Webhook Subscriptions
+paths:
+  /v1/webhook-subscriptions:
+    get:
+      security:
+      - SecretApiKey: []
+      summary: List Webhook Subscriptions
+      tags:
+      - Webhook Subscriptions
+      parameters:
+      - in: query
+        name: deleted
+        schema:
+          type: boolean
+          example: true
+        required: false
+        description: Shows deleted Webhook Subscriptions
+      - in: query
+        name: event
+        schema:
+          $ref: '#/components/schemas/WebhookEventsEnum'
+        description: Filter by event
+        example: validation_request.rejected
+        required: false
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/pageSize'
+      responses:
+        '200':
+          description: Successfully lists Webhook Subscriptions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WebhookSubscription'
+                  object:
+                    type: string
+                    example: webhook_subscription
+                  totalResults:
+                    type: integer
+                    example: 33
+                  pageSize:
+                    type: integer
+                    example: 25
+                  _links:
+                    $ref: '#/components/schemas/CursorLinks'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                IncorrectParams:
+                  $ref: '#/components/examples/IncorrectParams'
+                CursorError:
+                  $ref: '#/components/examples/Pagination.CursorError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: getV1WebhookSubscriptions
+      x-operation-id-source: derived
+    post:
+      security:
+      - SecretApiKey: []
+      summary: Create a Webhook Subscription
+      description: Create a Webhook Subscription. Specify the event types to subscribe to and the URL where the notifications will be sent, the URL must be https.
+      tags:
+      - Webhook Subscriptions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                events:
+                  $ref: '#/components/schemas/WebhookEventsArray'
+                  description: Events to subscribe to
+                url:
+                  description: URL to which notifications should be sent (https only)
+                  type: string
+                  format: website
+                  example: https://example.com/webhooks
+              required:
+              - eventType
+              - url
+      responses:
+        '200':
+          description: Successfully created a Webhook Subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/WebhookSubscription'
+                  object:
+                    type: string
+                    example: webhook_subscription
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                IncorrectParams:
+                  $ref: '#/components/examples/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: postV1WebhookSubscriptions
+      x-operation-id-source: derived
+  /v1/webhook-subscriptions/{id}:
+    parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: Id of the Webhook Subscription.
+    get:
+      security:
+      - SecretApiKey: []
+      summary: Retrieve a Webhook Subscription
+      tags:
+      - Webhook Subscriptions
+      responses:
+        '200':
+          description: Successfully retrieves a Webhook Subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/WebhookSubscription'
+                  object:
+                    type: string
+                    example: webhook_subscription
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getV1WebhookSubscriptionsById
+      x-operation-id-source: derived
+    patch:
+      security:
+      - SecretApiKey: []
+      summary: Edit a Webhook Subscription
+      tags:
+      - Webhook Subscriptions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  format: website
+                  example: https://example.com/webhooks
+                  description: URL to which notifications should be sent (https only)
+                events:
+                  $ref: '#/components/schemas/WebhookEventsArray'
+                  description: Events to subscribe to
+      responses:
+        '200':
+          description: Successfully edited a Webhook Subscription
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/WebhookSubscription'
+                  object:
+                    type: string
+                    example: webhook_subscription
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                IncorrectParams:
+                  $ref: '#/components/examples/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: patchV1WebhookSubscriptionsById
+      x-operation-id-source: derived
+    delete:
+      security:
+      - SecretApiKey: []
+      summary: Delete a Webhook Subscription
+      tags:
+      - Webhook Subscriptions
+      responses:
+        '204':
+          description: Successfully deleted a Webhook Subscription
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: deleteV1WebhookSubscriptionsById
+      x-operation-id-source: derived
+components:
+  responses:
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+    WebhookSubscription:
+      type: object
+      properties:
+        id:
+          type: string
+          example: webhooksubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        events:
+          $ref: '#/components/schemas/WebhookEventsArray'
+        url:
+          type: string
+          format: website
+          example: https://example.com/my-webhook-handler
+        secret:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        deletedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+    WebhookEventsEnum:
+      type: string
+      enum:
+      - validation_request.approved
+      - validation_request.rejected
+      - agent_verification.pending_review
+      - agent_verification.pending_user_verification
+      - agent_verification.approved
+      - agent_verification.rejected
+      - monitoring_subscription.updated
+      - eligibility_subscription.updated
+      - validation_submission.created
+      - validation_submission.succeeded
+      - validation_submission.failed
+      - validation_submission.updated
+      - donation.hosted.payment_received
+      - donation.created
+      - donation.settled
+      - donation.disbursed
+      - donation.payment_successful
+      - donation.cancelled
+      - donation.reassigned
+    WebhookEventsArray:
+      type: array
+      items:
+        $ref: '#/components/schemas/WebhookEventsEnum'
+  examples:
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
+  parameters:
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions

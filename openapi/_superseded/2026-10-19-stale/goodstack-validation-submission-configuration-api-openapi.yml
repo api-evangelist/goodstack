@@ -1,0 +1,260 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Validation Submission Configuration API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Validation Submission Configuration
+paths:
+  /v1/validation-submission-configurations:
+    get:
+      security:
+      - SecretApiKey: []
+      summary: Retrieve partner's configurations
+      tags:
+      - Validation Submission Configuration
+      responses:
+        '200':
+          description: Successfully fetch configurations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          description: Validation Submission configuration id
+                          example: hostedconfiguration_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                        name:
+                          type:
+                          - string
+                          - 'null'
+                          description: Validation Submission configuration name
+                  object:
+                    type: string
+                    example: validation_submission_configuration
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: getV1ValidationSubmissionConfigurations
+      x-operation-id-source: derived
+  /v1/validation-submission-configurations/{id}:
+    parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: Id of the validation submission configuration
+    get:
+      security:
+      - SecretApiKey: []
+      summary: Retrieve specific configuration
+      tags:
+      - Validation Submission Configuration
+      responses:
+        '200':
+          description: Successfully fetch configurations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    $ref: '#/components/schemas/PartnerProgramConfiguration'
+                  object:
+                    type: string
+                    example: partner_program_configuration
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getV1ValidationSubmissionConfigurationsById
+      x-operation-id-source: derived
+components:
+  responses:
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    PartnerProgramConfiguration:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Validation Submission configuration id
+          example: hostedconfiguration_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name:
+          type:
+          - string
+          - 'null'
+          description: Validation Submission configuration name
+        allowedOrganisationsTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - social_impact
+            - nonprofit
+            - education
+        complianceFlags:
+          type: array
+          items:
+            type: string
+            enum:
+            - warning
+            - sanction
+            - controversial
+            - commercial
+            - adverseMedia
+            - hateSpeech
+            - compliance
+        rejectedOrganisationsTypes:
+          type: array
+          items:
+            type: string
+            enum:
+            - social_impact
+            - nonprofit
+            - education
+        allowedActivitySubTags:
+          type: array
+          items:
+            type: string
+            example: activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        exceptionRules:
+          type: array
+          items:
+            type: string
+            description: Eligibility exception rule name
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions

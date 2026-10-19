@@ -1,0 +1,510 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Donation Match Request API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API''s listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication
+
+
+    Authenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats
+
+
+    ## IDs
+
+
+    All ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates
+
+
+    Dates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination
+
+
+    A maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values
+
+
+    Throughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata
+
+
+    Some objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors
+
+
+    The API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,
+
+    an optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:
+
+    ```json
+
+    {
+
+    error: {
+
+    code: ''bad_request'',
+
+    title: ''Bad request'',
+
+    message: ''Something is wrong with your request, please check any parameters and try again'',
+
+    reasons: [''amount is a required field'']
+
+    }
+
+    }
+
+    ```
+
+
+    A summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |
+
+    | ------------- |-------------| -----|
+
+    | 200 | Success | Request successful |
+
+    | 204 | No Content | Request successful with no content returned |
+
+    | 400 | Bad Request | Request was invalid |
+
+    | 401 | Unauthorised | Authorization header is invalid |
+
+    | 403 | Forbidden | Insufficient permissions |
+
+    | 404 | Not Found | Resource does not exist |
+
+    | 429 | Too Many Requests | Rate Limited |
+
+    | 500s | Internal Server Error | Something went wrong with the Goodstack API |
+
+
+    # Enum Values
+
+
+    Generally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely
+
+
+    If your code handles enum values exhaustively — for example, a switch without a default case, or deserialisation into a strict typed enum — an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Donation Match Request
+paths:
+  /v1/donation-match-requests:
+    get:
+      security:
+      - SecretApiKey: []
+      summary: List Donation Match Requests
+      description: Get a paginated list of Donation Match Requests for the authenticated partner.
+      tags:
+      - Donation Match Request
+      parameters:
+      - name: sortBy
+        in: query
+        description: Sort by field
+        required: false
+        schema:
+          type: string
+          enum:
+          - updatedAt
+          default: updatedAt
+          example: updatedAt
+      - name: updatedFrom
+        in: query
+        description: Filter by updated at greater than or equal to
+        required: false
+        schema:
+          type: string
+          format: date-time
+          example: '2025-01-15T12:00:00.000Z'
+      - name: updatedTo
+        in: query
+        description: Filter by updated at less than
+        required: false
+        schema:
+          type: string
+          format: date-time
+          example: '2025-01-15T12:00:00.000Z'
+      - in: query
+        name: pageSize
+        required: false
+        schema:
+          type: integer
+          minimum: 1
+          default: 25
+          maximum: 100
+        description: How many items per page, for pagination.
+      - name: expand
+        in: query
+        description: If provided it will attach organisation data to the response
+        required: false
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - organisation
+        style: form
+        explode: true
+      - $ref: '#/components/parameters/direction'
+      - $ref: '#/components/parameters/cursor'
+      responses:
+        '200':
+          description: Successfully retrieved a list of Donation Match Requests
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DonationMatchRequest'
+                  object:
+                    type: string
+                    example: donation_match_request
+                  pageSize:
+                    type: integer
+                    example: 25
+                  _links:
+                    $ref: '#/components/schemas/CursorLinks'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                IncorrectParams:
+                  $ref: '#/components/examples/IncorrectParams'
+                CursorError:
+                  $ref: '#/components/examples/Pagination.CursorError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: getV1DonationMatchRequests
+      x-operation-id-source: derived
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    DonationMatchRequest:
+      title: Donation Match Request
+      type: object
+      description: A request to match a donation made to another donation provider
+      required:
+      - id
+      - accountId
+      - amount
+      - status
+      - createdBy
+      - createdAt
+      - updatedAt
+      properties:
+        id:
+          title: Donation Match Request ID
+          description: Unique identifier for the donation match request
+          type: string
+          example: donationmatchrequest_xxxxxx
+          minLength: 1
+          maxLength: 255
+        accountId:
+          description: The account that made the donation match request
+          type: string
+          example: account_xxxxxxxx
+          minLength: 1
+          maxLength: 255
+        organisationId:
+          type:
+          - string
+          - 'null'
+          example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          minLength: 1
+          maxLength: 255
+        organisation:
+          allOf:
+          - $ref: '#/components/schemas/GivingOrganisationPublic'
+          description: Only included if expand=organisation is set
+        amount:
+          $ref: '#/components/schemas/Money'
+        status:
+          type: string
+          enum:
+          - processing
+          - approved
+          - rejected
+          example: processing
+          description: The status of the donation match request
+        createdBy:
+          description: Account that created the donation match request
+          type: string
+          example: account_xxxxxxxx
+          minLength: 1
+          maxLength: 255
+        createdAt:
+          type: string
+          format: date-time
+          example: '2025-01-15T12:00:00.000Z'
+        updatedAt:
+          type: string
+          format: date-time
+          example: '2025-01-15T12:00:00.000Z'
+        approvedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2025-01-15T12:00:00.000Z'
+          description: When the donation match request was approved
+        rejectedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          example: '2025-01-15T12:00:00.000Z'
+          description: When the donation match request was rejected
+    Money:
+      type: object
+      title: Money
+      description: An amount in minor units and the currency code
+      properties:
+        amount:
+          type: integer
+          description: Amount in minor units for the specified currency
+        currencyCode:
+          type: string
+          format: ISO-4217
+          title: ISO 4217 Currency Code
+          example: AUD
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+    GivingOrganisationPublic:
+      type: object
+      description: Organisation details
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the organization
+          example: organisation_xxxxxxxxx
+          minLength: 1
+          maxLength: 255
+        name:
+          type: string
+          description: Name of the organization
+          minLength: 1
+          maxLength: 255
+        countryCode:
+          type: string
+          description: Country code of the organization
+          example: GBR
+          minLength: 3
+          maxLength: 3
+        logo:
+          type:
+          - string
+          - 'null'
+          description: URL of the organization logo
+          minLength: 1
+          maxLength: 2048
+        website:
+          type:
+          - string
+          - 'null'
+          format: url
+          description: Website associated with the organization
+          minLength: 1
+          maxLength: 2048
+  examples:
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
+  parameters:
+    direction:
+      in: query
+      name: direction
+      required: false
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+      description: Which way to sort by the given 'sort' field.  Default DESC
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
+  responses:
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: unauthorized
+                  title:
+                    type: string
+                    example: Unauthorized
+                  message:
+                    type: string
+                    example: Access is denied due to invalid credentials
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+    SCIMBearer:
+      type: http
+      scheme: bearer
+      description: 'SCIM API key issued for the partner, presented as a bearer token in the
+
+        `Authorization` header. The key is bound to a single partner and the
+
+        partner must have the `scim_api` scope enabled. A missing or invalid key
+
+        returns `401`; a valid key for a partner without the scope also returns
+
+        `401` (`detail: "scim feature not enabled for this partner"`).
+
+        '
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+  - Organisation Branding
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+  - Monetary Donation Verifications
+- name: WORKPLACE GIVING
+  tags:
+  - Employees
+  - Giving Donations
+  - Donation Match Request
+  - Fundraising
+  - Volunteering
+  - Gamification
+  - Campaigns
+  - Budgets
+  - Donation Wallets
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions
+- name: WEBHOOK EVENTS
+  tags:
+  - Agent Verification Events
+  - Country Compliance Check Events
+  - Donation Events
+  - Eligibility Subscription Events
+  - Monitoring Subscription Events
+  - Validation Request Events
+  - Validation Submission Events
+  - Monetary Donation Verification Events

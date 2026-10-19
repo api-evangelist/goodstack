@@ -1,0 +1,629 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Organisations API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Organisations
+  description: Nonprofits are represented by the Organisation object. You can retrieve and query for Organisations.
+paths:
+  /v1/organisations/{id}/milestones:
+    parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: Id of the organisation
+    get:
+      security:
+      - PublishableApiKey: []
+      summary: List an Organisations Milestones
+      tags:
+      - Organisations
+      responses:
+        '200':
+          description: Successfully list an Organisations milestones
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Milestone'
+                  object:
+                    type: string
+                    example: milestone
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: getV1OrganisationsByIdMilestones
+      x-operation-id-source: derived
+  /v1/organisations:
+    parameters:
+    - in: query
+      name: countryCode
+      schema:
+        type: string
+      description: Filter search by three-letter ISO country code
+    - in: query
+      name: registryId
+      schema:
+        type: string
+      description: Filter search using an organisation’s ID within their registry. Useful with usaGroupExempt param
+    - in: query
+      name: category[]
+      schema:
+        type: array
+        items:
+          type: string
+          example: category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      required: false
+      description: Only return Organisations in the given Categories
+      allowReserved: true
+    - in: query
+      name: notCategory[]
+      schema:
+        type: array
+        items:
+          type: string
+          example: category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      required: false
+      description: Do not return Organisations in the given Categories
+      allowReserved: true
+    - in: query
+      name: tags[]
+      schema:
+        type: array
+        items:
+          type: string
+          example: aus-dgr1
+      required: false
+      description: Only return Organisations with the specified tags. To fetch organisations with tag X AND Y use the following `?tags[]=X&tags[]=Y`. To fetch organisations with tag X OR Y use the following `?tags[]=X,Y`.
+      allowReserved: true
+    - in: query
+      name: notTags[]
+      schema:
+        type: array
+        items:
+          type: string
+          example: aus-dgr4
+      required: false
+      description: Do not return Organisations with the specified tags. To fetch organisations with tag X AND NOT with Y use the following `?tags[]=X&notTags[]=Y`. To fetch organisations with not include tag X OR Y use the following `?notTags[]=X,Y`. To fetch organisations with not include tag X AND Y use the following `?notTags[]=X&notTags[]=Y`
+      allowReserved: true
+    - in: query
+      name: type[]
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+          - nonprofit
+      required: false
+      description: Restrict search to a single type of organisation.
+      allowReserved: true
+    - in: query
+      name: query
+      schema:
+        type: string
+        example: cancer research
+        maxLength: 500
+      required: false
+      description: Search for organisations by name. Must not exceed 500 characters or 512 bytes.
+    - in: query
+      name: usaGroupExempt
+      schema:
+        type: boolean
+      description: Filter search by USA-specific group exempt. Recommended to use with registryId param
+      required: false
+    - $ref: '#/components/parameters/page'
+    - $ref: '#/components/parameters/pageSize'
+    get:
+      security:
+      - PublishableApiKey: []
+      summary: Search Organisations
+      description: Search for nonprofits. The Organisations search API provides up to 1,000 results for each search that are accessible by pagination. The boolean field `exhaustiveTotalResults` indicates whether the totalResults are exhaustive (true) or approximate (false).
+      tags:
+      - Organisations
+      responses:
+        '200':
+          description: Successfully retrieved a page of organisations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Organisation'
+                  totalResults:
+                    type: integer
+                    example: 33
+                  pageNumber:
+                    type: integer
+                    example: 1
+                  pageSize:
+                    type: integer
+                    example: 25
+                  _links:
+                    $ref: '#/components/schemas/OffsetLinks'
+                  exhaustiveTotalResults:
+                    type: boolean
+                    description: whether the totalResults are exhaustive (true) or approximate (false)
+                  object:
+                    type: string
+                    example: organisation
+        '400':
+          $ref: '#/components/responses/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: getV1Organisations
+      x-operation-id-source: derived
+  /v1/organisations/{id}:
+    parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: Id of the organisation
+    get:
+      security:
+      - PublishableApiKey: []
+      summary: Retrieve an Organisation
+      tags:
+      - Organisations
+      responses:
+        '200':
+          description: Retrieve a nonprofit Organisation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    allOf:
+                    - $ref: '#/components/schemas/Organisation'
+                    - type: object
+                      properties:
+                        types:
+                          type: array
+                          items:
+                            type: string
+                            enum:
+                            - nonprofit
+                            - social_impact
+                            - education
+                  object:
+                    type: string
+                    example: Organisation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getV1OrganisationsById
+      x-operation-id-source: derived
+  /v1/organisations/{countryCode}/{registry}/{registryId}:
+    parameters:
+    - in: path
+      name: countryCode
+      schema:
+        type: string
+      description: 3 letter ISO-3166 alpha 3 identifier of the country
+      required: true
+    - in: path
+      name: registry
+      schema:
+        type: string
+      required: true
+      description: Id of the registry
+    - in: path
+      name: registryId
+      schema:
+        type: string
+      required: true
+      description: Id of the Organisation within the registry
+    get:
+      security:
+      - SecretApiKey: []
+      summary: Retrieve an Organisation by country code, registry and registryId
+      tags:
+      - Organisations
+      responses:
+        '200':
+          description: Retrieve a Organisation by country code, registry and registryId
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/Organisation'
+                  object:
+                    type: string
+                    example: Organisation
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getV1OrganisationsByCountryCodeByRegistryByRegistryId
+      x-operation-id-source: derived
+  /v1/organisations/{id}/profile:
+    parameters:
+    - in: path
+      name: id
+      schema:
+        type: string
+      required: true
+      description: Id of the organisation
+    get:
+      summary: Retrieve an Organisation profile info
+      tags:
+      - Organisations
+      responses:
+        '200':
+          description: Retrieve a nonprofit Organisation profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        example: Lemon rescue nonprofit
+                      displayName:
+                        type:
+                        - string
+                        - 'null'
+                        example: Lemon Team
+                      description:
+                        type:
+                        - string
+                        - 'null'
+                        example: Lemon Team
+                      logo:
+                        type:
+                        - string
+                        - 'null'
+                        example: https://logo-url.com/the-logo.png
+                  object:
+                    type: string
+                    example: organisation_profile
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getV1OrganisationsByIdProfile
+      x-operation-id-source: derived
+components:
+  responses:
+    IncorrectParams:
+      description: Error validating inputs
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: bad_request
+                  title:
+                    type: string
+                    example: Bad request
+                  message:
+                    type: string
+                    example: One or more of the inputs were invalid
+                  reasons:
+                    type: array
+                    items:
+                      type: string
+                      example: pageSize must be greater than or equal to 0
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+  schemas:
+    Milestone:
+      type: object
+      properties:
+        id:
+          type: string
+          example: milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        amount:
+          type: integer
+          example: 1000
+        reward:
+          type: string
+          example: This is a reward
+        currencyCode:
+          type: string
+        organisationId:
+          type: string
+    Organisation:
+      type: object
+      properties:
+        id:
+          type: string
+          example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name:
+          type: string
+          example: Green world
+        displayName:
+          type:
+          - string
+          - 'null'
+          example: Green world
+        description:
+          type: string
+          example: Environmental nonprofit supporting various types of wildlife across the northern and southern regions of the eastern southern hemisphere and australasia
+        countryCode:
+          type: string
+          example: AUS
+        milestones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Milestone'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        type:
+          type: string
+          deprecated: true
+          enum:
+          - nonprofit
+        logo:
+          type:
+          - string
+          - 'null'
+          format: url
+        images:
+          type: array
+          items:
+            type: string
+            format: url
+        registry:
+          type: string
+          example: registry_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        registryId:
+          type: string
+          example: 12-3456789
+        website:
+          type:
+          - string
+          - 'null'
+          example: https://example.com
+        websites:
+          type: array
+          items:
+            type: string
+            example: https://example.com
+        address:
+          type:
+          - string
+          - 'null'
+          example: 221b Baker Street, Westminster, London, NW1 6XE
+        addressLine1:
+          type:
+          - string
+          - 'null'
+          example: 221b Baker Street
+        addressLine2:
+          type:
+          - string
+          - 'null'
+          example: Westminster
+        city:
+          type:
+          - string
+          - 'null'
+          example: London
+        state:
+          type:
+          - string
+          - 'null'
+        postcode:
+          type:
+          - string
+          - 'null'
+          example: NW1 6XE
+        registrationDate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        currencyCode:
+          type:
+          - string
+          - 'null'
+          example: AUD
+        trustees:
+          type:
+          - string
+          - 'null'
+        claimedAt:
+          type:
+          - string
+          - 'null'
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        countrySpecificProperties:
+          type: object
+          deprecated: true
+          properties:
+            usaGroupExempt:
+              type:
+              - boolean
+              - 'null'
+              description: USA-specific group exempt
+              deprecated: true
+        isBranchParent:
+          type: boolean
+          description: Whether this organisation is a parent of a branch
+          example: false
+    OffsetLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?query=climate&page=4
+        first:
+          type: string
+          example: https://.../v1/...?query=climate&page=1
+        last:
+          type: string
+          example: https://.../v1/...?query=climate&page=9
+        prev:
+          type: string
+          example: https://.../v1/...?query=climate&page=3
+        next:
+          type: string
+          example: https://.../v1/...?query=climate&page=5
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          example: category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        name:
+          type: string
+          example: Environmental
+        imageUrl:
+          type:
+          - string
+          - 'null'
+          example: categories/3.png
+        createdAt:
+          type: string
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+  parameters:
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
+    page:
+      in: query
+      name: page
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number, for pagination.
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions

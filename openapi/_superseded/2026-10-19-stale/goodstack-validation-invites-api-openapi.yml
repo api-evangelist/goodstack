@@ -1,0 +1,226 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Validation Invites API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Validation Invites
+paths:
+  /v1/validation-invites:
+    post:
+      summary: Create a Validation Invite
+      security:
+      - SecretApiKey: []
+      tags:
+      - Validation Invites
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                redirectUrl:
+                  type: string
+                  format: url
+                  maxLength: 255
+                  description: Url that the hosted form redirects to after the flow is completed
+                  example: https://example.com/finish
+                metadata:
+                  type: object
+                  description: You can use this parameter to attach key-value data to a Validation Invite
+                language:
+                  type: string
+                  description: Valid RFC 5646 language code
+                  example: en-GB
+                hostedConfigId:
+                  type: string
+                  description: Hosted configuration id
+                  example: hostedconfiguration_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      responses:
+        '200':
+          description: Successfully created a Validation Invite
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/ValidationInvite'
+                  object:
+                    type: string
+                    example: validation_invite
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                IncorrectParams:
+                  $ref: '#/components/examples/IncorrectParams'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: postV1ValidationInvites
+      x-operation-id-source: derived
+components:
+  responses:
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    ValidationInvite:
+      type: object
+      properties:
+        id:
+          type: string
+          example: validationinvite_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        status:
+          type: string
+          example: open
+          enum:
+          - open
+          - expired
+          - complete
+        metadata:
+          type:
+          - object
+          - 'null'
+          description: '[Key-value data](/#section/Formats/Metadata) that you can attach to an object.
+
+            '
+          example:
+            key1: value1
+            key2: value2
+        language:
+          type: string
+          description: Defaults to en-GB
+          example: en-GB
+        redirectUrl:
+          type: string
+          format: url
+          description: Url that the hosted form redirects to after the flow is completed
+          example: https://example.com/finish
+        url:
+          type: string
+          description: Dynamic Hosted form URL for the validation invite
+          format: url
+          example: https://validation.poweredbypercent.com/validate/validationinvite_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx?token=asasjhd
+        createdAt:
+          type: string
+          format: date-time
+          example: '2020-10-13T17:46:54.000Z'
+        expiresAt:
+          type: string
+          format: date-time
+          example: '2020-10-20T17:46:54.000Z'
+  examples:
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions

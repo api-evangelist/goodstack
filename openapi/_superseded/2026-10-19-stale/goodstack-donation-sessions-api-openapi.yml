@@ -1,0 +1,517 @@
+openapi: 3.2.0
+info:
+  title: Goodstack Services Donation Sessions API
+  version: v1
+  x-logo:
+    url: https://docs.goodstack.io/img/logo.png
+    altText: Goodstack logo
+  x-dark-logo:
+    url: https://docs.goodstack.io/img/icons/Logo-white.svg
+    altText: Goodstack logo
+  contact:
+    email: engineering-support@goodstack.io
+    name: Api support
+  description: '# Introduction
+
+
+    Goodstack API allows you to build good into your product by facilitating charitable donations.'
+servers:
+- url: https://api.goodstack.io
+  description: Production server
+- url: https://sandbox-api.goodstack.io
+  description: Sandbox server
+tags:
+- name: Donation Sessions
+paths:
+  /v1/donation-sessions:
+    get:
+      security:
+      - SecretApiKey: []
+      summary: List Donation Sessions
+      tags:
+      - Donation Sessions
+      parameters:
+      - $ref: '#/components/parameters/direction'
+      - $ref: '#/components/parameters/cursor'
+      - $ref: '#/components/parameters/pageSize'
+      responses:
+        '200':
+          description: Successfully lists Donation Sessions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DonationSession'
+                  object:
+                    type: string
+                    example: donation_session
+                  totalResults:
+                    type: integer
+                    example: 33
+                  pageSize:
+                    type: integer
+                    example: 25
+                  _links:
+                    $ref: '#/components/schemas/CursorLinks'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                IncorrectParams:
+                  $ref: '#/components/examples/IncorrectParams'
+                CursorError:
+                  $ref: '#/components/examples/Pagination.CursorError'
+                OriginalCallInProgress:
+                  $ref: '#/components/examples/Idempotency.OriginalCallInProgress'
+                SameKeyDifferentData:
+                  $ref: '#/components/examples/Idempotency.SameKeyDifferentData'
+                KeyInUse:
+                  $ref: '#/components/examples/Idempotency.KeyInUse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: getV1DonationSessions
+      x-operation-id-source: derived
+    post:
+      security:
+      - SecretApiKey: []
+      summary: Create a Donation Session
+      description: 'To create a Donation Session you must supply the `organisationId` of the nonprofit you want to let your user donate to.
+
+
+        After creating the Donation Session, direct your user to the URL for the hosted Donation gateway returned in the response. Your user will receive an email receipt after a successful Donation.
+
+
+        The status field of the Donation Session object after creation will be `open`. After a successful Donation is made the status will transition to `completed` otherwise if no Donation is completed before the `expiresAt` time the status will be `expired`.'
+      tags:
+      - Donation Sessions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                organisationId:
+                  description: Organisation that can be donated to during Donation session.
+                  type: string
+                  example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                successUrl:
+                  description: Optional URL the donor will be directed to after making a Donation.
+                  type: string
+                  example: https://example.com/donation-completed
+                userId:
+                  description: Id of the User who this donation belongs to, if one exists.
+                  type: string
+                  example: user_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+                metadata:
+                  type: object
+                  description: '[Key-value data](/#section/Formats/Metadata) that you can attach to a DonationSession. When a Donation is created from a DonationSession, the DonationSession copies its metadata to the Donation.
+
+                    '
+                  example:
+                    key1: value1
+                    key2: value2
+                language:
+                  description: Donation session's default language
+                  type: string
+                  enum:
+                  - en-US
+                  - en-GB
+                  - en-IE
+                  - en-NZ
+                  - de-DE
+                  - de-CH
+                  - de-AT
+                  - fr-FR
+                  - fr-BE
+                  - it-IT
+                  - nl-NL
+                  - sv-SE
+                  - da-DK
+                  - pl-PL
+                  - en-AU
+                  - fr-CA
+                  - en-CA
+                  - es-ES
+                  - ja-JP
+                  - es-MX
+                  - ko-KR
+                  - pt-BR
+                  - en-SG
+                  - ms-MY
+                  - th-TH
+                  - id-ID
+                  - vi-VN
+                  - hu-HU
+                  - cs-CZ
+                  - ro-RO
+                  - fil-PH
+                  - tr-TR
+                currency:
+                  type: string
+                  example: GBP
+                  description: 3-letter currency code
+              required:
+              - organisationId
+      responses:
+        '200':
+          description: Successfully created a Donation Session
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DonationSession'
+                  object:
+                    type: string
+                    example: donation_session
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                BadRequest:
+                  $ref: '#/components/examples/BadRequest'
+                IncorrectParams:
+                  $ref: '#/components/examples/IncorrectParams'
+                OrganisationNotFound:
+                  $ref: '#/components/examples/DonationSession.OrganisationNotFound'
+                InvalidMetadata:
+                  $ref: '#/components/examples/DonationSession.InvalidMetadata'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+      operationId: postV1DonationSessions
+      x-operation-id-source: derived
+  /v1/donation-sessions/{id}:
+    get:
+      security:
+      - SecretApiKey: []
+      summary: Retrieve donation session
+      tags:
+      - Donation Sessions
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: Id of the donation session to retrieve.
+      responses:
+        '200':
+          description: Successfully retrieved a donation session
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/DonationSession'
+                  object:
+                    type: string
+                    example: donation_session
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                BadRequest:
+                  $ref: '#/components/examples/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/ForbiddenScope'
+        '404':
+          $ref: '#/components/responses/NotFound'
+      operationId: getV1DonationSessionsById
+      x-operation-id-source: derived
+components:
+  examples:
+    Idempotency.OriginalCallInProgress:
+      summary: Idempotency - Original call in progress
+      description: Original call with this idempotency key is still in progress, please wait and try again
+      value:
+        error:
+          code: idempotency/original_call_in_progress
+          title: Bad request
+          message: Original call with this idempotency key is still in progress
+    DonationSession.InvalidMetadata:
+      summary: 400 Bad request
+      description: Metadata provided not correct format
+      value:
+        error:
+          title: Bad request
+          message: Metadata can only contain from 1 up to 20 keys, with key names up to 50 characters long and values up to 500 characters long
+          code: donation_session/invalid_metadata
+    IncorrectParams:
+      summary: 400 Incorrect Parameters
+      description: Bad Request - Incorrect parameters
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: One or more of the inputs were invalid
+          reasons:
+          - pageSize must be greater than or equal to 0
+    Idempotency.SameKeyDifferentData:
+      summary: Idempotency - Data has changed from previous request
+      description: Data has changed from previous request with this key
+      value:
+        error:
+          code: idempotency/same_key_different_data
+          title: Bad request
+          message: Data has changed from previous request
+    Pagination.CursorError:
+      summary: Error in cursor parameter
+      description: We were unable to decode the cursor
+      value:
+        error:
+          code: pagination/cursor_error
+          title: Bad request
+          message: Unable to find the next page
+    Idempotency.KeyInUse:
+      summary: Idempotency - Key in use
+      description: Idempotency Key is already in use
+      value:
+        error:
+          code: idempotency/key_already_in_use
+          title: Bad request
+          message: Idempotency Key is already in use
+    DonationSession.OrganisationNotFound:
+      summary: 400 Bad request
+      description: Organisation not found
+      value:
+        error:
+          title: Bad request
+          message: Organisation not found
+          code: donation_session/organisation_not_found
+    BadRequest:
+      summary: 400 Bad Request
+      description: Bad Request
+      value:
+        error:
+          code: bad_request
+          title: Bad request
+          message: Something is wrong with your request, please check any parameters and try again
+  responses:
+    ForbiddenScope:
+      description: Forbidden (scope)
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: forbidden
+                  title:
+                    type: string
+                    example: Forbidden
+                  message:
+                    type: string
+                    example: Access is denied due to missing scope permissions
+    Unauthorized:
+      description: Unauthorized
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: not_found
+                  title:
+                    type: string
+                    example: Resource not found
+                  message:
+                    type: string
+                    example: This endpoint is unavailable or can not be found
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            title:
+              type: string
+            message:
+              type: string
+            reasons:
+              type:
+              - array
+              - 'null'
+              items:
+                type: string
+    CursorLinks:
+      type: object
+      properties:
+        current:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        next:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+        prev:
+          type: string
+          example: https://.../v1/...?cursor=eyJ2Ijox...N3AifQ%3D%3D
+    DonationSession:
+      type: object
+      properties:
+        id:
+          type: string
+          example: donationsession_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        organisationId:
+          type: string
+          example: organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        successUrl:
+          description: Optional URL the donor will be directed to after making a donation.
+          type:
+          - string
+          - 'null'
+          example: https://example.com/donation-completed
+        userId:
+          description: Id of the User who this donation belongs to, if one exists.
+          type:
+          - string
+          - 'null'
+          example: user_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        accountId:
+          description: Id of the Account who this donation belongs to, if one exists.
+          type:
+          - string
+          - 'null'
+          example: account_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+        url:
+          type: string
+          example: https://donate.poweredbypercent.com/donation-session
+        status:
+          type: string
+          enum:
+          - open
+          - completed
+          - expired
+        createdAt:
+          type: string
+          format: date-time
+          example: '2021-10-13T17:46:54.000Z'
+        expiresAt:
+          type: string
+          format: date-time
+          example: '2021-10-13T17:46:54.000Z'
+        language:
+          type: string
+          example: en-GB
+          default: en-GB
+        metadata:
+          type:
+          - object
+          - 'null'
+          description: '[Key-value data](/#section/Formats/Metadata) that you can attach to an object. When a Donation is created from a DonationSession, the DonationSession copies its metadata to the Donation.
+
+            '
+          example:
+            key1: value1
+            key2: value2
+        currency:
+          type:
+          - string
+          - 'null'
+          example: GBP
+  parameters:
+    direction:
+      in: query
+      name: direction
+      required: false
+      schema:
+        type: string
+        enum:
+        - ASC
+        - DESC
+      description: Which way to sort by the given 'sort' field.  Default DESC
+    cursor:
+      in: query
+      name: cursor
+      required: false
+      schema:
+        type: string
+        example: eyJ2IjoxLCJkIjoibmV4dCIsImlkIjoiZG9uYXRpb25fMDAwMDAwQnc3U1BhMHBxOHBRMFFsckVaWGFaN3AifQ%3D%3D
+      description: A cursor that points to where to start the page
+    pageSize:
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        type: integer
+        minimum: 0
+        default: 25
+      description: How many items per page, for pagination.
+  securitySchemes:
+    PublishableApiKey:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key starting with 'pk_' that can be made public
+    SecretApiKey:
+      type: apiKey
+      in: header
+      description: API key starting with 'sk_' that must be kept secure
+      name: Authorization
+    DonationSessionToken:
+      type: apiKey
+      in: header
+      name: donation-session-token
+      description: Donation session token
+x-tagGroups:
+- name: NONPROFIT DATA
+  tags:
+  - Organisations
+  - Countries
+  - Registries
+  - Categories
+- name: NONPROFIT VALIDATIONS
+  tags:
+  - Validation Requests
+  - Validation Request Documents
+  - Validation Invites
+  - Validation Submissions
+  - Validation Submission Documents
+  - Validation Submission Configuration
+  - Monitoring Subscriptions
+  - Eligibility Subscriptions
+  - Activities
+  - Agent Verifications
+- name: MONETARY DONATIONS
+  tags:
+  - Donations
+  - Donation Sessions
+  - Users
+  - Gift Aid
+- name: WEBHOOK SUBSCRIPTIONS
+  tags:
+  - Webhook Subscriptions

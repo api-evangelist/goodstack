@@ -399,6 +399,238 @@ apis:
     url: https://docs.goodstack.io/
   - type: APIReference
     url: https://docs.goodstack.io/docs/api/goodstack-services
+- aid: goodstack:goodstack-agent-verification-events-api
+  name: Goodstack Agent Verification Events API
+  description: >-
+    Webhook events triggered during the agent verification process, from pending states to final approval
+    or rejection.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Agent Verification Events
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-agent-verification-events-api-openapi.yml
+- aid: goodstack:goodstack-budgets-api
+  name: Goodstack Budgets API
+  description: The Budgets API from Goodstack — 1 operation(s) for budgets.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Budgets
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-budgets-api-openapi.yml
+- aid: goodstack:goodstack-campaigns-api
+  name: Goodstack Campaigns API
+  description: The Campaigns API from Goodstack — 1 operation(s) for campaigns.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Campaigns
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-campaigns-api-openapi.yml
+- aid: goodstack:goodstack-country-compliance-check-events-api
+  name: Goodstack Country Compliance Check Events API
+  description: >-
+    Webhook events triggered when a country compliance check result is stored or re-evaluated for an organisation
+    in your program.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Country Compliance Check Events
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-country-compliance-check-events-api-openapi.yml
+- aid: goodstack:goodstack-donation-events-api
+  name: Goodstack Donation Events API
+  description: >-
+    Webhook events triggered throughout the donation lifecycle, from payment receipt to final disbursement
+    or cancellation.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Donation Events
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-donation-events-api-openapi.yml
+- aid: goodstack:goodstack-donation-match-request-api
+  name: Goodstack Donation Match Request API
+  description: >-
+    The Donation Match Request API from Goodstack — 1 operation(s) for donation match request.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Donation Match Request
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-donation-match-request-api-openapi.yml
+- aid: goodstack:goodstack-donation-wallets-api
+  name: Goodstack Donation Wallets API
+  description: The Donation Wallets API from Goodstack — 1 operation(s) for donation wallets.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Donation Wallets
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-donation-wallets-api-openapi.yml
+- aid: goodstack:goodstack-eligibility-subscription-events-api
+  name: Goodstack Eligibility Subscription Events API
+  description: >-
+    Webhook events triggered when eligibility subscription status changes, including activity tag confirmations.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Eligibility Subscription Events
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-eligibility-subscription-events-api-openapi.yml
+- aid: goodstack:goodstack-employees-api
+  name: Goodstack Employees API
+  description: The Employees API from Goodstack — 1 operation(s) for employees.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Employees
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-employees-api-openapi.yml
+- aid: goodstack:goodstack-experience-api
+  name: Goodstack Experience API
+  description: The Experience API from Goodstack — 2 operation(s) for experience.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Experience
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-experience-api-openapi.yml
+- aid: goodstack:goodstack-fundraising-api
+  name: Goodstack Fundraising API
+  description: The Fundraising API from Goodstack — 1 operation(s) for fundraising.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Fundraising
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-fundraising-api-openapi.yml
+- aid: goodstack:goodstack-gamification-api
+  name: Goodstack Gamification API
+  description: The Gamification API from Goodstack — 1 operation(s) for gamification.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Gamification
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-gamification-api-openapi.yml
+- aid: goodstack:goodstack-giving-donations-api
+  name: Goodstack Giving Donations API
+  description: The Giving Donations API from Goodstack — 1 operation(s) for giving donations.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Giving Donations
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-giving-donations-api-openapi.yml
+- aid: goodstack:goodstack-monetary-donation-verification-events-api
+  name: Goodstack Monetary Donation Verification Events API
+  description: >-
+    Webhook events triggered during the monetary donation verification lifecycle, from receiving a new
+    verification to status changes as checks progress.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Monetary Donation Verification Events
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-monetary-donation-verification-events-api-openapi.yml
+- aid: goodstack:goodstack-monetary-donation-verifications-api
+  name: Goodstack Monetary Donation Verifications API
+  description: >-
+    Monetary Donation Verification is a check used to confirm whether a given organisation is eligible
+    to receive monetary donations.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Monetary Donation Verifications
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-monetary-donation-verifications-api-openapi.yml
+- aid: goodstack:goodstack-monitoring-subscription-events-api
+  name: Goodstack Monitoring Subscription Events API
+  description: >-
+    Webhook events triggered when monitoring subscription status changes, including compliance check results.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Monitoring Subscription Events
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-monitoring-subscription-events-api-openapi.yml
+- aid: goodstack:goodstack-organisation-branding-api
+  name: Goodstack Organisation Branding API
+  description: The Organisation Branding API from Goodstack — 1 operation(s) for organisation branding.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Organisation Branding
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-organisation-branding-api-openapi.yml
+- aid: goodstack:goodstack-scim-api
+  name: Goodstack SCIM API
+  description: >-
+    SCIM 2.0 compliant API for provisioning and managing users. All `/scim/v2`
+
+    endpoints authenticate with a partner SCIM API key as a bearer token and
+
+    require the partner's `scim_api` scope. Responses use the
+
+    `application/scim+json` media type.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - SCIM
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-scim-api-openapi.yml
+- aid: goodstack:goodstack-validation-request-events-api
+  name: Goodstack Validation Request Events API
+  description: Webhook events triggered when validation requests are approved or rejected by Goodstack.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Validation Request Events
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-validation-request-events-api-openapi.yml
+- aid: goodstack:goodstack-validation-submission-events-api
+  name: Goodstack Validation Submission Events API
+  description: >-
+    Webhook events triggered throughout the validation submission lifecycle, from creation to completion
+    or failure.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Validation Submission Events
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-validation-submission-events-api-openapi.yml
+- aid: goodstack:goodstack-volunteering-api
+  name: Goodstack Volunteering API
+  description: The Volunteering API from Goodstack — 3 operation(s) for volunteering.
+  humanURL: https://docs.goodstack.io/docs/api/goodstack-services
+  baseURL: https://api.goodstack.io/v1
+  tags:
+  - Volunteering
+  properties:
+  - type: OpenAPI
+    url: openapi/goodstack-volunteering-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
