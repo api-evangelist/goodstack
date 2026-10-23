@@ -425,3 +425,9 @@ x-tagGroups:
   - Validation Request Events
   - Validation Submission Events
   - Monetary Donation Verification Events
+x-provenance:
+  method: harvested
+  publisher: Goodstack
+  source: https://reference.poweredbypercent.com/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
