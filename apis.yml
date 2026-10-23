@@ -637,6 +637,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: PostmanWorkspace
+  url: https://www.postman.com/kinlaneapi/goodstack/overview
 - type: CapabilityMap
   url: capabilities/goodstack-capability-edges.yml
   name: Goodstack Business Capability Map
