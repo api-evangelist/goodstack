@@ -1,0 +1,577 @@
+{
+  "info": {
+    "_postman_id": "75b7190f-2c45-4a69-bb3b-a31d04dc3d2c",
+    "name": "Goodstack Services Validation Submission Events API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:25:07.000Z",
+    "updatedAt": "2026-10-22T02:25:07.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-75b7190f-2c45-4a69-bb3b-a31d04dc3d2c"
+  },
+  "item": [
+    {
+      "name": "webhooks",
+      "item": [
+        {
+          "name": "validation-submission-created",
+          "item": [
+            {
+              "name": "Validation submission was created",
+              "id": "d720f187-90ae-4249-a032-2046b6d6a853",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/validation-submission-created",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "validation-submission-created"
+                  ]
+                },
+                "description": "Triggered when a validation submission has been created."
+              },
+              "response": [
+                {
+                  "id": "f142f88d-a632-4a68-86e5-c7223654bac3",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-submission-created",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-submission-created"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:08.000Z",
+                  "updatedAt": "2026-10-22T02:25:08.000Z",
+                  "uid": "35240-f142f88d-a632-4a68-86e5-c7223654bac3"
+                },
+                {
+                  "id": "715ef350-3392-4a97-a834-27d6b2e07d1a",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-submission-created",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-submission-created"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:08.000Z",
+                  "updatedAt": "2026-10-22T02:25:08.000Z",
+                  "uid": "35240-715ef350-3392-4a97-a834-27d6b2e07d1a"
+                }
+              ],
+              "createdAt": "2026-10-22T02:25:08.000Z",
+              "updatedAt": "2026-10-22T02:25:08.000Z",
+              "uid": "35240-d720f187-90ae-4249-a032-2046b6d6a853"
+            }
+          ],
+          "id": "8175b5e3-2f2d-44a9-addd-3c2e75145ede",
+          "createdAt": "2026-10-22T02:25:08.000Z",
+          "updatedAt": "2026-10-22T02:25:08.000Z",
+          "uid": "35240-8175b5e3-2f2d-44a9-addd-3c2e75145ede"
+        },
+        {
+          "name": "validation-submission-succeeded",
+          "item": [
+            {
+              "name": "Validation submission has passed all checks",
+              "id": "19de5e4a-366e-4717-8500-eb61656e211b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/validation-submission-succeeded",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "validation-submission-succeeded"
+                  ]
+                },
+                "description": "Triggered when a validation submission has successfully passed all validation checks."
+              },
+              "response": [
+                {
+                  "id": "10e52456-2f15-4228-bc17-e317c78c14df",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-submission-succeeded",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-submission-succeeded"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:08.000Z",
+                  "updatedAt": "2026-10-22T02:25:08.000Z",
+                  "uid": "35240-10e52456-2f15-4228-bc17-e317c78c14df"
+                },
+                {
+                  "id": "420a48f3-38eb-4606-afd0-5c3e7eae8419",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-submission-succeeded",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-submission-succeeded"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:08.000Z",
+                  "updatedAt": "2026-10-22T02:25:08.000Z",
+                  "uid": "35240-420a48f3-38eb-4606-afd0-5c3e7eae8419"
+                }
+              ],
+              "createdAt": "2026-10-22T02:25:08.000Z",
+              "updatedAt": "2026-10-22T02:25:08.000Z",
+              "uid": "35240-19de5e4a-366e-4717-8500-eb61656e211b"
+            }
+          ],
+          "id": "e26fd37e-0b49-406f-84aa-94262e66feed",
+          "createdAt": "2026-10-22T02:25:08.000Z",
+          "updatedAt": "2026-10-22T02:25:08.000Z",
+          "uid": "35240-e26fd37e-0b49-406f-84aa-94262e66feed"
+        },
+        {
+          "name": "validation-submission-failed",
+          "item": [
+            {
+              "name": "Validation submission has failed",
+              "id": "3e3ebea7-f5b4-4a78-bc72-fa272a05767c",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/validation-submission-failed",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "validation-submission-failed"
+                  ]
+                },
+                "description": "Triggered when a validation submission has failed validation checks."
+              },
+              "response": [
+                {
+                  "id": "1f47cfdc-6d94-4d17-bb11-d0112d19b4e6",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-submission-failed",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-submission-failed"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:08.000Z",
+                  "updatedAt": "2026-10-22T02:25:08.000Z",
+                  "uid": "35240-1f47cfdc-6d94-4d17-bb11-d0112d19b4e6"
+                },
+                {
+                  "id": "b3b29628-ce0d-4cb9-a1a3-a95d952b5470",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-submission-failed",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-submission-failed"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:08.000Z",
+                  "updatedAt": "2026-10-22T02:25:08.000Z",
+                  "uid": "35240-b3b29628-ce0d-4cb9-a1a3-a95d952b5470"
+                }
+              ],
+              "createdAt": "2026-10-22T02:25:08.000Z",
+              "updatedAt": "2026-10-22T02:25:08.000Z",
+              "uid": "35240-3e3ebea7-f5b4-4a78-bc72-fa272a05767c"
+            }
+          ],
+          "id": "822d4647-6a3e-4929-97a0-2ea6ebaf55f5",
+          "createdAt": "2026-10-22T02:25:08.000Z",
+          "updatedAt": "2026-10-22T02:25:08.000Z",
+          "uid": "35240-822d4647-6a3e-4929-97a0-2ea6ebaf55f5"
+        },
+        {
+          "name": "validation-submission-updated",
+          "item": [
+            {
+              "name": "Validation submission status has updated",
+              "id": "c5326702-1bb0-4ac2-8363-5b4454a9ef93",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/validation-submission-updated",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "validation-submission-updated"
+                  ]
+                },
+                "description": "Triggered when a validation submission status has been updated."
+              },
+              "response": [
+                {
+                  "id": "0417b6c3-d5d4-4e94-b189-453487ae157a",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-submission-updated",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-submission-updated"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:08.000Z",
+                  "updatedAt": "2026-10-22T02:25:08.000Z",
+                  "uid": "35240-0417b6c3-d5d4-4e94-b189-453487ae157a"
+                },
+                {
+                  "id": "56cde236-3117-4ac6-834e-41a81f13f5f2",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"agentVerificationId\": \"<string>\",\n      \"agentVerification\": {},\n      \"createdAt\": \"<dateTime>\",\n      \"eligibilitySubscriptionId\": \"<string>\",\n      \"monitoringSubscriptionId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"<string>\",\n      \"metadata\": {},\n      \"status\": \"<string>\",\n      \"validationInviteId\": \"<string>\",\n      \"validationRequestId\": \"<string>\",\n      \"validationRequest\": {}\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-submission-updated",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-submission-updated"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:08.000Z",
+                  "updatedAt": "2026-10-22T02:25:08.000Z",
+                  "uid": "35240-56cde236-3117-4ac6-834e-41a81f13f5f2"
+                }
+              ],
+              "createdAt": "2026-10-22T02:25:08.000Z",
+              "updatedAt": "2026-10-22T02:25:08.000Z",
+              "uid": "35240-c5326702-1bb0-4ac2-8363-5b4454a9ef93"
+            }
+          ],
+          "id": "16c61dd6-55ec-4a00-8a4c-3b80a02dce60",
+          "createdAt": "2026-10-22T02:25:08.000Z",
+          "updatedAt": "2026-10-22T02:25:08.000Z",
+          "uid": "35240-16c61dd6-55ec-4a00-8a4c-3b80a02dce60"
+        }
+      ],
+      "id": "f79006d3-fe95-4670-81ef-0b92e007de7d",
+      "createdAt": "2026-10-22T02:25:08.000Z",
+      "updatedAt": "2026-10-22T02:25:08.000Z",
+      "uid": "35240-f79006d3-fe95-4670-81ef-0b92e007de7d"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
+    }
+  ]
+}

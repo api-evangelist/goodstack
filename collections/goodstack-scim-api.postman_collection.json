@@ -1,0 +1,2598 @@
+{
+  "info": {
+    "_postman_id": "ed4b8f51-bd46-47e9-9561-5eca08873d85",
+    "name": "Goodstack Services SCIM API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:25:01.000Z",
+    "updatedAt": "2026-10-22T02:25:01.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-ed4b8f51-bd46-47e9-9561-5eca08873d85"
+  },
+  "item": [
+    {
+      "name": "scim",
+      "item": [
+        {
+          "name": "v2",
+          "item": [
+            {
+              "name": "Users",
+              "item": [
+                {
+                  "name": "{id}",
+                  "item": [
+                    {
+                      "name": "Retrieve a user",
+                      "id": "dc9e5d75-6d49-4b49-bcc7-6208032bef0c",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "2f26f5ff-780b-4f26-a9d4-2a5d1fe112e0",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) The unique identifier of the user (account id)."
+                            }
+                          ]
+                        },
+                        "description": "Retrieve a single user by id. The user must belong to the partner the SCIM key is bound to."
+                      },
+                      "response": [
+                        {
+                          "id": "8a92ba17-ce89-429b-b555-d1464ac63638",
+                          "name": "The requested user.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"userName\": \"<string>\",\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-8a92ba17-ce89-429b-b555-d1464ac63638"
+                        },
+                        {
+                          "id": "60557f45-c3bf-4167-8db0-90def6a4cac9",
+                          "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-60557f45-c3bf-4167-8db0-90def6a4cac9"
+                        },
+                        {
+                          "id": "2f3abff8-e8f3-4583-a73c-7aac78de0eac",
+                          "name": "Not found. The user does not exist, or exists but belongs to a different\npartner than the one the key is bound to. An invalid account id format\nalso resolves to `404`.\n",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-2f3abff8-e8f3-4583-a73c-7aac78de0eac"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-dc9e5d75-6d49-4b49-bcc7-6208032bef0c"
+                    },
+                    {
+                      "name": "Replace a user",
+                      "id": "7015b3f3-359f-4d7b-aec0-b06eef8fcb44",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "PUT",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "0816e54f-9f5a-48e9-8215-319b90b65523",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) The unique identifier of the user (account id)."
+                            }
+                          ]
+                        },
+                        "description": "Replace a user's attributes. Attributes omitted from the request are\ncleared. `userName` (email) and other fields are validated; an invalid\nemail returns `400`."
+                      },
+                      "response": [
+                        {
+                          "id": "37c0e33f-b68a-46cc-9717-58fa74e24ae3",
+                          "name": "The updated user.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"userName\": \"<string>\",\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-37c0e33f-b68a-46cc-9717-58fa74e24ae3"
+                        },
+                        {
+                          "id": "5c117334-e8f6-4f38-ad92-9e848a915b92",
+                          "name": "Bad request. Input validation failed or a filter could not be parsed.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-5c117334-e8f6-4f38-ad92-9e848a915b92"
+                        },
+                        {
+                          "id": "0931fe94-953b-41a8-8d15-0ee2c6b0323c",
+                          "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-0931fe94-953b-41a8-8d15-0ee2c6b0323c"
+                        },
+                        {
+                          "id": "d054b9a8-c7bf-4d2d-a013-538c6a70ecee",
+                          "name": "Not found. The user does not exist, or exists but belongs to a different\npartner than the one the key is bound to. An invalid account id format\nalso resolves to `404`.\n",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-d054b9a8-c7bf-4d2d-a013-538c6a70ecee"
+                        },
+                        {
+                          "id": "014abbfc-7e85-42e5-b058-a66e2647ea40",
+                          "name": "Conflict. A user with this `userName` already exists for the partner.",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Conflict",
+                          "code": 409,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-014abbfc-7e85-42e5-b058-a66e2647ea40"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-7015b3f3-359f-4d7b-aec0-b06eef8fcb44"
+                    },
+                    {
+                      "name": "Update a user",
+                      "id": "7c4ed4f6-96bd-4376-8c2b-4014c268ce44",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "PATCH",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"op\": \"replace\",\n      \"path\": \"<string>\",\n      \"value\": {\n        \"description\": \"The new value. Type depends on the target attribute.\",\n        \"example\": \"John Doe\"\n      }\n    },\n    {\n      \"op\": \"add\",\n      \"path\": \"<string>\",\n      \"value\": {\n        \"description\": \"The new value. Type depends on the target attribute.\",\n        \"example\": \"John Doe\"\n      }\n    }\n  ]\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "5821a0c9-ac0c-4bd8-a30d-1161f6cfe056",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) The unique identifier of the user (account id)."
+                            }
+                          ]
+                        },
+                        "description": "Apply a SCIM PATCH operation set to a user."
+                      },
+                      "response": [
+                        {
+                          "id": "a24a82cf-688c-4596-bfc2-27d26e275837",
+                          "name": "The updated user.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"op\": \"replace\",\n      \"path\": \"<string>\",\n      \"value\": {\n        \"description\": \"The new value. Type depends on the target attribute.\",\n        \"example\": \"John Doe\"\n      }\n    },\n    {\n      \"op\": \"add\",\n      \"path\": \"<string>\",\n      \"value\": {\n        \"description\": \"The new value. Type depends on the target attribute.\",\n        \"example\": \"John Doe\"\n      }\n    }\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"userName\": \"<string>\",\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-a24a82cf-688c-4596-bfc2-27d26e275837"
+                        },
+                        {
+                          "id": "e710e62d-b81b-4113-963a-df51ff75d436",
+                          "name": "Bad request. Input validation failed or a filter could not be parsed.",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"op\": \"replace\",\n      \"path\": \"<string>\",\n      \"value\": {\n        \"description\": \"The new value. Type depends on the target attribute.\",\n        \"example\": \"John Doe\"\n      }\n    },\n    {\n      \"op\": \"add\",\n      \"path\": \"<string>\",\n      \"value\": {\n        \"description\": \"The new value. Type depends on the target attribute.\",\n        \"example\": \"John Doe\"\n      }\n    }\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-e710e62d-b81b-4113-963a-df51ff75d436"
+                        },
+                        {
+                          "id": "5bcdaa4f-ca81-4ed5-a643-ecd4f8139ccc",
+                          "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"op\": \"replace\",\n      \"path\": \"<string>\",\n      \"value\": {\n        \"description\": \"The new value. Type depends on the target attribute.\",\n        \"example\": \"John Doe\"\n      }\n    },\n    {\n      \"op\": \"add\",\n      \"path\": \"<string>\",\n      \"value\": {\n        \"description\": \"The new value. Type depends on the target attribute.\",\n        \"example\": \"John Doe\"\n      }\n    }\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-5bcdaa4f-ca81-4ed5-a643-ecd4f8139ccc"
+                        },
+                        {
+                          "id": "12bd0c9a-ffb1-4acc-8358-b6c25f6c305f",
+                          "name": "Not found. The user does not exist, or exists but belongs to a different\npartner than the one the key is bound to. An invalid account id format\nalso resolves to `404`.\n",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"op\": \"replace\",\n      \"path\": \"<string>\",\n      \"value\": {\n        \"description\": \"The new value. Type depends on the target attribute.\",\n        \"example\": \"John Doe\"\n      }\n    },\n    {\n      \"op\": \"add\",\n      \"path\": \"<string>\",\n      \"value\": {\n        \"description\": \"The new value. Type depends on the target attribute.\",\n        \"example\": \"John Doe\"\n      }\n    }\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-12bd0c9a-ffb1-4acc-8358-b6c25f6c305f"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-7c4ed4f6-96bd-4376-8c2b-4014c268ce44"
+                    },
+                    {
+                      "name": "Deactivate a user",
+                      "id": "d75ad2e4-e570-42ea-a002-35e336b4a5e1",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "DELETE",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "d8b4679b-8633-4511-b278-52636676871e",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) The unique identifier of the user (account id)."
+                            }
+                          ]
+                        },
+                        "description": "Soft-delete (deactivate) a user. The user must belong to the partner the SCIM key is bound to."
+                      },
+                      "response": [
+                        {
+                          "id": "d907f005-067b-4a82-bfa3-1bb81560dd41",
+                          "name": "The user was deactivated.",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "No Content",
+                          "code": 204,
+                          "_postman_previewlanguage": "text",
+                          "header": [],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": null,
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-d907f005-067b-4a82-bfa3-1bb81560dd41"
+                        },
+                        {
+                          "id": "560e3b2e-0023-4c41-8467-eeb89498f7b5",
+                          "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-560e3b2e-0023-4c41-8467-eeb89498f7b5"
+                        },
+                        {
+                          "id": "4bbd7b40-ec44-415b-aea8-d2528e8f27a8",
+                          "name": "Not found. The user does not exist, or exists but belongs to a different\npartner than the one the key is bound to. An invalid account id format\nalso resolves to `404`.\n",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Users/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Users",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-4bbd7b40-ec44-415b-aea8-d2528e8f27a8"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-d75ad2e4-e570-42ea-a002-35e336b4a5e1"
+                    }
+                  ],
+                  "id": "7e99d826-8780-4b60-96c6-8f328a2ed14a",
+                  "createdAt": "2026-10-22T02:25:01.000Z",
+                  "updatedAt": "2026-10-22T02:25:01.000Z",
+                  "uid": "35240-7e99d826-8780-4b60-96c6-8f328a2ed14a"
+                },
+                {
+                  "name": "List users",
+                  "id": "b68744aa-cda7-40f4-a3c6-d8141d30d7b0",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/scim+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/scim/v2/Users?filter=<string>&startIndex=1&count=20&sortBy=<string>&sortOrder=ascending",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "scim",
+                        "v2",
+                        "Users"
+                      ],
+                      "query": [
+                        {
+                          "description": "SCIM filter expression, e.g. `userName eq \"johndoe@example.com\"`.\nString comparison values must be quoted. Supports logical operators\n(`and`, `or`, `not`), grouping and value paths.\n",
+                          "key": "filter",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "1-based index of the first result to return.",
+                          "key": "startIndex",
+                          "value": "1"
+                        },
+                        {
+                          "description": "Maximum number of results to return (max 100).",
+                          "key": "count",
+                          "value": "20"
+                        },
+                        {
+                          "description": "Attribute to sort by, e.g. `userName`. Unknown attributes are ignored.",
+                          "key": "sortBy",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "sortOrder",
+                          "value": "ascending"
+                        }
+                      ]
+                    },
+                    "description": "Return a paginated, optionally filtered and sorted list of users that\nbelong to the partner the SCIM key is bound to. The response is a SCIM\nListResponse envelope."
+                  },
+                  "response": [
+                    {
+                      "id": "75220353-48d1-4a84-bf9c-edf02079c358",
+                      "name": "A SCIM list of users.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users?filter=<string>&startIndex=1&count=20&sortBy=<string>&sortOrder=ascending",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users"
+                          ],
+                          "query": [
+                            {
+                              "description": "SCIM filter expression, e.g. `userName eq \"johndoe@example.com\"`.\nString comparison values must be quoted. Supports logical operators\n(`and`, `or`, `not`), grouping and value paths.\n",
+                              "key": "filter",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "1-based index of the first result to return.",
+                              "key": "startIndex",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Maximum number of results to return (max 100).",
+                              "key": "count",
+                              "value": "20"
+                            },
+                            {
+                              "description": "Attribute to sort by, e.g. `userName`. Unknown attributes are ignored.",
+                              "key": "sortBy",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "sortOrder",
+                              "value": "ascending"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totalResults\": \"<integer>\",\n  \"startIndex\": \"<integer>\",\n  \"itemsPerPage\": \"<integer>\",\n  \"Resources\": [\n    {\n      \"schemas\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"id\": \"<string>\",\n      \"externalId\": \"<string>\",\n      \"meta\": {\n        \"resourceType\": \"<string>\",\n        \"created\": \"<dateTime>\",\n        \"lastModified\": \"<dateTime>\",\n        \"location\": \"<string>\"\n      },\n      \"userName\": \"<string>\",\n      \"name\": {\n        \"formatted\": \"<string>\",\n        \"familyName\": \"<string>\",\n        \"givenName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"honorificPrefix\": \"<string>\",\n        \"honorificSuffix\": \"<string>\"\n      },\n      \"displayName\": \"<string>\",\n      \"nickName\": \"<string>\",\n      \"title\": \"<string>\",\n      \"userType\": \"<string>\",\n      \"locale\": \"<string>\",\n      \"preferredLanguage\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"emails\": [\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        },\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        }\n      ],\n      \"addresses\": [\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        }\n      ],\n      \"active\": \"<boolean>\",\n      \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n        \"employeeNumber\": \"<string>\",\n        \"costCenter\": \"<string>\",\n        \"organization\": \"<string>\",\n        \"division\": \"<string>\",\n        \"department\": \"<string>\",\n        \"manager\": {\n          \"value\": \"<string>\"\n        }\n      },\n      \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n        \"startDate\": \"<string>\",\n        \"team\": \"<string>\"\n      }\n    },\n    {\n      \"schemas\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"id\": \"<string>\",\n      \"externalId\": \"<string>\",\n      \"meta\": {\n        \"resourceType\": \"<string>\",\n        \"created\": \"<dateTime>\",\n        \"lastModified\": \"<dateTime>\",\n        \"location\": \"<string>\"\n      },\n      \"userName\": \"<string>\",\n      \"name\": {\n        \"formatted\": \"<string>\",\n        \"familyName\": \"<string>\",\n        \"givenName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"honorificPrefix\": \"<string>\",\n        \"honorificSuffix\": \"<string>\"\n      },\n      \"displayName\": \"<string>\",\n      \"nickName\": \"<string>\",\n      \"title\": \"<string>\",\n      \"userType\": \"<string>\",\n      \"locale\": \"<string>\",\n      \"preferredLanguage\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"emails\": [\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        },\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        }\n      ],\n      \"addresses\": [\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        }\n      ],\n      \"active\": \"<boolean>\",\n      \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n        \"employeeNumber\": \"<string>\",\n        \"costCenter\": \"<string>\",\n        \"organization\": \"<string>\",\n        \"division\": \"<string>\",\n        \"department\": \"<string>\",\n        \"manager\": {\n          \"value\": \"<string>\"\n        }\n      },\n      \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n        \"startDate\": \"<string>\",\n        \"team\": \"<string>\"\n      }\n    }\n  ]\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-75220353-48d1-4a84-bf9c-edf02079c358"
+                    },
+                    {
+                      "id": "13941d61-220a-4d2b-a6b1-576a76e4b187",
+                      "name": "Bad request. Input validation failed or a filter could not be parsed.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users?filter=<string>&startIndex=1&count=20&sortBy=<string>&sortOrder=ascending",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users"
+                          ],
+                          "query": [
+                            {
+                              "description": "SCIM filter expression, e.g. `userName eq \"johndoe@example.com\"`.\nString comparison values must be quoted. Supports logical operators\n(`and`, `or`, `not`), grouping and value paths.\n",
+                              "key": "filter",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "1-based index of the first result to return.",
+                              "key": "startIndex",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Maximum number of results to return (max 100).",
+                              "key": "count",
+                              "value": "20"
+                            },
+                            {
+                              "description": "Attribute to sort by, e.g. `userName`. Unknown attributes are ignored.",
+                              "key": "sortBy",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "sortOrder",
+                              "value": "ascending"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-13941d61-220a-4d2b-a6b1-576a76e4b187"
+                    },
+                    {
+                      "id": "076937ed-e408-4e4a-90fc-c0a7ce97145b",
+                      "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users?filter=<string>&startIndex=1&count=20&sortBy=<string>&sortOrder=ascending",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users"
+                          ],
+                          "query": [
+                            {
+                              "description": "SCIM filter expression, e.g. `userName eq \"johndoe@example.com\"`.\nString comparison values must be quoted. Supports logical operators\n(`and`, `or`, `not`), grouping and value paths.\n",
+                              "key": "filter",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "1-based index of the first result to return.",
+                              "key": "startIndex",
+                              "value": "1"
+                            },
+                            {
+                              "description": "Maximum number of results to return (max 100).",
+                              "key": "count",
+                              "value": "20"
+                            },
+                            {
+                              "description": "Attribute to sort by, e.g. `userName`. Unknown attributes are ignored.",
+                              "key": "sortBy",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "sortOrder",
+                              "value": "ascending"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-076937ed-e408-4e4a-90fc-c0a7ce97145b"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:25:01.000Z",
+                  "updatedAt": "2026-10-22T02:25:01.000Z",
+                  "uid": "35240-b68744aa-cda7-40f4-a3c6-d8141d30d7b0"
+                },
+                {
+                  "name": "Create a user",
+                  "id": "76047a1b-6a35-4b35-ba5e-ad049f00dc3a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/scim+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/scim+json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/scim/v2/Users",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "scim",
+                        "v2",
+                        "Users"
+                      ]
+                    },
+                    "description": "Provision a new user for the partner the SCIM key is bound to."
+                  },
+                  "response": [
+                    {
+                      "id": "8a69dbab-5808-4ad1-a06c-f7588f2cea29",
+                      "name": "The created user.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"userName\": \"<string>\",\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-8a69dbab-5808-4ad1-a06c-f7588f2cea29"
+                    },
+                    {
+                      "id": "54317721-e864-4824-976c-a65efb4f062e",
+                      "name": "Bad request. Input validation failed or a filter could not be parsed.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-54317721-e864-4824-976c-a65efb4f062e"
+                    },
+                    {
+                      "id": "2d03c9c8-9983-4cbb-9d47-762bb823911e",
+                      "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-2d03c9c8-9983-4cbb-9d47-762bb823911e"
+                    },
+                    {
+                      "id": "698ffa8a-f4f5-467b-bdaa-38c5eb7e32bf",
+                      "name": "Conflict. A user with this `userName` already exists for the partner.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"userName\": \"<string>\",\n  \"id\": \"<string>\",\n  \"externalId\": \"<string>\",\n  \"meta\": {\n    \"resourceType\": \"<string>\",\n    \"created\": \"<dateTime>\",\n    \"lastModified\": \"<dateTime>\",\n    \"location\": \"<string>\"\n  },\n  \"name\": {\n    \"formatted\": \"<string>\",\n    \"familyName\": \"<string>\",\n    \"givenName\": \"<string>\",\n    \"middleName\": \"<string>\",\n    \"honorificPrefix\": \"<string>\",\n    \"honorificSuffix\": \"<string>\"\n  },\n  \"displayName\": \"<string>\",\n  \"nickName\": \"<string>\",\n  \"title\": \"<string>\",\n  \"userType\": \"<string>\",\n  \"locale\": \"<string>\",\n  \"preferredLanguage\": \"<string>\",\n  \"timezone\": \"<string>\",\n  \"emails\": [\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    },\n    {\n      \"value\": \"<string>\",\n      \"display\": \"<string>\",\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\"\n    }\n  ],\n  \"addresses\": [\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    },\n    {\n      \"type\": \"<string>\",\n      \"primary\": \"<boolean>\",\n      \"country\": \"<string>\",\n      \"region\": \"<string>\",\n      \"locality\": \"<string>\"\n    }\n  ],\n  \"active\": \"<boolean>\",\n  \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n    \"employeeNumber\": \"<string>\",\n    \"costCenter\": \"<string>\",\n    \"organization\": \"<string>\",\n    \"division\": \"<string>\",\n    \"department\": \"<string>\",\n    \"manager\": {\n      \"value\": \"<string>\"\n    }\n  },\n  \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n    \"startDate\": \"<string>\",\n    \"team\": \"<string>\"\n  }\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Users",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Users"
+                          ]
+                        }
+                      },
+                      "status": "Conflict",
+                      "code": 409,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-698ffa8a-f4f5-467b-bdaa-38c5eb7e32bf"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:25:01.000Z",
+                  "updatedAt": "2026-10-22T02:25:01.000Z",
+                  "uid": "35240-76047a1b-6a35-4b35-ba5e-ad049f00dc3a"
+                }
+              ],
+              "id": "f8972f90-bb77-468f-875b-a0aafd7fd879",
+              "createdAt": "2026-10-22T02:25:01.000Z",
+              "updatedAt": "2026-10-22T02:25:01.000Z",
+              "uid": "35240-f8972f90-bb77-468f-875b-a0aafd7fd879"
+            },
+            {
+              "name": "Bulk",
+              "item": [
+                {
+                  "name": "Bulk operations",
+                  "id": "7f96b2fe-3797-4c16-9b53-0e193c1af4bc",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/scim+json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/scim+json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"method\": \"POST\",\n      \"bulkId\": \"<string>\",\n      \"path\": \"<string>\",\n      \"data\": {}\n    },\n    {\n      \"method\": \"PATCH\",\n      \"bulkId\": \"<string>\",\n      \"path\": \"<string>\",\n      \"data\": {}\n    }\n  ],\n  \"failOnErrors\": \"<integer>\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/scim/v2/Bulk",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "scim",
+                        "v2",
+                        "Bulk"
+                      ]
+                    },
+                    "description": "Apply up to 100 user operations in a single request. Each operation is a\n`POST`, `PUT`, `PATCH` or `DELETE` against `/Users`. The response is a\nSCIM BulkResponse; per-operation failures are reported inline and do not\nfail the whole request unless `failOnErrors` is reached."
+                  },
+                  "response": [
+                    {
+                      "id": "075cf602-f08b-469d-a972-405c0e2d5930",
+                      "name": "A SCIM bulk response.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"method\": \"POST\",\n      \"bulkId\": \"<string>\",\n      \"path\": \"<string>\",\n      \"data\": {}\n    },\n    {\n      \"method\": \"PATCH\",\n      \"bulkId\": \"<string>\",\n      \"path\": \"<string>\",\n      \"data\": {}\n    }\n  ],\n  \"failOnErrors\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Bulk",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Bulk"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"method\": \"<string>\",\n      \"bulkId\": \"<string>\",\n      \"location\": \"<string>\",\n      \"status\": \"<string>\",\n      \"response\": {\n        \"schemas\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"status\": \"<string>\",\n        \"scimType\": \"invalidValue\",\n        \"detail\": \"<string>\"\n      }\n    },\n    {\n      \"method\": \"<string>\",\n      \"bulkId\": \"<string>\",\n      \"location\": \"<string>\",\n      \"status\": \"<string>\",\n      \"response\": {\n        \"schemas\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"status\": \"<string>\",\n        \"scimType\": \"invalidValue\",\n        \"detail\": \"<string>\"\n      }\n    }\n  ]\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-075cf602-f08b-469d-a972-405c0e2d5930"
+                    },
+                    {
+                      "id": "911fa82d-58bd-4ec9-bc6f-b2f2ba2ae57a",
+                      "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"method\": \"POST\",\n      \"bulkId\": \"<string>\",\n      \"path\": \"<string>\",\n      \"data\": {}\n    },\n    {\n      \"method\": \"PATCH\",\n      \"bulkId\": \"<string>\",\n      \"path\": \"<string>\",\n      \"data\": {}\n    }\n  ],\n  \"failOnErrors\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Bulk",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Bulk"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-911fa82d-58bd-4ec9-bc6f-b2f2ba2ae57a"
+                    },
+                    {
+                      "id": "3002d9a8-3a8b-461b-9a37-6b07bf58fbc5",
+                      "name": "The number of operations exceeds the maximum (100).",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"Operations\": [\n    {\n      \"method\": \"POST\",\n      \"bulkId\": \"<string>\",\n      \"path\": \"<string>\",\n      \"data\": {}\n    },\n    {\n      \"method\": \"PATCH\",\n      \"bulkId\": \"<string>\",\n      \"path\": \"<string>\",\n      \"data\": {}\n    }\n  ],\n  \"failOnErrors\": \"<integer>\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Bulk",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Bulk"
+                          ]
+                        }
+                      },
+                      "status": "Request Entity Too Large",
+                      "code": 413,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-3002d9a8-3a8b-461b-9a37-6b07bf58fbc5"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:25:01.000Z",
+                  "updatedAt": "2026-10-22T02:25:01.000Z",
+                  "uid": "35240-7f96b2fe-3797-4c16-9b53-0e193c1af4bc"
+                }
+              ],
+              "id": "601f2db8-502e-4fda-93ce-9a902260c33f",
+              "createdAt": "2026-10-22T02:25:01.000Z",
+              "updatedAt": "2026-10-22T02:25:01.000Z",
+              "uid": "35240-601f2db8-502e-4fda-93ce-9a902260c33f"
+            },
+            {
+              "name": "Schemas",
+              "item": [
+                {
+                  "name": "{id}",
+                  "item": [
+                    {
+                      "name": "Retrieve a schema",
+                      "id": "253de772-786b-44c3-9e2f-ad6118d62ef0",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Schemas/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Schemas",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "id": "1bbf2745-d453-4094-a4c0-5964cc2e48fc",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) The schema URN."
+                            }
+                          ]
+                        },
+                        "description": "Retrieve a single schema definition by its URN."
+                      },
+                      "response": [
+                        {
+                          "id": "c6745096-a684-441d-8d5a-28ac2d8f0991",
+                          "name": "A SCIM schema definition.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Schemas/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Schemas",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-c6745096-a684-441d-8d5a-28ac2d8f0991"
+                        },
+                        {
+                          "id": "feb81a28-a271-4913-aa65-61e5f3f92db7",
+                          "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Schemas/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Schemas",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-feb81a28-a271-4913-aa65-61e5f3f92db7"
+                        },
+                        {
+                          "id": "aa41861c-1c6b-4dd6-8de3-31ac882be711",
+                          "name": "Not found. The user does not exist, or exists but belongs to a different\npartner than the one the key is bound to. An invalid account id format\nalso resolves to `404`.\n",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/scim+json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/scim/v2/Schemas/:id",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "scim",
+                                "v2",
+                                "Schemas",
+                                ":id"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/scim+json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:25:01.000Z",
+                          "updatedAt": "2026-10-22T02:25:01.000Z",
+                          "uid": "35240-aa41861c-1c6b-4dd6-8de3-31ac882be711"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-253de772-786b-44c3-9e2f-ad6118d62ef0"
+                    }
+                  ],
+                  "id": "af18a811-858d-493e-b5c7-d9e3d43bbdfd",
+                  "createdAt": "2026-10-22T02:25:01.000Z",
+                  "updatedAt": "2026-10-22T02:25:01.000Z",
+                  "uid": "35240-af18a811-858d-493e-b5c7-d9e3d43bbdfd"
+                },
+                {
+                  "name": "List supported schemas",
+                  "id": "72617cc2-8b58-4c67-9a7b-ec2a1a432854",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/scim+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/scim/v2/Schemas",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "scim",
+                        "v2",
+                        "Schemas"
+                      ]
+                    },
+                    "description": "Discovery endpoint listing the supported SCIM schemas: the Core User,\nthe Enterprise User extension and the Goodstack User extension. Truncated\nattributes are excluded."
+                  },
+                  "response": [
+                    {
+                      "id": "3132f120-e9c3-4ead-9c5b-966d52a57e04",
+                      "name": "A SCIM list of schema definitions.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Schemas",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Schemas"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totalResults\": \"<integer>\",\n  \"startIndex\": \"<integer>\",\n  \"itemsPerPage\": \"<integer>\",\n  \"Resources\": [\n    {\n      \"schemas\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"id\": \"<string>\",\n      \"externalId\": \"<string>\",\n      \"meta\": {\n        \"resourceType\": \"<string>\",\n        \"created\": \"<dateTime>\",\n        \"lastModified\": \"<dateTime>\",\n        \"location\": \"<string>\"\n      },\n      \"userName\": \"<string>\",\n      \"name\": {\n        \"formatted\": \"<string>\",\n        \"familyName\": \"<string>\",\n        \"givenName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"honorificPrefix\": \"<string>\",\n        \"honorificSuffix\": \"<string>\"\n      },\n      \"displayName\": \"<string>\",\n      \"nickName\": \"<string>\",\n      \"title\": \"<string>\",\n      \"userType\": \"<string>\",\n      \"locale\": \"<string>\",\n      \"preferredLanguage\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"emails\": [\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        },\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        }\n      ],\n      \"addresses\": [\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        }\n      ],\n      \"active\": \"<boolean>\",\n      \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n        \"employeeNumber\": \"<string>\",\n        \"costCenter\": \"<string>\",\n        \"organization\": \"<string>\",\n        \"division\": \"<string>\",\n        \"department\": \"<string>\",\n        \"manager\": {\n          \"value\": \"<string>\"\n        }\n      },\n      \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n        \"startDate\": \"<string>\",\n        \"team\": \"<string>\"\n      }\n    },\n    {\n      \"schemas\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"id\": \"<string>\",\n      \"externalId\": \"<string>\",\n      \"meta\": {\n        \"resourceType\": \"<string>\",\n        \"created\": \"<dateTime>\",\n        \"lastModified\": \"<dateTime>\",\n        \"location\": \"<string>\"\n      },\n      \"userName\": \"<string>\",\n      \"name\": {\n        \"formatted\": \"<string>\",\n        \"familyName\": \"<string>\",\n        \"givenName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"honorificPrefix\": \"<string>\",\n        \"honorificSuffix\": \"<string>\"\n      },\n      \"displayName\": \"<string>\",\n      \"nickName\": \"<string>\",\n      \"title\": \"<string>\",\n      \"userType\": \"<string>\",\n      \"locale\": \"<string>\",\n      \"preferredLanguage\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"emails\": [\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        },\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        }\n      ],\n      \"addresses\": [\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        }\n      ],\n      \"active\": \"<boolean>\",\n      \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n        \"employeeNumber\": \"<string>\",\n        \"costCenter\": \"<string>\",\n        \"organization\": \"<string>\",\n        \"division\": \"<string>\",\n        \"department\": \"<string>\",\n        \"manager\": {\n          \"value\": \"<string>\"\n        }\n      },\n      \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n        \"startDate\": \"<string>\",\n        \"team\": \"<string>\"\n      }\n    }\n  ]\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-3132f120-e9c3-4ead-9c5b-966d52a57e04"
+                    },
+                    {
+                      "id": "2e238936-efd7-47f9-8311-65db54911c7f",
+                      "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/Schemas",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "Schemas"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-2e238936-efd7-47f9-8311-65db54911c7f"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:25:01.000Z",
+                  "updatedAt": "2026-10-22T02:25:01.000Z",
+                  "uid": "35240-72617cc2-8b58-4c67-9a7b-ec2a1a432854"
+                }
+              ],
+              "id": "bdbc4c6b-d0b3-454a-89d9-437f0e898b46",
+              "createdAt": "2026-10-22T02:25:01.000Z",
+              "updatedAt": "2026-10-22T02:25:01.000Z",
+              "uid": "35240-bdbc4c6b-d0b3-454a-89d9-437f0e898b46"
+            },
+            {
+              "name": "ResourceTypes",
+              "item": [
+                {
+                  "name": "List resource types",
+                  "id": "411e0488-f5c2-4224-8b6f-d7ac6f723b69",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/scim+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/scim/v2/ResourceTypes",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "scim",
+                        "v2",
+                        "ResourceTypes"
+                      ]
+                    },
+                    "description": "Discovery endpoint listing the supported resource types. The `User`\nresource type advertises the Enterprise User and Goodstack User\nextensions under `schemaExtensions`."
+                  },
+                  "response": [
+                    {
+                      "id": "fcaba023-48e9-4bb0-a4e0-f349668bf2d3",
+                      "name": "A SCIM list of resource types.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/ResourceTypes",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "ResourceTypes"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"totalResults\": \"<integer>\",\n  \"startIndex\": \"<integer>\",\n  \"itemsPerPage\": \"<integer>\",\n  \"Resources\": [\n    {\n      \"schemas\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"id\": \"<string>\",\n      \"externalId\": \"<string>\",\n      \"meta\": {\n        \"resourceType\": \"<string>\",\n        \"created\": \"<dateTime>\",\n        \"lastModified\": \"<dateTime>\",\n        \"location\": \"<string>\"\n      },\n      \"userName\": \"<string>\",\n      \"name\": {\n        \"formatted\": \"<string>\",\n        \"familyName\": \"<string>\",\n        \"givenName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"honorificPrefix\": \"<string>\",\n        \"honorificSuffix\": \"<string>\"\n      },\n      \"displayName\": \"<string>\",\n      \"nickName\": \"<string>\",\n      \"title\": \"<string>\",\n      \"userType\": \"<string>\",\n      \"locale\": \"<string>\",\n      \"preferredLanguage\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"emails\": [\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        },\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        }\n      ],\n      \"addresses\": [\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        }\n      ],\n      \"active\": \"<boolean>\",\n      \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n        \"employeeNumber\": \"<string>\",\n        \"costCenter\": \"<string>\",\n        \"organization\": \"<string>\",\n        \"division\": \"<string>\",\n        \"department\": \"<string>\",\n        \"manager\": {\n          \"value\": \"<string>\"\n        }\n      },\n      \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n        \"startDate\": \"<string>\",\n        \"team\": \"<string>\"\n      }\n    },\n    {\n      \"schemas\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"id\": \"<string>\",\n      \"externalId\": \"<string>\",\n      \"meta\": {\n        \"resourceType\": \"<string>\",\n        \"created\": \"<dateTime>\",\n        \"lastModified\": \"<dateTime>\",\n        \"location\": \"<string>\"\n      },\n      \"userName\": \"<string>\",\n      \"name\": {\n        \"formatted\": \"<string>\",\n        \"familyName\": \"<string>\",\n        \"givenName\": \"<string>\",\n        \"middleName\": \"<string>\",\n        \"honorificPrefix\": \"<string>\",\n        \"honorificSuffix\": \"<string>\"\n      },\n      \"displayName\": \"<string>\",\n      \"nickName\": \"<string>\",\n      \"title\": \"<string>\",\n      \"userType\": \"<string>\",\n      \"locale\": \"<string>\",\n      \"preferredLanguage\": \"<string>\",\n      \"timezone\": \"<string>\",\n      \"emails\": [\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        },\n        {\n          \"value\": \"<string>\",\n          \"display\": \"<string>\",\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\"\n        }\n      ],\n      \"addresses\": [\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        },\n        {\n          \"type\": \"<string>\",\n          \"primary\": \"<boolean>\",\n          \"country\": \"<string>\",\n          \"region\": \"<string>\",\n          \"locality\": \"<string>\"\n        }\n      ],\n      \"active\": \"<boolean>\",\n      \"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {\n        \"employeeNumber\": \"<string>\",\n        \"costCenter\": \"<string>\",\n        \"organization\": \"<string>\",\n        \"division\": \"<string>\",\n        \"department\": \"<string>\",\n        \"manager\": {\n          \"value\": \"<string>\"\n        }\n      },\n      \"urn:ietf:params:scim:schemas:extension:goodstack:2.0:User\": {\n        \"startDate\": \"<string>\",\n        \"team\": \"<string>\"\n      }\n    }\n  ]\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-fcaba023-48e9-4bb0-a4e0-f349668bf2d3"
+                    },
+                    {
+                      "id": "e04ae595-5a2d-42fa-b4d1-f6e7e1c55a20",
+                      "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/ResourceTypes",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "ResourceTypes"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-e04ae595-5a2d-42fa-b4d1-f6e7e1c55a20"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:25:01.000Z",
+                  "updatedAt": "2026-10-22T02:25:01.000Z",
+                  "uid": "35240-411e0488-f5c2-4224-8b6f-d7ac6f723b69"
+                }
+              ],
+              "id": "fef63b0e-9d10-48e1-9b3a-a7cae35628ec",
+              "createdAt": "2026-10-22T02:25:01.000Z",
+              "updatedAt": "2026-10-22T02:25:01.000Z",
+              "uid": "35240-fef63b0e-9d10-48e1-9b3a-a7cae35628ec"
+            },
+            {
+              "name": "ServiceProviderConfig",
+              "item": [
+                {
+                  "name": "Retrieve service provider configuration",
+                  "id": "3226b2cd-f823-480a-a51f-e03016d326ef",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/scim+json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/scim/v2/ServiceProviderConfig",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "scim",
+                        "v2",
+                        "ServiceProviderConfig"
+                      ]
+                    },
+                    "description": "Discovery endpoint describing the SCIM features supported by the service\nprovider (patch, bulk, filter, sort, change password, etag and\nauthentication schemes)."
+                  },
+                  "response": [
+                    {
+                      "id": "4c670f9a-c57d-475e-a9dd-34b41fc85f5f",
+                      "name": "The SCIM service provider configuration.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/ServiceProviderConfig",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "ServiceProviderConfig"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-4c670f9a-c57d-475e-a9dd-34b41fc85f5f"
+                    },
+                    {
+                      "id": "c48695b5-17b8-466b-8f7a-8004bf0180f1",
+                      "name": "Unauthorized. The SCIM bearer key is missing or invalid, or the key is\nvalid but the partner does not have the `scim_api` scope enabled.\n",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/scim+json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/scim/v2/ServiceProviderConfig",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "scim",
+                            "v2",
+                            "ServiceProviderConfig"
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/scim+json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"schemas\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"status\": \"<string>\",\n  \"scimType\": \"uniqueness\",\n  \"detail\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:25:01.000Z",
+                      "updatedAt": "2026-10-22T02:25:01.000Z",
+                      "uid": "35240-c48695b5-17b8-466b-8f7a-8004bf0180f1"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:25:01.000Z",
+                  "updatedAt": "2026-10-22T02:25:01.000Z",
+                  "uid": "35240-3226b2cd-f823-480a-a51f-e03016d326ef"
+                }
+              ],
+              "id": "8f755705-ff39-498c-8798-e09e8d4e7c25",
+              "createdAt": "2026-10-22T02:25:01.000Z",
+              "updatedAt": "2026-10-22T02:25:01.000Z",
+              "uid": "35240-8f755705-ff39-498c-8798-e09e8d4e7c25"
+            }
+          ],
+          "id": "f723071d-f977-48f7-a5cf-0bdce99de436",
+          "createdAt": "2026-10-22T02:25:01.000Z",
+          "updatedAt": "2026-10-22T02:25:01.000Z",
+          "uid": "35240-f723071d-f977-48f7-a5cf-0bdce99de436"
+        }
+      ],
+      "id": "d1a09071-69f6-4976-be01-e61340b81676",
+      "createdAt": "2026-10-22T02:25:01.000Z",
+      "updatedAt": "2026-10-22T02:25:01.000Z",
+      "uid": "35240-d1a09071-69f6-4976-be01-e61340b81676"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
+    }
+  ]
+}

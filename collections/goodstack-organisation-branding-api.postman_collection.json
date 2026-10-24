@@ -1,0 +1,323 @@
+{
+  "info": {
+    "_postman_id": "4f4238e8-c432-4c22-ae5e-c9a52f3f714a",
+    "name": "Goodstack Services Organisation Branding API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:24:57.000Z",
+    "updatedAt": "2026-10-22T02:24:57.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-4f4238e8-c432-4c22-ae5e-c9a52f3f714a"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "branding",
+          "item": [
+            {
+              "name": "organisations",
+              "item": [
+                {
+                  "name": "{organisationId}",
+                  "item": [
+                    {
+                      "name": "Get organisation branding",
+                      "id": "c58454ef-7d2a-4747-9253-d5eb24e239eb",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/branding/organisations/:organisationId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "branding",
+                            "organisations",
+                            ":organisationId"
+                          ],
+                          "variable": [
+                            {
+                              "id": "820f2231-f510-4f27-8ed4-94d612cc525e",
+                              "key": "organisationId",
+                              "value": "organisation__zqMg0q",
+                              "description": "(Required) The unique identifier for the organisation"
+                            }
+                          ]
+                        },
+                        "description": "Retrieve branding information for a specific organisation"
+                      },
+                      "response": [
+                        {
+                          "id": "12a1342a-4ce8-446e-b310-21e5df6ef486",
+                          "name": "Successfully retrieved organisation branding",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/branding/organisations/:organisationId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "branding",
+                                "organisations",
+                                ":organisationId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "organisationId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": {\n    \"organisationId\": \"organisation_xzI\",\n    \"images\": \"<array,null>\",\n    \"settings\": {\n      \"defaultLocale\": \"rb\"\n    }\n  },\n  \"object\": \"organisation_branding\"\n}",
+                          "createdAt": "2026-10-22T02:24:58.000Z",
+                          "updatedAt": "2026-10-22T02:24:58.000Z",
+                          "uid": "35240-12a1342a-4ce8-446e-b310-21e5df6ef486"
+                        },
+                        {
+                          "id": "e07e63d1-aec6-4146-83ce-35785aea2817",
+                          "name": "Bad request",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/branding/organisations/:organisationId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "branding",
+                                "organisations",
+                                ":organisationId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "organisationId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Bad Request",
+                          "code": 400,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\",\n    \"reasons\": \"<array,null>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:24:58.000Z",
+                          "updatedAt": "2026-10-22T02:24:58.000Z",
+                          "uid": "35240-e07e63d1-aec6-4146-83ce-35785aea2817"
+                        },
+                        {
+                          "id": "a533c683-4470-488c-bb1a-6b5a72554f8a",
+                          "name": "Unauthorized",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/branding/organisations/:organisationId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "branding",
+                                "organisations",
+                                ":organisationId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "organisationId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:24:58.000Z",
+                          "updatedAt": "2026-10-22T02:24:58.000Z",
+                          "uid": "35240-a533c683-4470-488c-bb1a-6b5a72554f8a"
+                        },
+                        {
+                          "id": "d6beb5c5-2352-4e61-8efd-61e1bb18d93d",
+                          "name": "Forbidden",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/branding/organisations/:organisationId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "branding",
+                                "organisations",
+                                ":organisationId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "organisationId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:24:58.000Z",
+                          "updatedAt": "2026-10-22T02:24:58.000Z",
+                          "uid": "35240-d6beb5c5-2352-4e61-8efd-61e1bb18d93d"
+                        },
+                        {
+                          "id": "57956559-52cd-4de8-8b7e-57641ae1171e",
+                          "name": "The specified resource was not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/branding/organisations/:organisationId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "branding",
+                                "organisations",
+                                ":organisationId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "organisationId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:24:58.000Z",
+                          "updatedAt": "2026-10-22T02:24:58.000Z",
+                          "uid": "35240-57956559-52cd-4de8-8b7e-57641ae1171e"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:24:58.000Z",
+                      "updatedAt": "2026-10-22T02:24:58.000Z",
+                      "uid": "35240-c58454ef-7d2a-4747-9253-d5eb24e239eb"
+                    }
+                  ],
+                  "id": "f2cb7177-ab48-4ac6-b8ad-3c19d202b880",
+                  "createdAt": "2026-10-22T02:24:58.000Z",
+                  "updatedAt": "2026-10-22T02:24:58.000Z",
+                  "uid": "35240-f2cb7177-ab48-4ac6-b8ad-3c19d202b880"
+                }
+              ],
+              "id": "883850ec-ddeb-4b48-8928-e5d9dfbddf54",
+              "createdAt": "2026-10-22T02:24:58.000Z",
+              "updatedAt": "2026-10-22T02:24:58.000Z",
+              "uid": "35240-883850ec-ddeb-4b48-8928-e5d9dfbddf54"
+            }
+          ],
+          "id": "61d00deb-d30a-420f-8018-03473217603a",
+          "createdAt": "2026-10-22T02:24:58.000Z",
+          "updatedAt": "2026-10-22T02:24:58.000Z",
+          "uid": "35240-61d00deb-d30a-420f-8018-03473217603a"
+        }
+      ],
+      "id": "d2ba0ebb-4e6b-435a-8203-24ffb60a72c1",
+      "createdAt": "2026-10-22T02:24:58.000Z",
+      "updatedAt": "2026-10-22T02:24:58.000Z",
+      "uid": "35240-d2ba0ebb-4e6b-435a-8203-24ffb60a72c1"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
+    }
+  ]
+}

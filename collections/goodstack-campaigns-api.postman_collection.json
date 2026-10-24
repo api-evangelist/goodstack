@@ -1,0 +1,441 @@
+{
+  "info": {
+    "_postman_id": "8633e057-c4b5-41db-9757-249a2b7607da",
+    "name": "Goodstack Services Campaigns API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:23:49.000Z",
+    "updatedAt": "2026-10-22T02:23:50.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-8633e057-c4b5-41db-9757-249a2b7607da"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "giving",
+          "item": [
+            {
+              "name": "campaigns",
+              "item": [
+                {
+                  "name": "List Campaigns",
+                  "id": "13465423-c39a-43b0-94d7-793c12d26800",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "apikey",
+                      "apikey": [
+                        {
+                          "key": "key",
+                          "value": "Authorization",
+                          "type": "string"
+                        },
+                        {
+                          "key": "value",
+                          "value": "{{apiKey}}",
+                          "type": "string"
+                        },
+                        {
+                          "key": "in",
+                          "value": "header",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/giving/campaigns?updatedFrom=<dateTime>&updatedTo=<dateTime>&pageSize=25&expand=organisation&expand=organisation&direction=DESC&cursor=<string>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "giving",
+                        "campaigns"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter by updated at greater than or equal to",
+                          "key": "updatedFrom",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "Filter by updated at less than",
+                          "key": "updatedTo",
+                          "value": "<dateTime>"
+                        },
+                        {
+                          "description": "How many items per page, for pagination.",
+                          "key": "pageSize",
+                          "value": "25"
+                        },
+                        {
+                          "description": "If provided it will attach organisation data to the response",
+                          "key": "expand",
+                          "value": "organisation"
+                        },
+                        {
+                          "description": "If provided it will attach organisation data to the response",
+                          "key": "expand",
+                          "value": "organisation"
+                        },
+                        {
+                          "description": "Which way to sort by the given 'sort' field.  Default DESC",
+                          "key": "direction",
+                          "value": "DESC"
+                        },
+                        {
+                          "description": "A cursor that points to where to start the page",
+                          "key": "cursor",
+                          "value": "<string>"
+                        }
+                      ]
+                    },
+                    "description": "Get a paginated list of Campaigns"
+                  },
+                  "response": [
+                    {
+                      "id": "d8ae4b66-dcd9-45ed-9c33-fe4d97f0ae58",
+                      "name": "Successfully retrieved Giving Campaigns",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/giving/campaigns?updatedFrom=<dateTime>&updatedTo=<dateTime>&pageSize=25&expand=organisation&direction=DESC&cursor=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "giving",
+                            "campaigns"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter by updated at greater than or equal to",
+                              "key": "updatedFrom",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Filter by updated at less than",
+                              "key": "updatedTo",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "How many items per page, for pagination.",
+                              "key": "pageSize",
+                              "value": "25"
+                            },
+                            {
+                              "description": "If provided it will attach organisation data to the response",
+                              "key": "expand",
+                              "value": "organisation"
+                            },
+                            {
+                              "description": "Which way to sort by the given 'sort' field.  Default DESC",
+                              "key": "direction",
+                              "value": "DESC"
+                            },
+                            {
+                              "description": "A cursor that points to where to start the page",
+                              "key": "cursor",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"shortDescription\": \"<string>\",\n      \"description\": \"<string>\",\n      \"coverImage\": \"<string>\",\n      \"startDate\": \"<string,null-date-time>\",\n      \"endDate\": \"<string,null-date-time>\",\n      \"status\": \"cancelled\",\n      \"fundraiserIds\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"opportunityIds\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"organisationIds\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"organisations\": [\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"logo\": \"<string,null>\",\n          \"website\": \"<string,null>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"logo\": \"<string,null>\",\n          \"website\": \"<string,null>\"\n        }\n      ],\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"cancelledAt\": \"<string,null-date-time>\"\n    },\n    {\n      \"id\": \"<string>\",\n      \"title\": \"<string>\",\n      \"shortDescription\": \"<string>\",\n      \"description\": \"<string>\",\n      \"coverImage\": \"<string>\",\n      \"startDate\": \"<string,null-date-time>\",\n      \"endDate\": \"<string,null-date-time>\",\n      \"status\": \"cancelled\",\n      \"fundraiserIds\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"opportunityIds\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"organisationIds\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"organisations\": [\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"logo\": \"<string,null>\",\n          \"website\": \"<string,null>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"countryCode\": \"<string>\",\n          \"logo\": \"<string,null>\",\n          \"website\": \"<string,null>\"\n        }\n      ],\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"cancelledAt\": \"<string,null-date-time>\"\n    }\n  ],\n  \"object\": \"<string>\",\n  \"pageSize\": \"<integer>\",\n  \"_links\": {\n    \"current\": \"<string>\",\n    \"next\": \"<string>\",\n    \"prev\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:23:50.000Z",
+                      "updatedAt": "2026-10-22T02:23:50.000Z",
+                      "uid": "35240-d8ae4b66-dcd9-45ed-9c33-fe4d97f0ae58"
+                    },
+                    {
+                      "id": "5f89a1b1-501b-4eeb-8e80-7c1496bcf2c9",
+                      "name": "Error validating inputs",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/giving/campaigns?updatedFrom=<dateTime>&updatedTo=<dateTime>&pageSize=25&expand=organisation&direction=DESC&cursor=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "giving",
+                            "campaigns"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter by updated at greater than or equal to",
+                              "key": "updatedFrom",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Filter by updated at less than",
+                              "key": "updatedTo",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "How many items per page, for pagination.",
+                              "key": "pageSize",
+                              "value": "25"
+                            },
+                            {
+                              "description": "If provided it will attach organisation data to the response",
+                              "key": "expand",
+                              "value": "organisation"
+                            },
+                            {
+                              "description": "Which way to sort by the given 'sort' field.  Default DESC",
+                              "key": "direction",
+                              "value": "DESC"
+                            },
+                            {
+                              "description": "A cursor that points to where to start the page",
+                              "key": "cursor",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\",\n    \"reasons\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+                      "createdAt": "2026-10-22T02:23:50.000Z",
+                      "updatedAt": "2026-10-22T02:23:50.000Z",
+                      "uid": "35240-5f89a1b1-501b-4eeb-8e80-7c1496bcf2c9"
+                    },
+                    {
+                      "id": "62017623-fec7-4cab-8a0b-f6150cd64c91",
+                      "name": "Unauthorized",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/giving/campaigns?updatedFrom=<dateTime>&updatedTo=<dateTime>&pageSize=25&expand=organisation&direction=DESC&cursor=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "giving",
+                            "campaigns"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter by updated at greater than or equal to",
+                              "key": "updatedFrom",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Filter by updated at less than",
+                              "key": "updatedTo",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "How many items per page, for pagination.",
+                              "key": "pageSize",
+                              "value": "25"
+                            },
+                            {
+                              "description": "If provided it will attach organisation data to the response",
+                              "key": "expand",
+                              "value": "organisation"
+                            },
+                            {
+                              "description": "Which way to sort by the given 'sort' field.  Default DESC",
+                              "key": "direction",
+                              "value": "DESC"
+                            },
+                            {
+                              "description": "A cursor that points to where to start the page",
+                              "key": "cursor",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:23:50.000Z",
+                      "updatedAt": "2026-10-22T02:23:50.000Z",
+                      "uid": "35240-62017623-fec7-4cab-8a0b-f6150cd64c91"
+                    },
+                    {
+                      "id": "3ffab622-4371-4d8c-bf9b-e4fe5cd4ff2a",
+                      "name": "Forbidden (scope)",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/giving/campaigns?updatedFrom=<dateTime>&updatedTo=<dateTime>&pageSize=25&expand=organisation&direction=DESC&cursor=<string>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "giving",
+                            "campaigns"
+                          ],
+                          "query": [
+                            {
+                              "description": "Filter by updated at greater than or equal to",
+                              "key": "updatedFrom",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "Filter by updated at less than",
+                              "key": "updatedTo",
+                              "value": "<dateTime>"
+                            },
+                            {
+                              "description": "How many items per page, for pagination.",
+                              "key": "pageSize",
+                              "value": "25"
+                            },
+                            {
+                              "description": "If provided it will attach organisation data to the response",
+                              "key": "expand",
+                              "value": "organisation"
+                            },
+                            {
+                              "description": "Which way to sort by the given 'sort' field.  Default DESC",
+                              "key": "direction",
+                              "value": "DESC"
+                            },
+                            {
+                              "description": "A cursor that points to where to start the page",
+                              "key": "cursor",
+                              "value": "<string>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:23:50.000Z",
+                      "updatedAt": "2026-10-22T02:23:50.000Z",
+                      "uid": "35240-3ffab622-4371-4d8c-bf9b-e4fe5cd4ff2a"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:23:50.000Z",
+                  "updatedAt": "2026-10-22T02:23:50.000Z",
+                  "uid": "35240-13465423-c39a-43b0-94d7-793c12d26800"
+                }
+              ],
+              "id": "4dc67692-9163-43ae-9d0e-95aeb00f5b60",
+              "createdAt": "2026-10-22T02:23:50.000Z",
+              "updatedAt": "2026-10-22T02:23:50.000Z",
+              "uid": "35240-4dc67692-9163-43ae-9d0e-95aeb00f5b60"
+            }
+          ],
+          "id": "96ce7d48-b268-4a68-abda-3686d31a5fb6",
+          "createdAt": "2026-10-22T02:23:50.000Z",
+          "updatedAt": "2026-10-22T02:23:50.000Z",
+          "uid": "35240-96ce7d48-b268-4a68-abda-3686d31a5fb6"
+        }
+      ],
+      "id": "c956a330-b338-4125-a6fb-6fa46c88703a",
+      "createdAt": "2026-10-22T02:23:50.000Z",
+      "updatedAt": "2026-10-22T02:23:50.000Z",
+      "uid": "35240-c956a330-b338-4125-a6fb-6fa46c88703a"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
+    }
+  ]
+}

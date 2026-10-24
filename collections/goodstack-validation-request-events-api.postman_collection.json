@@ -1,0 +1,303 @@
+{
+  "info": {
+    "_postman_id": "1a4f4db0-2659-4447-8adf-d4e60d59f176",
+    "name": "Goodstack Services Validation Request Events API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:25:04.000Z",
+    "updatedAt": "2026-10-22T02:25:04.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-1a4f4db0-2659-4447-8adf-d4e60d59f176"
+  },
+  "item": [
+    {
+      "name": "webhooks",
+      "item": [
+        {
+          "name": "validation-request-approved",
+          "item": [
+            {
+              "name": "Validation request was approved",
+              "id": "e3256089-dbdb-456a-9788-4977ba775db5",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"organisationTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"name\": \"<string>\",\n      \"registryName\": \"<string>\",\n      \"registryId\": \"<string>\",\n      \"email\": \"<string>\",\n      \"addressLine1\": \"<string>\",\n      \"addressLine2\": \"<string,null>\",\n      \"city\": \"<string>\",\n      \"postal\": \"<string>\",\n      \"state\": \"<string>\",\n      \"website\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"deletedAt\": \"<string,null-date-time>\",\n      \"acceptedAt\": \"<string,null-date-time>\",\n      \"rejectedAt\": \"<string,null-date-time>\",\n      \"rejectionReasonCode\": \"<string,null>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/validation-request-approved",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "validation-request-approved"
+                  ]
+                },
+                "description": "Triggered when a validation request has been approved by Goodstack."
+              },
+              "response": [
+                {
+                  "id": "810d9bba-2d98-4707-819d-fde0d474fac9",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"organisationTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"name\": \"<string>\",\n      \"registryName\": \"<string>\",\n      \"registryId\": \"<string>\",\n      \"email\": \"<string>\",\n      \"addressLine1\": \"<string>\",\n      \"addressLine2\": \"<string,null>\",\n      \"city\": \"<string>\",\n      \"postal\": \"<string>\",\n      \"state\": \"<string>\",\n      \"website\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"deletedAt\": \"<string,null-date-time>\",\n      \"acceptedAt\": \"<string,null-date-time>\",\n      \"rejectedAt\": \"<string,null-date-time>\",\n      \"rejectionReasonCode\": \"<string,null>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-request-approved",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-request-approved"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:05.000Z",
+                  "updatedAt": "2026-10-22T02:25:05.000Z",
+                  "uid": "35240-810d9bba-2d98-4707-819d-fde0d474fac9"
+                },
+                {
+                  "id": "cfab92f4-a44a-4c72-83fb-ee58fae3383f",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"organisationTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"name\": \"<string>\",\n      \"registryName\": \"<string>\",\n      \"registryId\": \"<string>\",\n      \"email\": \"<string>\",\n      \"addressLine1\": \"<string>\",\n      \"addressLine2\": \"<string,null>\",\n      \"city\": \"<string>\",\n      \"postal\": \"<string>\",\n      \"state\": \"<string>\",\n      \"website\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"deletedAt\": \"<string,null-date-time>\",\n      \"acceptedAt\": \"<string,null-date-time>\",\n      \"rejectedAt\": \"<string,null-date-time>\",\n      \"rejectionReasonCode\": \"<string,null>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-request-approved",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-request-approved"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:05.000Z",
+                  "updatedAt": "2026-10-22T02:25:05.000Z",
+                  "uid": "35240-cfab92f4-a44a-4c72-83fb-ee58fae3383f"
+                }
+              ],
+              "createdAt": "2026-10-22T02:25:04.000Z",
+              "updatedAt": "2026-10-22T02:25:04.000Z",
+              "uid": "35240-e3256089-dbdb-456a-9788-4977ba775db5"
+            }
+          ],
+          "id": "9ce16dc7-5ab2-47a0-9d07-0c15c98f44fe",
+          "createdAt": "2026-10-22T02:25:04.000Z",
+          "updatedAt": "2026-10-22T02:25:04.000Z",
+          "uid": "35240-9ce16dc7-5ab2-47a0-9d07-0c15c98f44fe"
+        },
+        {
+          "name": "validation-request-rejected",
+          "item": [
+            {
+              "name": "Validation request was rejected",
+              "id": "d3423050-fef6-46be-aec7-f2fe0618cf70",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"organisationTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"name\": \"<string>\",\n      \"registryName\": \"<string>\",\n      \"registryId\": \"<string>\",\n      \"email\": \"<string>\",\n      \"addressLine1\": \"<string>\",\n      \"addressLine2\": \"<string,null>\",\n      \"city\": \"<string>\",\n      \"postal\": \"<string>\",\n      \"state\": \"<string>\",\n      \"website\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"deletedAt\": \"<string,null-date-time>\",\n      \"acceptedAt\": \"<string,null-date-time>\",\n      \"rejectedAt\": \"<string,null-date-time>\",\n      \"rejectionReasonCode\": \"<string,null>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/validation-request-rejected",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "validation-request-rejected"
+                  ]
+                },
+                "description": "Triggered when a validation request has been rejected by Goodstack."
+              },
+              "response": [
+                {
+                  "id": "1b24c44f-04c1-4045-b69f-b634ff209079",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"organisationTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"name\": \"<string>\",\n      \"registryName\": \"<string>\",\n      \"registryId\": \"<string>\",\n      \"email\": \"<string>\",\n      \"addressLine1\": \"<string>\",\n      \"addressLine2\": \"<string,null>\",\n      \"city\": \"<string>\",\n      \"postal\": \"<string>\",\n      \"state\": \"<string>\",\n      \"website\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"deletedAt\": \"<string,null-date-time>\",\n      \"acceptedAt\": \"<string,null-date-time>\",\n      \"rejectedAt\": \"<string,null-date-time>\",\n      \"rejectionReasonCode\": \"<string,null>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-request-rejected",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-request-rejected"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:05.000Z",
+                  "updatedAt": "2026-10-22T02:25:05.000Z",
+                  "uid": "35240-1b24c44f-04c1-4045-b69f-b634ff209079"
+                },
+                {
+                  "id": "3375439f-14a7-436a-bad1-3b88c57aad85",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"organisationTypes\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"name\": \"<string>\",\n      \"registryName\": \"<string>\",\n      \"registryId\": \"<string>\",\n      \"email\": \"<string>\",\n      \"addressLine1\": \"<string>\",\n      \"addressLine2\": \"<string,null>\",\n      \"city\": \"<string>\",\n      \"postal\": \"<string>\",\n      \"state\": \"<string>\",\n      \"website\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"deletedAt\": \"<string,null-date-time>\",\n      \"acceptedAt\": \"<string,null-date-time>\",\n      \"rejectedAt\": \"<string,null-date-time>\",\n      \"rejectionReasonCode\": \"<string,null>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/validation-request-rejected",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "validation-request-rejected"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:25:05.000Z",
+                  "updatedAt": "2026-10-22T02:25:05.000Z",
+                  "uid": "35240-3375439f-14a7-436a-bad1-3b88c57aad85"
+                }
+              ],
+              "createdAt": "2026-10-22T02:25:04.000Z",
+              "updatedAt": "2026-10-22T02:25:04.000Z",
+              "uid": "35240-d3423050-fef6-46be-aec7-f2fe0618cf70"
+            }
+          ],
+          "id": "c543335f-f514-4412-b02c-8d158cae0946",
+          "createdAt": "2026-10-22T02:25:04.000Z",
+          "updatedAt": "2026-10-22T02:25:04.000Z",
+          "uid": "35240-c543335f-f514-4412-b02c-8d158cae0946"
+        }
+      ],
+      "id": "f63eae79-7ebe-484d-b773-3d44e78fabfd",
+      "createdAt": "2026-10-22T02:25:04.000Z",
+      "updatedAt": "2026-10-22T02:25:04.000Z",
+      "uid": "35240-f63eae79-7ebe-484d-b773-3d44e78fabfd"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
+    }
+  ]
+}

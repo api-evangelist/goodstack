@@ -1,0 +1,1035 @@
+{
+  "info": {
+    "_postman_id": "b7b63e3b-ae8c-4b50-a0e7-f2d24dc2b653",
+    "name": "Goodstack Services Experience API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:24:35.000Z",
+    "updatedAt": "2026-10-22T02:24:35.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-b7b63e3b-ae8c-4b50-a0e7-f2d24dc2b653"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "experience",
+          "item": [
+            {
+              "name": "organisations",
+              "item": [
+                {
+                  "name": "{id}",
+                  "item": [
+                    {
+                      "name": "default-locale",
+                      "item": [
+                        {
+                          "name": "Get default locale for an organisation",
+                          "id": "b0eaebd1-ad73-44de-a0e7-a3cf6db1bcd7",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "apikey",
+                              "apikey": [
+                                {
+                                  "key": "key",
+                                  "value": "Authorization",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "value",
+                                  "value": "{{apiKey}}",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "in",
+                                  "value": "header",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/experience/organisations/:id/default-locale",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "experience",
+                                "organisations",
+                                ":id",
+                                "default-locale"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "5de6e34d-e8b6-4c0b-9023-5dca2d26c299",
+                                  "key": "id",
+                                  "value": "<string>",
+                                  "description": "(Required) The ID of the organisation"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "id": "6e86ce19-beeb-486b-91bb-51be5af03585",
+                              "name": "Successfully retrieved the default locale",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/default-locale",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "default-locale"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"data\": {\n    \"organisationId\": \"<string>\",\n    \"defaultLocale\": \"<string,null>\"\n  },\n  \"object\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-6e86ce19-beeb-486b-91bb-51be5af03585"
+                            },
+                            {
+                              "id": "892ef778-7afd-4cce-8fd3-0aef4d210707",
+                              "name": "Unauthorized",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/default-locale",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "default-locale"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-892ef778-7afd-4cce-8fd3-0aef4d210707"
+                            },
+                            {
+                              "id": "6e0defee-98d6-4446-a885-35011bd4cad7",
+                              "name": "Forbidden",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/default-locale",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "default-locale"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-6e0defee-98d6-4446-a885-35011bd4cad7"
+                            },
+                            {
+                              "id": "899c9f2f-17be-480e-867b-3b5d7e1c5ae5",
+                              "name": "The specified resource was not found",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/default-locale",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "default-locale"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-899c9f2f-17be-480e-867b-3b5d7e1c5ae5"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:24:36.000Z",
+                          "updatedAt": "2026-10-22T02:24:36.000Z",
+                          "uid": "35240-b0eaebd1-ad73-44de-a0e7-a3cf6db1bcd7"
+                        }
+                      ],
+                      "id": "8e17c183-bb8d-415b-8549-df5644c899b4",
+                      "createdAt": "2026-10-22T02:24:36.000Z",
+                      "updatedAt": "2026-10-22T02:24:36.000Z",
+                      "uid": "35240-8e17c183-bb8d-415b-8549-df5644c899b4"
+                    },
+                    {
+                      "name": "images",
+                      "item": [
+                        {
+                          "name": "Get organisation images for organisation",
+                          "id": "72c38913-2c9a-4556-93be-ba65e4b73685",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "apikey",
+                              "apikey": [
+                                {
+                                  "key": "key",
+                                  "value": "Authorization",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "value",
+                                  "value": "{{apiKey}}",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "in",
+                                  "value": "header",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "experience",
+                                "organisations",
+                                ":id",
+                                "images"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "6ac8df5d-e173-4f60-8e06-4c8ddd71f08e",
+                                  "key": "id",
+                                  "value": "<string>",
+                                  "description": "(Required) The ID of the organisation"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "id": "923dbd70-a7c6-41f5-a071-cdb61951ccf8",
+                              "name": "Successfully retrieved organisation images",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "images"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"data\": [\n    {\n      \"id\": \"<uuid>\",\n      \"organisationId\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"url\": \"<string>\",\n      \"dimensions\": {\n        \"width\": \"<integer>\",\n        \"height\": \"<integer>\",\n        \"aspectRatio\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<uuid>\",\n      \"organisationId\": \"<string>\",\n      \"description\": \"<string,null>\",\n      \"url\": \"<string>\",\n      \"dimensions\": {\n        \"width\": \"<integer>\",\n        \"height\": \"<integer>\",\n        \"aspectRatio\": \"<string>\"\n      }\n    }\n  ],\n  \"object\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-923dbd70-a7c6-41f5-a071-cdb61951ccf8"
+                            },
+                            {
+                              "id": "1e752094-b560-4e57-a742-24b762535e4f",
+                              "name": "Unauthorized",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "images"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-1e752094-b560-4e57-a742-24b762535e4f"
+                            },
+                            {
+                              "id": "a0ceb27f-ec17-43b0-a3dd-ba668a4b6c40",
+                              "name": "Forbidden",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "images"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-a0ceb27f-ec17-43b0-a3dd-ba668a4b6c40"
+                            },
+                            {
+                              "id": "083d6193-419b-4432-ab34-c148cce86279",
+                              "name": "The specified resource was not found",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "images"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-083d6193-419b-4432-ab34-c148cce86279"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:24:36.000Z",
+                          "updatedAt": "2026-10-22T02:24:36.000Z",
+                          "uid": "35240-72c38913-2c9a-4556-93be-ba65e4b73685"
+                        },
+                        {
+                          "name": "Upload organisation image",
+                          "id": "2c0fafb7-9b86-4ade-99ab-d419bac9009b",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "multipart/form-data"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "formdata",
+                              "formdata": [
+                                {
+                                  "description": "(Required) The banner image file (JPG, JPEG, or PNG, max 2MB)",
+                                  "key": "file",
+                                  "type": "file",
+                                  "value": null
+                                },
+                                {
+                                  "description": "Image description",
+                                  "key": "description",
+                                  "value": "<string>",
+                                  "type": "text"
+                                },
+                                {
+                                  "description": "Id of image validation configuration to apply",
+                                  "key": "imageValidationConfigurationId",
+                                  "value": "<string>",
+                                  "type": "text"
+                                }
+                              ]
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "experience",
+                                "organisations",
+                                ":id",
+                                "images"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "ae62e28a-a671-43b7-bc5f-ea67391ac3f7",
+                                  "key": "id",
+                                  "value": "<string>",
+                                  "description": "(Required) The ID of the organisation"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "id": "2181245e-adfd-4bc1-935f-683b1e6a4dd9",
+                              "name": "Successfully uploaded organisation image",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) The banner image file (JPG, JPEG, or PNG, max 2MB)",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "description": "Image description",
+                                      "key": "description",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "description": "Id of image validation configuration to apply",
+                                      "key": "imageValidationConfigurationId",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "images"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"data\": {\n    \"id\": \"<uuid>\",\n    \"organisationId\": \"<string>\",\n    \"description\": \"<string,null>\",\n    \"url\": \"<string>\",\n    \"dimensions\": {\n      \"width\": \"<integer>\",\n      \"height\": \"<integer>\",\n      \"aspectRatio\": \"<string>\"\n    }\n  },\n  \"object\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-2181245e-adfd-4bc1-935f-683b1e6a4dd9"
+                            },
+                            {
+                              "id": "d0d93e13-6d78-49d3-9424-082f944a3b24",
+                              "name": "Bad request",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) The banner image file (JPG, JPEG, or PNG, max 2MB)",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "description": "Image description",
+                                      "key": "description",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "description": "Id of image validation configuration to apply",
+                                      "key": "imageValidationConfigurationId",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "images"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Bad Request",
+                              "code": 400,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\",\n    \"reasons\": \"<array,null>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-d0d93e13-6d78-49d3-9424-082f944a3b24"
+                            },
+                            {
+                              "id": "c31d59ba-b8ed-4cdb-bdd6-9496fc2e7674",
+                              "name": "Unauthorized",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) The banner image file (JPG, JPEG, or PNG, max 2MB)",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "description": "Image description",
+                                      "key": "description",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "description": "Id of image validation configuration to apply",
+                                      "key": "imageValidationConfigurationId",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "images"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-c31d59ba-b8ed-4cdb-bdd6-9496fc2e7674"
+                            },
+                            {
+                              "id": "f00f74db-4d97-4747-90a4-77002aaf363d",
+                              "name": "Forbidden",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) The banner image file (JPG, JPEG, or PNG, max 2MB)",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "description": "Image description",
+                                      "key": "description",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "description": "Id of image validation configuration to apply",
+                                      "key": "imageValidationConfigurationId",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "images"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-f00f74db-4d97-4747-90a4-77002aaf363d"
+                            },
+                            {
+                              "id": "d49fddd5-ae03-44ce-a251-70a32d04a245",
+                              "name": "The specified resource was not found",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "multipart/form-data"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "formdata",
+                                  "formdata": [
+                                    {
+                                      "description": "(Required) The banner image file (JPG, JPEG, or PNG, max 2MB)",
+                                      "key": "file",
+                                      "type": "file"
+                                    },
+                                    {
+                                      "description": "Image description",
+                                      "key": "description",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    },
+                                    {
+                                      "description": "Id of image validation configuration to apply",
+                                      "key": "imageValidationConfigurationId",
+                                      "value": "<string>",
+                                      "type": "text"
+                                    }
+                                  ]
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/experience/organisations/:id/images",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "experience",
+                                    "organisations",
+                                    ":id",
+                                    "images"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "id"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:24:36.000Z",
+                              "updatedAt": "2026-10-22T02:24:36.000Z",
+                              "uid": "35240-d49fddd5-ae03-44ce-a251-70a32d04a245"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:24:36.000Z",
+                          "updatedAt": "2026-10-22T02:24:36.000Z",
+                          "uid": "35240-2c0fafb7-9b86-4ade-99ab-d419bac9009b"
+                        }
+                      ],
+                      "id": "9cc8c9fa-8a9f-45be-8b1f-90c9844eb8f6",
+                      "createdAt": "2026-10-22T02:24:36.000Z",
+                      "updatedAt": "2026-10-22T02:24:36.000Z",
+                      "uid": "35240-9cc8c9fa-8a9f-45be-8b1f-90c9844eb8f6"
+                    }
+                  ],
+                  "id": "67f949af-9727-456e-a872-1ef2b47f935d",
+                  "createdAt": "2026-10-22T02:24:36.000Z",
+                  "updatedAt": "2026-10-22T02:24:36.000Z",
+                  "uid": "35240-67f949af-9727-456e-a872-1ef2b47f935d"
+                }
+              ],
+              "id": "e27cae2d-3653-406a-bf3f-9e87eba9b93f",
+              "createdAt": "2026-10-22T02:24:36.000Z",
+              "updatedAt": "2026-10-22T02:24:36.000Z",
+              "uid": "35240-e27cae2d-3653-406a-bf3f-9e87eba9b93f"
+            }
+          ],
+          "id": "183dcd3b-05b6-49a9-9c10-cd1a00c09227",
+          "createdAt": "2026-10-22T02:24:36.000Z",
+          "updatedAt": "2026-10-22T02:24:36.000Z",
+          "uid": "35240-183dcd3b-05b6-49a9-9c10-cd1a00c09227"
+        }
+      ],
+      "id": "1560dfea-c79f-4766-9186-0d8eece2f723",
+      "createdAt": "2026-10-22T02:24:36.000Z",
+      "updatedAt": "2026-10-22T02:24:36.000Z",
+      "uid": "35240-1560dfea-c79f-4766-9186-0d8eece2f723"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
+    }
+  ]
+}

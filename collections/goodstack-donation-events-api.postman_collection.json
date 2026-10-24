@@ -1,0 +1,988 @@
+{
+  "info": {
+    "_postman_id": "3f5fdc6d-862e-4c5a-bd49-7eb1942a595b",
+    "name": "Goodstack Services Donation Events API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:24:09.000Z",
+    "updatedAt": "2026-10-22T02:24:09.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-3f5fdc6d-862e-4c5a-bd49-7eb1942a595b"
+  },
+  "item": [
+    {
+      "name": "webhooks",
+      "item": [
+        {
+          "name": "donation-hosted-payment-received",
+          "item": [
+            {
+              "name": "Payment received for hosted donation",
+              "id": "1643b0ea-493a-48d5-b219-18e60b61cb2b",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/donation-hosted-payment-received",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "donation-hosted-payment-received"
+                  ]
+                },
+                "description": "Payment has been received from the user for a hosted donation."
+              },
+              "response": [
+                {
+                  "id": "2b26897b-cd23-4860-8e1c-ed86903b5094",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-hosted-payment-received",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-hosted-payment-received"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-2b26897b-cd23-4860-8e1c-ed86903b5094"
+                },
+                {
+                  "id": "61092223-4f55-4774-aca3-99f32b986b17",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-hosted-payment-received",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-hosted-payment-received"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-61092223-4f55-4774-aca3-99f32b986b17"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:10.000Z",
+              "updatedAt": "2026-10-22T02:24:10.000Z",
+              "uid": "35240-1643b0ea-493a-48d5-b219-18e60b61cb2b"
+            }
+          ],
+          "id": "abc70089-130b-41e3-82f6-3605ba56a198",
+          "createdAt": "2026-10-22T02:24:10.000Z",
+          "updatedAt": "2026-10-22T02:24:10.000Z",
+          "uid": "35240-abc70089-130b-41e3-82f6-3605ba56a198"
+        },
+        {
+          "name": "donation-created",
+          "item": [
+            {
+              "name": "Donation record created",
+              "id": "02cbca85-8542-4fc4-98ae-37fd33e1d39f",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/donation-created",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "donation-created"
+                  ]
+                },
+                "description": "A new donation record has been successfully created in the system."
+              },
+              "response": [
+                {
+                  "id": "d67bd68d-6350-449e-943a-5f62b22355f6",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-created",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-created"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-d67bd68d-6350-449e-943a-5f62b22355f6"
+                },
+                {
+                  "id": "b62c8ddf-9b2f-492d-9de6-8eb7640f8a31",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-created",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-created"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-b62c8ddf-9b2f-492d-9de6-8eb7640f8a31"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:10.000Z",
+              "updatedAt": "2026-10-22T02:24:10.000Z",
+              "uid": "35240-02cbca85-8542-4fc4-98ae-37fd33e1d39f"
+            }
+          ],
+          "id": "22312067-f9a9-42fc-99c5-1bced36cbbe2",
+          "createdAt": "2026-10-22T02:24:10.000Z",
+          "updatedAt": "2026-10-22T02:24:10.000Z",
+          "uid": "35240-22312067-f9a9-42fc-99c5-1bced36cbbe2"
+        },
+        {
+          "name": "donation-payment-successful",
+          "item": [
+            {
+              "name": "Donation payment successful",
+              "id": "3c2f5ebf-7d79-4569-a8b0-9e8cd29207af",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/donation-payment-successful",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "donation-payment-successful"
+                  ]
+                },
+                "description": "The payment for the donation has been successfully completed and verified."
+              },
+              "response": [
+                {
+                  "id": "3f307f60-1e83-4ba0-b657-8b315d0d524e",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-payment-successful",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-payment-successful"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-3f307f60-1e83-4ba0-b657-8b315d0d524e"
+                },
+                {
+                  "id": "d37d5356-1dda-4153-9338-21b15e4d2b34",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-payment-successful",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-payment-successful"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-d37d5356-1dda-4153-9338-21b15e4d2b34"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:10.000Z",
+              "updatedAt": "2026-10-22T02:24:10.000Z",
+              "uid": "35240-3c2f5ebf-7d79-4569-a8b0-9e8cd29207af"
+            }
+          ],
+          "id": "8d51c77e-f6ff-48b1-b2a2-dcba6275a735",
+          "createdAt": "2026-10-22T02:24:10.000Z",
+          "updatedAt": "2026-10-22T02:24:10.000Z",
+          "uid": "35240-8d51c77e-f6ff-48b1-b2a2-dcba6275a735"
+        },
+        {
+          "name": "donation-settled",
+          "item": [
+            {
+              "name": "Donation settled",
+              "id": "f7420304-cac5-45a1-939b-3a28b6f49e82",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/donation-settled",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "donation-settled"
+                  ]
+                },
+                "description": "The donated funds have been received and reconciled by the partner foundation."
+              },
+              "response": [
+                {
+                  "id": "8db70458-a310-4775-9c05-a5a49d24c4dc",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-settled",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-settled"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-8db70458-a310-4775-9c05-a5a49d24c4dc"
+                },
+                {
+                  "id": "efeaba53-f547-4f17-af62-12a21f37ab3f",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-settled",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-settled"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-efeaba53-f547-4f17-af62-12a21f37ab3f"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:10.000Z",
+              "updatedAt": "2026-10-22T02:24:10.000Z",
+              "uid": "35240-f7420304-cac5-45a1-939b-3a28b6f49e82"
+            }
+          ],
+          "id": "804d4353-cd95-4993-b56c-c429b87d21cb",
+          "createdAt": "2026-10-22T02:24:10.000Z",
+          "updatedAt": "2026-10-22T02:24:10.000Z",
+          "uid": "35240-804d4353-cd95-4993-b56c-c429b87d21cb"
+        },
+        {
+          "name": "donation-disbursed",
+          "item": [
+            {
+              "name": "Donation disbursed",
+              "id": "87a7b4df-f3f3-4315-9adf-1fb45dd31ee0",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/donation-disbursed",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "donation-disbursed"
+                  ]
+                },
+                "description": "The donated funds have been transferred to the intended nonprofit."
+              },
+              "response": [
+                {
+                  "id": "3af3f2ea-8ecf-4fa4-a14d-ae5039c2f1e4",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-disbursed",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-disbursed"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-3af3f2ea-8ecf-4fa4-a14d-ae5039c2f1e4"
+                },
+                {
+                  "id": "824098c9-7b8f-4c49-b214-b678a771b47a",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-disbursed",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-disbursed"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-824098c9-7b8f-4c49-b214-b678a771b47a"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:10.000Z",
+              "updatedAt": "2026-10-22T02:24:10.000Z",
+              "uid": "35240-87a7b4df-f3f3-4315-9adf-1fb45dd31ee0"
+            }
+          ],
+          "id": "dbd5646c-4087-4cf3-8013-a5b292001816",
+          "createdAt": "2026-10-22T02:24:10.000Z",
+          "updatedAt": "2026-10-22T02:24:10.000Z",
+          "uid": "35240-dbd5646c-4087-4cf3-8013-a5b292001816"
+        },
+        {
+          "name": "donation-cancelled",
+          "item": [
+            {
+              "name": "Donation cancelled",
+              "id": "0937d22d-ed40-4ee9-8fe7-ee99a3f27e6d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/donation-cancelled",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "donation-cancelled"
+                  ]
+                },
+                "description": "The donation process has been terminated, either by the donor or due to system issues."
+              },
+              "response": [
+                {
+                  "id": "3065366b-620c-40d8-aefc-705f0f92325c",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-cancelled",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-cancelled"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-3065366b-620c-40d8-aefc-705f0f92325c"
+                },
+                {
+                  "id": "8e19b26a-456a-423f-98e3-eca61de067d2",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-cancelled",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-cancelled"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-8e19b26a-456a-423f-98e3-eca61de067d2"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:10.000Z",
+              "updatedAt": "2026-10-22T02:24:10.000Z",
+              "uid": "35240-0937d22d-ed40-4ee9-8fe7-ee99a3f27e6d"
+            }
+          ],
+          "id": "4dd6adce-d065-4a1c-b8c6-1ddb0cf9f3a5",
+          "createdAt": "2026-10-22T02:24:10.000Z",
+          "updatedAt": "2026-10-22T02:24:10.000Z",
+          "uid": "35240-4dd6adce-d065-4a1c-b8c6-1ddb0cf9f3a5"
+        },
+        {
+          "name": "donation-reassigned",
+          "item": [
+            {
+              "name": "Donation reassigned",
+              "id": "276eb47c-29e7-4363-9247-d15eb26eb7eb",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/donation-reassigned",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "donation-reassigned"
+                  ]
+                },
+                "description": "The donation has been reassigned to another organisation, either because it has failed compliance, we are unable to pay the organisation or the organisation has been merged with another id."
+              },
+              "response": [
+                {
+                  "id": "1c87298b-935f-4ee4-ba13-adcd9a394fab",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-reassigned",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-reassigned"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-1c87298b-935f-4ee4-ba13-adcd9a394fab"
+                },
+                {
+                  "id": "488b67dd-7f42-44ba-bb34-382f52bab90a",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"userId\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"type\": \"<string>\",\n      \"hosted\": {\n        \"sessionId\": \"<string>\"\n      },\n      \"amount\": \"<integer>\",\n      \"currencyCode\": \"<string>\",\n      \"status\": \"<string>\",\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"email\": \"<string>\",\n      \"consentedToBeContactedByOrg\": \"<string>\",\n      \"consentedToBeContacted\": \"<string>\",\n      \"anonymous\": \"<string>\",\n      \"giftAidId\": \"<string,null>\",\n      \"cancelledAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"metadata\": {},\n      \"subscription\": {\n        \"initial\": \"<boolean>\"\n      },\n      \"donationRequestId\": \"<string>\",\n      \"donationRequestAmount\": {},\n      \"accountId\": \"<string>\",\n      \"settledAmount\": {},\n      \"settledAt\": \"<dateTime>\",\n      \"disbursedAt\": \"<dateTime>\",\n      \"reassignedAt\": \"<dateTime>\",\n      \"reassignedFromOrganisationId\": \"<string>\"\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/donation-reassigned",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "donation-reassigned"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:10.000Z",
+                  "updatedAt": "2026-10-22T02:24:10.000Z",
+                  "uid": "35240-488b67dd-7f42-44ba-bb34-382f52bab90a"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:10.000Z",
+              "updatedAt": "2026-10-22T02:24:10.000Z",
+              "uid": "35240-276eb47c-29e7-4363-9247-d15eb26eb7eb"
+            }
+          ],
+          "id": "092dc062-c422-403c-95b5-8172e915bf71",
+          "createdAt": "2026-10-22T02:24:10.000Z",
+          "updatedAt": "2026-10-22T02:24:10.000Z",
+          "uid": "35240-092dc062-c422-403c-95b5-8172e915bf71"
+        }
+      ],
+      "id": "5d79b5c9-e982-423c-b0ac-8f0fabf8a1dd",
+      "createdAt": "2026-10-22T02:24:10.000Z",
+      "updatedAt": "2026-10-22T02:24:10.000Z",
+      "uid": "35240-5d79b5c9-e982-423c-b0ac-8f0fabf8a1dd"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
+    }
+  ]
+}

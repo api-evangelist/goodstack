@@ -1,1577 +1,1676 @@
 {
+  "info": {
+    "_postman_id": "cb624149-f331-4e7c-9895-61e51bd14b1d",
+    "name": "Goodstack Services Organisations API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:22:21.000Z",
+    "updatedAt": "2026-10-22T02:22:21.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-cb624149-f331-4e7c-9895-61e51bd14b1d"
+  },
   "item": [
     {
-      "id": "2735c1fa-f307-4688-aa0e-23aff783616c",
-      "name": "Organisations",
-      "description": {
-        "content": "Nonprofits are represented by the Organisation object. You can retrieve and query for Organisations.",
-        "type": "text/plain"
-      },
+      "name": "v1",
       "item": [
         {
-          "id": "177e6e78-412b-45c6-b561-e76a4d7b45bc",
-          "name": "List an Organisations Milestones",
-          "request": {
-            "name": "List an Organisations Milestones",
-            "description": {},
-            "url": {
-              "path": [
-                "v1",
-                "organisations",
-                ":id",
-                "milestones"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "id",
-                  "description": "(Required) Id of the organisation"
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "apikey",
-              "apikey": [
-                {
-                  "key": "key",
-                  "value": "Authorization"
-                },
-                {
-                  "key": "value",
-                  "value": "{{apiKey}}"
-                },
-                {
-                  "key": "in",
-                  "value": "header"
-                }
-              ]
-            }
-          },
-          "response": [
+          "name": "organisations",
+          "item": [
             {
-              "id": "12f2b4fc-45ec-461f-b758-9df1442ca1e5",
-              "name": "Successfully list an Organisations milestones",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":id",
-                    "milestones"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "milestones",
+                  "item": [
                     {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "id",
-                      "description": "(Required) Id of the organisation"
+                      "name": "List an Organisations Milestones",
+                      "id": "c7843f76-3a77-4342-b9d7-399ca612f59e",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "apikey",
+                          "apikey": [
+                            {
+                              "key": "key",
+                              "value": "Authorization",
+                              "type": "string"
+                            },
+                            {
+                              "key": "value",
+                              "value": "{{apiKey}}",
+                              "type": "string"
+                            },
+                            {
+                              "key": "in",
+                              "value": "header",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/organisations/:id/milestones",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "organisations",
+                            ":id",
+                            "milestones"
+                          ],
+                          "variable": [
+                            {
+                              "id": "dd32892a-5e59-4307-9fd8-348d0e86694f",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Id of the organisation"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "id": "b212f21c-dbb8-407c-879f-7eae6c545ad4",
+                          "name": "Successfully list an Organisations milestones",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/organisations/:id/milestones",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "organisations",
+                                ":id",
+                                "milestones"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"amount\": \"<integer>\",\n    \"reward\": \"<string>\",\n    \"currencyCode\": \"<string>\",\n    \"organisationId\": \"<string>\"\n  },\n  \"object\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:22:22.000Z",
+                          "updatedAt": "2026-10-22T02:22:22.000Z",
+                          "uid": "35240-b212f21c-dbb8-407c-879f-7eae6c545ad4"
+                        },
+                        {
+                          "id": "c7411070-c904-40f6-91b4-e2907943c40e",
+                          "name": "Unauthorized",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/organisations/:id/milestones",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "organisations",
+                                ":id",
+                                "milestones"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:22:22.000Z",
+                          "updatedAt": "2026-10-22T02:22:22.000Z",
+                          "uid": "35240-c7411070-c904-40f6-91b4-e2907943c40e"
+                        },
+                        {
+                          "id": "9e16a60d-5f02-42ce-9a3b-f81d5384af02",
+                          "name": "Forbidden (scope)",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: apikey",
+                                "key": "Authorization",
+                                "value": "<API Key>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/organisations/:id/milestones",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "organisations",
+                                ":id",
+                                "milestones"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Forbidden",
+                          "code": 403,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:22:22.000Z",
+                          "updatedAt": "2026-10-22T02:22:22.000Z",
+                          "uid": "35240-9e16a60d-5f02-42ce-9a3b-f81d5384af02"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:22:22.000Z",
+                      "updatedAt": "2026-10-22T02:22:22.000Z",
+                      "uid": "35240-c7843f76-3a77-4342-b9d7-399ca612f59e"
+                    }
+                  ],
+                  "id": "a2fb2cf1-efa9-4be1-8e26-c00eda0de130",
+                  "createdAt": "2026-10-22T02:22:22.000Z",
+                  "updatedAt": "2026-10-22T02:22:22.000Z",
+                  "uid": "35240-a2fb2cf1-efa9-4be1-8e26-c00eda0de130"
+                },
+                {
+                  "name": "profile",
+                  "item": [
+                    {
+                      "name": "Retrieve an Organisation profile info",
+                      "id": "d22740c7-8907-496f-a5f1-202ce95e52ee",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/organisations/:id/profile",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "organisations",
+                            ":id",
+                            "profile"
+                          ],
+                          "variable": [
+                            {
+                              "id": "ab317096-a32b-4e6a-96f4-e9e19b7a8367",
+                              "key": "id",
+                              "value": "<string>",
+                              "description": "(Required) Id of the organisation"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "id": "05a0ffc3-0b39-40fa-a9f7-aec6392591bc",
+                          "name": "Retrieve a nonprofit Organisation profile",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/organisations/:id/profile",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "organisations",
+                                ":id",
+                                "profile"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"data\": {\n    \"name\": \"<string>\",\n    \"displayName\": \"<string,null>\",\n    \"description\": \"<string,null>\",\n    \"logo\": \"<string,null>\",\n    \"claimed\": \"<boolean>\"\n  },\n  \"object\": \"<string>\"\n}",
+                          "createdAt": "2026-10-22T02:22:22.000Z",
+                          "updatedAt": "2026-10-22T02:22:22.000Z",
+                          "uid": "35240-05a0ffc3-0b39-40fa-a9f7-aec6392591bc"
+                        },
+                        {
+                          "id": "18c620b0-1ba8-4ed5-ae14-a938af0d2d50",
+                          "name": "The specified resource was not found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/organisations/:id/profile",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "organisations",
+                                ":id",
+                                "profile"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "id"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-10-22T02:22:22.000Z",
+                          "updatedAt": "2026-10-22T02:22:22.000Z",
+                          "uid": "35240-18c620b0-1ba8-4ed5-ae14-a938af0d2d50"
+                        }
+                      ],
+                      "createdAt": "2026-10-22T02:22:22.000Z",
+                      "updatedAt": "2026-10-22T02:22:22.000Z",
+                      "uid": "35240-d22740c7-8907-496f-a5f1-202ce95e52ee"
+                    }
+                  ],
+                  "id": "756d0ceb-079a-46b2-8ce7-a70ce6244f6e",
+                  "createdAt": "2026-10-22T02:22:22.000Z",
+                  "updatedAt": "2026-10-22T02:22:22.000Z",
+                  "uid": "35240-756d0ceb-079a-46b2-8ce7-a70ce6244f6e"
+                },
+                {
+                  "name": "Retrieve an Organisation",
+                  "id": "1e5a0a56-63f0-4fe1-8a4b-f03391e8c69b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "apikey",
+                      "apikey": [
+                        {
+                          "key": "key",
+                          "value": "Authorization",
+                          "type": "string"
+                        },
+                        {
+                          "key": "value",
+                          "value": "{{apiKey}}",
+                          "type": "string"
+                        },
+                        {
+                          "key": "in",
+                          "value": "header",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/organisations/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "organisations",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "81e9ec3b-e83a-441e-a45c-bd90aebc1fad",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) Id of the organisation"
+                        }
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "id": "e7aa79d0-f6c7-406b-a54c-1b915f278a01",
+                      "name": "Retrieve a nonprofit Organisation",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/organisations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "organisations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"displayName\": \"<string,null>\",\n    \"description\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"milestones\": [\n      {\n        \"id\": \"<string>\",\n        \"amount\": \"<integer>\",\n        \"reward\": \"<string>\",\n        \"currencyCode\": \"<string>\",\n        \"organisationId\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"amount\": \"<integer>\",\n        \"reward\": \"<string>\",\n        \"currencyCode\": \"<string>\",\n        \"organisationId\": \"<string>\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"imageUrl\": \"<string,null>\",\n        \"attributes\": \"<object,null>\",\n        \"createdAt\": \"<dateTime>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"imageUrl\": \"<string,null>\",\n        \"attributes\": \"<object,null>\",\n        \"createdAt\": \"<dateTime>\"\n      }\n    ],\n    \"type\": \"nonprofit\",\n    \"logo\": \"<string,null>\",\n    \"images\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"registry\": \"<string>\",\n    \"registryId\": \"<string>\",\n    \"website\": \"<string,null>\",\n    \"websites\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"address\": \"<string,null>\",\n    \"addressLine1\": \"<string,null>\",\n    \"addressLine2\": \"<string,null>\",\n    \"city\": \"<string,null>\",\n    \"state\": \"<string,null>\",\n    \"postcode\": \"<string,null>\",\n    \"registrationDate\": \"<string,null-date-time>\",\n    \"registrationActive\": \"<boolean>\",\n    \"currencyCode\": \"<string,null>\",\n    \"trustees\": \"<string,null>\",\n    \"claimedAt\": \"<string,null-date-time>\",\n    \"createdAt\": \"<dateTime>\",\n    \"countrySpecificProperties\": {\n      \"usaGroupExempt\": \"<boolean,null>\",\n      \"fcra\": \"<string,null>\",\n      \"DGR1\": \"<boolean,null>\",\n      \"DGR2\": \"<boolean,null>\",\n      \"DGR4\": \"<boolean,null>\"\n    },\n    \"isBranchParent\": \"<boolean>\",\n    \"location\": {\n      \"lat\": \"<number>\",\n      \"lon\": \"<number>\"\n    },\n    \"types\": [\n      \"education\",\n      \"social_impact\"\n    ],\n    \"registryDetails\": {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"englishName\": \"<string>\",\n      \"code\": \"<string>\"\n    }\n  },\n  \"object\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:22:22.000Z",
+                      "updatedAt": "2026-10-22T02:22:22.000Z",
+                      "uid": "35240-e7aa79d0-f6c7-406b-a54c-1b915f278a01"
+                    },
+                    {
+                      "id": "6eb43823-8470-4aed-8a15-afc155a8d37b",
+                      "name": "Unauthorized",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/organisations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "organisations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:22:22.000Z",
+                      "updatedAt": "2026-10-22T02:22:22.000Z",
+                      "uid": "35240-6eb43823-8470-4aed-8a15-afc155a8d37b"
+                    },
+                    {
+                      "id": "297f2f46-0951-4b85-ba70-e1565da80395",
+                      "name": "Forbidden (scope)",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/organisations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "organisations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:22:22.000Z",
+                      "updatedAt": "2026-10-22T02:22:22.000Z",
+                      "uid": "35240-297f2f46-0951-4b85-ba70-e1565da80395"
+                    },
+                    {
+                      "id": "a86deb87-f715-49ac-ad42-a637f657ef70",
+                      "name": "The specified resource was not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/organisations/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "organisations",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:22:22.000Z",
+                      "updatedAt": "2026-10-22T02:22:22.000Z",
+                      "uid": "35240-a86deb87-f715-49ac-ad42-a637f657ef70"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:22:22.000Z",
+                  "updatedAt": "2026-10-22T02:22:22.000Z",
+                  "uid": "35240-1e5a0a56-63f0-4fe1-8a4b-f03391e8c69b"
+                }
+              ],
+              "id": "62461dc0-cf2e-43a8-a4ee-269392846c20",
+              "createdAt": "2026-10-22T02:22:22.000Z",
+              "updatedAt": "2026-10-22T02:22:22.000Z",
+              "uid": "35240-62461dc0-cf2e-43a8-a4ee-269392846c20"
+            },
+            {
+              "name": "{countryCode}",
+              "item": [
+                {
+                  "name": "{registry}",
+                  "item": [
+                    {
+                      "name": "{registryId}",
+                      "item": [
+                        {
+                          "name": "Retrieve an Organisation by country code, registry and registryId",
+                          "id": "bec3ed22-85d9-462c-a730-e8e97f2661f7",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "apikey",
+                              "apikey": [
+                                {
+                                  "key": "key",
+                                  "value": "Authorization",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "value",
+                                  "value": "{{apiKey}}",
+                                  "type": "string"
+                                },
+                                {
+                                  "key": "in",
+                                  "value": "header",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/organisations/:countryCode/:registry/:registryId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "organisations",
+                                ":countryCode",
+                                ":registry",
+                                ":registryId"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "9f13ff19-8492-40e4-bc4d-8656afe6dea0",
+                                  "key": "countryCode",
+                                  "value": "<string>",
+                                  "description": "(Required) 3 letter ISO-3166 alpha 3 identifier of the country"
+                                },
+                                {
+                                  "id": "21bcc6e3-3c40-4ea7-9704-6e88ec291a4f",
+                                  "key": "registry",
+                                  "value": "<string>",
+                                  "description": "(Required) Id of the registry"
+                                },
+                                {
+                                  "id": "8dbe2429-f44e-4f7c-a49e-8b6d78938887",
+                                  "key": "registryId",
+                                  "value": "<string>",
+                                  "description": "(Required) Id of the Organisation within the registry"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "id": "803b6d40-462d-4272-84da-227ea516f753",
+                              "name": "Retrieve a Organisation by country code, registry and registryId",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/organisations/:countryCode/:registry/:registryId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "organisations",
+                                    ":countryCode",
+                                    ":registry",
+                                    ":registryId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "countryCode"
+                                    },
+                                    {
+                                      "key": "registry"
+                                    },
+                                    {
+                                      "key": "registryId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"displayName\": \"<string,null>\",\n    \"description\": \"<string>\",\n    \"countryCode\": \"<string>\",\n    \"milestones\": [\n      {\n        \"id\": \"<string>\",\n        \"amount\": \"<integer>\",\n        \"reward\": \"<string>\",\n        \"currencyCode\": \"<string>\",\n        \"organisationId\": \"<string>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"amount\": \"<integer>\",\n        \"reward\": \"<string>\",\n        \"currencyCode\": \"<string>\",\n        \"organisationId\": \"<string>\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"imageUrl\": \"<string,null>\",\n        \"attributes\": \"<object,null>\",\n        \"createdAt\": \"<dateTime>\"\n      },\n      {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"imageUrl\": \"<string,null>\",\n        \"attributes\": \"<object,null>\",\n        \"createdAt\": \"<dateTime>\"\n      }\n    ],\n    \"type\": \"nonprofit\",\n    \"logo\": \"<string,null>\",\n    \"images\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"registry\": \"<string>\",\n    \"registryId\": \"<string>\",\n    \"website\": \"<string,null>\",\n    \"websites\": [\n      \"<string>\",\n      \"<string>\"\n    ],\n    \"address\": \"<string,null>\",\n    \"addressLine1\": \"<string,null>\",\n    \"addressLine2\": \"<string,null>\",\n    \"city\": \"<string,null>\",\n    \"state\": \"<string,null>\",\n    \"postcode\": \"<string,null>\",\n    \"registrationDate\": \"<string,null-date-time>\",\n    \"registrationActive\": \"<boolean>\",\n    \"currencyCode\": \"<string,null>\",\n    \"trustees\": \"<string,null>\",\n    \"claimedAt\": \"<string,null-date-time>\",\n    \"createdAt\": \"<dateTime>\",\n    \"countrySpecificProperties\": {\n      \"usaGroupExempt\": \"<boolean,null>\",\n      \"fcra\": \"<string,null>\",\n      \"DGR1\": \"<boolean,null>\",\n      \"DGR2\": \"<boolean,null>\",\n      \"DGR4\": \"<boolean,null>\"\n    },\n    \"isBranchParent\": \"<boolean>\",\n    \"location\": null\n  },\n  \"object\": \"<string>\"\n}",
+                              "createdAt": "2026-10-22T02:22:22.000Z",
+                              "updatedAt": "2026-10-22T02:22:22.000Z",
+                              "uid": "35240-803b6d40-462d-4272-84da-227ea516f753"
+                            },
+                            {
+                              "id": "335bf47a-08db-4d99-b9fa-defe3f9697cd",
+                              "name": "Unauthorized",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/organisations/:countryCode/:registry/:registryId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "organisations",
+                                    ":countryCode",
+                                    ":registry",
+                                    ":registryId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "countryCode"
+                                    },
+                                    {
+                                      "key": "registry"
+                                    },
+                                    {
+                                      "key": "registryId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Unauthorized",
+                              "code": 401,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:22:22.000Z",
+                              "updatedAt": "2026-10-22T02:22:22.000Z",
+                              "uid": "35240-335bf47a-08db-4d99-b9fa-defe3f9697cd"
+                            },
+                            {
+                              "id": "8ce1b76b-42d7-4d75-8f96-eb979babe149",
+                              "name": "Forbidden (scope)",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/organisations/:countryCode/:registry/:registryId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "organisations",
+                                    ":countryCode",
+                                    ":registry",
+                                    ":registryId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "countryCode"
+                                    },
+                                    {
+                                      "key": "registry"
+                                    },
+                                    {
+                                      "key": "registryId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Forbidden",
+                              "code": 403,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:22:22.000Z",
+                              "updatedAt": "2026-10-22T02:22:22.000Z",
+                              "uid": "35240-8ce1b76b-42d7-4d75-8f96-eb979babe149"
+                            },
+                            {
+                              "id": "f6992006-320b-4f07-a4e3-a577fea3bab8",
+                              "name": "The specified resource was not found",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: apikey",
+                                    "key": "Authorization",
+                                    "value": "<API Key>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/organisations/:countryCode/:registry/:registryId",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "organisations",
+                                    ":countryCode",
+                                    ":registry",
+                                    ":registryId"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "countryCode"
+                                    },
+                                    {
+                                      "key": "registry"
+                                    },
+                                    {
+                                      "key": "registryId"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "Not Found",
+                              "code": 404,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                              "createdAt": "2026-10-22T02:22:22.000Z",
+                              "updatedAt": "2026-10-22T02:22:22.000Z",
+                              "uid": "35240-f6992006-320b-4f07-a4e3-a577fea3bab8"
+                            }
+                          ],
+                          "createdAt": "2026-10-22T02:22:22.000Z",
+                          "updatedAt": "2026-10-22T02:22:22.000Z",
+                          "uid": "35240-bec3ed22-85d9-462c-a730-e8e97f2661f7"
+                        }
+                      ],
+                      "id": "4ec0e286-cc46-4049-bdc7-4b8ade17423f",
+                      "createdAt": "2026-10-22T02:22:22.000Z",
+                      "updatedAt": "2026-10-22T02:22:22.000Z",
+                      "uid": "35240-4ec0e286-cc46-4049-bdc7-4b8ade17423f"
+                    }
+                  ],
+                  "id": "027e0da4-e0c3-47fe-a4bd-b6c0c9bd0cb9",
+                  "createdAt": "2026-10-22T02:22:22.000Z",
+                  "updatedAt": "2026-10-22T02:22:22.000Z",
+                  "uid": "35240-027e0da4-e0c3-47fe-a4bd-b6c0c9bd0cb9"
+                }
+              ],
+              "id": "5f0e6818-066c-4c8a-a187-15875777f73e",
+              "createdAt": "2026-10-22T02:22:22.000Z",
+              "updatedAt": "2026-10-22T02:22:22.000Z",
+              "uid": "35240-5f0e6818-066c-4c8a-a187-15875777f73e"
+            },
+            {
+              "name": "Search Organisations",
+              "id": "468ffda0-fbc2-4b97-a90f-5bb1b6163a93",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "Authorization",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
                     }
                   ]
                 },
+                "method": "GET",
                 "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
                   {
                     "key": "Accept",
                     "value": "application/json"
                   }
                 ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"amount\": 1000,\n    \"reward\": \"This is a reward\",\n    \"currencyCode\": \"string\",\n    \"organisationId\": \"string\"\n  },\n  \"object\": \"milestone\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "2674b8ae-0723-4617-861f-b1a9a725c525",
-              "name": "Unauthorized",
-              "originalRequest": {
                 "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":id",
-                    "milestones"
-                  ],
+                  "raw": "{{baseUrl}}/v1/organisations?countryCode=<string>&administrativeArea=<string>&excludeCountryCodes=<string>&registryId=<string>&category[]=<string>&category[]=<string>&notCategory[]=<string>&notCategory[]=<string>&tags[]=<string>&tags[]=<string>&notTags[]=<string>&notTags[]=<string>&type[]=nonprofit&type[]=nonprofit&query=<string>&lat=<number>&lon=<number>&distance=100km&usaGroupExempt=<boolean>&domain=<string>&page=1&pageSize=25",
                   "host": [
                     "{{baseUrl}}"
                   ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "id",
-                      "description": "(Required) Id of the organisation"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "da89606d-7f57-44e1-a100-e24f98a3dba7",
-              "name": "Forbidden (scope)",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":id",
-                    "milestones"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "id",
-                      "description": "(Required) Id of the organisation"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Forbidden",
-              "code": 403,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": {\n    \"code\": \"forbidden\",\n    \"title\": \"Forbidden\",\n    \"message\": \"Access is denied due to missing scope permissions\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "4a0eb7f2-7274-4d3c-9080-000f9db72d53",
-          "name": "Search Organisations",
-          "request": {
-            "name": "Search Organisations",
-            "description": {
-              "content": "Search for nonprofits. The Organisations search API provides up to 1,000 results for each search that are accessible by pagination. The boolean field `exhaustiveTotalResults` indicates whether the totalResults are exhaustive (true) or approximate (false).",
-              "type": "text/plain"
-            },
-            "url": {
-              "path": [
-                "v1",
-                "organisations"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [
-                {
-                  "disabled": false,
-                  "key": "countryCode",
-                  "value": "<string>",
-                  "description": "Filter search by three-letter ISO country code"
-                },
-                {
-                  "disabled": false,
-                  "key": "registryId",
-                  "value": "<string>",
-                  "description": "Filter search using an organisation’s ID within their registry. Useful with usaGroupExempt param"
-                },
-                {
-                  "disabled": false,
-                  "key": "category[]",
-                  "value": "<string>",
-                  "description": "Only return Organisations in the given Categories"
-                },
-                {
-                  "disabled": false,
-                  "key": "category[]",
-                  "value": "<string>",
-                  "description": "Only return Organisations in the given Categories"
-                },
-                {
-                  "disabled": false,
-                  "key": "notCategory[]",
-                  "value": "<string>",
-                  "description": "Do not return Organisations in the given Categories"
-                },
-                {
-                  "disabled": false,
-                  "key": "notCategory[]",
-                  "value": "<string>",
-                  "description": "Do not return Organisations in the given Categories"
-                },
-                {
-                  "disabled": false,
-                  "key": "tags[]",
-                  "value": "<string>",
-                  "description": "Only return Organisations with the specified tags. To fetch organisations with tag X AND Y use the following `?tags[]=X&tags[]=Y`. To fetch organisations with tag X OR Y use the following `?tags[]=X,Y`."
-                },
-                {
-                  "disabled": false,
-                  "key": "tags[]",
-                  "value": "<string>",
-                  "description": "Only return Organisations with the specified tags. To fetch organisations with tag X AND Y use the following `?tags[]=X&tags[]=Y`. To fetch organisations with tag X OR Y use the following `?tags[]=X,Y`."
-                },
-                {
-                  "disabled": false,
-                  "key": "notTags[]",
-                  "value": "<string>",
-                  "description": "Do not return Organisations with the specified tags. To fetch organisations with tag X AND NOT with Y use the following `?tags[]=X&notTags[]=Y`. To fetch organisations with not include tag X OR Y use the following `?notTags[]=X,Y`. To fetch organisations with not include tag X AND Y use the following `?notTags[]=X&notTags[]=Y`"
-                },
-                {
-                  "disabled": false,
-                  "key": "notTags[]",
-                  "value": "<string>",
-                  "description": "Do not return Organisations with the specified tags. To fetch organisations with tag X AND NOT with Y use the following `?tags[]=X&notTags[]=Y`. To fetch organisations with not include tag X OR Y use the following `?notTags[]=X,Y`. To fetch organisations with not include tag X AND Y use the following `?notTags[]=X&notTags[]=Y`"
-                },
-                {
-                  "disabled": false,
-                  "key": "type[]",
-                  "value": "<string>",
-                  "description": "Restrict search to a single type of organisation."
-                },
-                {
-                  "disabled": false,
-                  "key": "type[]",
-                  "value": "<string>",
-                  "description": "Restrict search to a single type of organisation."
-                },
-                {
-                  "disabled": false,
-                  "key": "query",
-                  "value": "<string>",
-                  "description": "Search for organisations by name. Must not exceed 500 characters or 512 bytes."
-                },
-                {
-                  "disabled": false,
-                  "key": "usaGroupExempt",
-                  "value": "<boolean>",
-                  "description": "Filter search by USA-specific group exempt. Recommended to use with registryId param"
-                },
-                {
-                  "disabled": false,
-                  "key": "page",
-                  "value": "1",
-                  "description": "Page number, for pagination."
-                },
-                {
-                  "disabled": false,
-                  "key": "pageSize",
-                  "value": "25",
-                  "description": "How many items per page, for pagination."
-                }
-              ],
-              "variable": []
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "apikey",
-              "apikey": [
-                {
-                  "key": "key",
-                  "value": "Authorization"
-                },
-                {
-                  "key": "value",
-                  "value": "{{apiKey}}"
-                },
-                {
-                  "key": "in",
-                  "value": "header"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "72c525cb-0556-45a4-a2e6-cef87f0616ab",
-              "name": "Successfully retrieved a page of organisations",
-              "originalRequest": {
-                "url": {
                   "path": [
                     "v1",
                     "organisations"
                   ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
                   "query": [
                     {
+                      "description": "Filter search by three-letter ISO country code",
                       "key": "countryCode",
                       "value": "<string>"
                     },
                     {
+                      "description": "Narrow results to an administrative area (state / province / county) within the `countryCode`, which is required when this is set. Send the area name \u2014 e.g. `California`, `Ontario`, `Kent`, `Aberdeen City`. US and Canada also accept a subdivision code (`US-CA`, `CA-ON`). Unrecognised values match nothing.\n",
+                      "key": "administrativeArea",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Comma-separated list of 3 character country codes to exclude from results. Only applies when countryCode is not provided (global search). Example: \"CHN\" or \"CHN,IRN,PRK\"\n",
+                      "key": "excludeCountryCodes",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Filter search using an organisation\u2019s ID within their registry. Useful with usaGroupExempt param",
                       "key": "registryId",
                       "value": "<string>"
                     },
                     {
+                      "description": "Only return Organisations in the given Categories",
                       "key": "category[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "category[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "notCategory[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "notCategory[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "tags[]",
-                      "value": "aus-dgr1"
-                    },
-                    {
-                      "key": "tags[]",
-                      "value": "aus-dgr1"
-                    },
-                    {
-                      "key": "notTags[]",
-                      "value": "aus-dgr4"
-                    },
-                    {
-                      "key": "notTags[]",
-                      "value": "aus-dgr4"
-                    },
-                    {
-                      "key": "type[]",
                       "value": "<string>"
                     },
                     {
-                      "key": "type[]",
+                      "description": "Only return Organisations in the given Categories",
+                      "key": "category[]",
                       "value": "<string>"
                     },
                     {
+                      "description": "Do not return Organisations in the given Categories",
+                      "key": "notCategory[]",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Do not return Organisations in the given Categories",
+                      "key": "notCategory[]",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Only return Organisations with the specified tags. To fetch organisations with tag X AND Y use the following `?tags[]=X&tags[]=Y`. To fetch organisations with tag X OR Y use the following `?tags[]=X,Y`. Currently supported tags are ind-fcra, aus-dgr1 and aus-dgr2.",
+                      "key": "tags[]",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Only return Organisations with the specified tags. To fetch organisations with tag X AND Y use the following `?tags[]=X&tags[]=Y`. To fetch organisations with tag X OR Y use the following `?tags[]=X,Y`. Currently supported tags are ind-fcra, aus-dgr1 and aus-dgr2.",
+                      "key": "tags[]",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Do not return Organisations with the specified tags. To fetch organisations with tag X AND NOT with Y use the following `?tags[]=X&notTags[]=Y`. To fetch organisations with not include tag X OR Y use the following `?notTags[]=X,Y`. To fetch organisations with not include tag X AND Y use the following `?notTags[]=X&notTags[]=Y`",
+                      "key": "notTags[]",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Do not return Organisations with the specified tags. To fetch organisations with tag X AND NOT with Y use the following `?tags[]=X&notTags[]=Y`. To fetch organisations with not include tag X OR Y use the following `?notTags[]=X,Y`. To fetch organisations with not include tag X AND Y use the following `?notTags[]=X&notTags[]=Y`",
+                      "key": "notTags[]",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Restrict search to a single type of organisation.",
+                      "key": "type[]",
+                      "value": "nonprofit"
+                    },
+                    {
+                      "description": "Restrict search to a single type of organisation.",
+                      "key": "type[]",
+                      "value": "nonprofit"
+                    },
+                    {
+                      "description": "Search for organisations by name. Must not exceed 500 characters or 512 bytes.",
                       "key": "query",
-                      "value": "cancer research"
+                      "value": "<string>"
                     },
                     {
+                      "description": "Search for organisations by latitude. Must be between -90 and 90. Must be used with lon.",
+                      "key": "lat",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Search for organisations by longitude. Must be between -180 and 180. Must be used with lat.",
+                      "key": "lon",
+                      "value": "<number>"
+                    },
+                    {
+                      "description": "Search for organisations within a distance of a point. Can be used with lat and lon. The distance must be a number followed by a unit of measurement (km, m, mi, yd, ft, in, cm, mm, NM or nmi).",
+                      "key": "distance",
+                      "value": "100km"
+                    },
+                    {
+                      "description": "Filter search by USA-specific group exempt. Recommended to use with registryId param",
                       "key": "usaGroupExempt",
                       "value": "<boolean>"
                     },
                     {
+                      "description": "Filter search by domain of website or email",
+                      "key": "domain",
+                      "value": "<string>"
+                    },
+                    {
+                      "description": "Page number, for pagination.",
                       "key": "page",
                       "value": "1"
                     },
                     {
+                      "description": "How many items per page, for pagination.",
                       "key": "pageSize",
                       "value": "25"
                     }
-                  ],
-                  "variable": []
+                  ]
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
+                "description": "Search for nonprofits. The Organizations Search API provides up to 1,000 results for each search query, accessible via pagination.\n\nThe exhaustiveTotalResults boolean field indicates whether the value of totalResults is exact (true) or approximate (false).\nIf the system determines that the total number of results exceeds 10,000, the exhaustiveTotalResults field is set to false, indicating that totalResults is an approximation and that there are likely more than 10,000 results matching the query.\n\nIf lat/lon coordinates are provided, the top results will be within the specified distance from this location, ranked by closeness. If lat/lon is provided without specifying a distance, a default of 100km will be used. Results outside of this radius this will be ranked by name match without consideration of distance."
               },
-              "status": "OK",
-              "code": 200,
-              "header": [
+              "response": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": [\n    {\n      \"id\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"name\": \"Green world\",\n      \"displayName\": \"Green world\",\n      \"description\": \"Environmental nonprofit supporting various types of wildlife across the northern and southern regions of the eastern southern hemisphere and australasia\",\n      \"countryCode\": \"AUS\",\n      \"milestones\": [\n        {\n          \"id\": \"milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"amount\": 1000,\n          \"reward\": \"This is a reward\",\n          \"currencyCode\": \"string\",\n          \"organisationId\": \"string\"\n        },\n        {\n          \"id\": \"milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"amount\": 1000,\n          \"reward\": \"This is a reward\",\n          \"currencyCode\": \"string\",\n          \"organisationId\": \"string\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": \"category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"name\": \"Environmental\",\n          \"imageUrl\": \"categories/3.png\",\n          \"createdAt\": \"2020-10-13T17:46:54.000Z\"\n        },\n        {\n          \"id\": \"category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"name\": \"Environmental\",\n          \"imageUrl\": \"categories/3.png\",\n          \"createdAt\": \"2020-10-13T17:46:54.000Z\"\n        }\n      ],\n      \"type\": \"nonprofit\",\n      \"logo\": \"string\",\n      \"images\": [\n        \"string\",\n        \"string\"\n      ],\n      \"registry\": \"registry_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"registryId\": \"12-3456789\",\n      \"website\": \"https://example.com\",\n      \"websites\": [\n        \"https://example.com\",\n        \"https://example.com\"\n      ],\n      \"address\": \"221b Baker Street, Westminster, London, NW1 6XE\",\n      \"addressLine1\": \"221b Baker Street\",\n      \"addressLine2\": \"Westminster\",\n      \"city\": \"London\",\n      \"state\": \"string\",\n      \"postcode\": \"NW1 6XE\",\n      \"registrationDate\": \"1957-12-19T03:22:01.642Z\",\n      \"currencyCode\": \"AUD\",\n      \"trustees\": \"string\",\n      \"claimedAt\": \"2023-12-22T07:52:41.745Z\",\n      \"createdAt\": \"2025-07-17T12:47:05.373Z\",\n      \"countrySpecificProperties\": {\n        \"usaGroupExempt\": true\n      },\n      \"isBranchParent\": false\n    },\n    {\n      \"id\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"name\": \"Green world\",\n      \"displayName\": \"Green world\",\n      \"description\": \"Environmental nonprofit supporting various types of wildlife across the northern and southern regions of the eastern southern hemisphere and australasia\",\n      \"countryCode\": \"AUS\",\n      \"milestones\": [\n        {\n          \"id\": \"milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"amount\": 1000,\n          \"reward\": \"This is a reward\",\n          \"currencyCode\": \"string\",\n          \"organisationId\": \"string\"\n        },\n        {\n          \"id\": \"milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"amount\": 1000,\n          \"reward\": \"This is a reward\",\n          \"currencyCode\": \"string\",\n          \"organisationId\": \"string\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": \"category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"name\": \"Environmental\",\n          \"imageUrl\": \"categories/3.png\",\n          \"createdAt\": \"2020-10-13T17:46:54.000Z\"\n        },\n        {\n          \"id\": \"category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"name\": \"Environmental\",\n          \"imageUrl\": \"categories/3.png\",\n          \"createdAt\": \"2020-10-13T17:46:54.000Z\"\n        }\n      ],\n      \"type\": \"nonprofit\",\n      \"logo\": \"string\",\n      \"images\": [\n        \"string\",\n        \"string\"\n      ],\n      \"registry\": \"registry_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"registryId\": \"12-3456789\",\n      \"website\": \"https://example.com\",\n      \"websites\": [\n        \"https://example.com\",\n        \"https://example.com\"\n      ],\n      \"address\": \"221b Baker Street, Westminster, London, NW1 6XE\",\n      \"addressLine1\": \"221b Baker Street\",\n      \"addressLine2\": \"Westminster\",\n      \"city\": \"London\",\n      \"state\": \"string\",\n      \"postcode\": \"NW1 6XE\",\n      \"registrationDate\": \"2017-04-16T10:29:32.358Z\",\n      \"currencyCode\": \"AUD\",\n      \"trustees\": \"string\",\n      \"claimedAt\": \"1990-05-19T06:18:17.146Z\",\n      \"createdAt\": \"1949-10-02T21:02:32.528Z\",\n      \"countrySpecificProperties\": {\n        \"usaGroupExempt\": false\n      },\n      \"isBranchParent\": false\n    }\n  ],\n  \"totalResults\": 33,\n  \"pageNumber\": 1,\n  \"pageSize\": 25,\n  \"_links\": {\n    \"current\": \"https://.../v1/...?query=climate&page=4\",\n    \"first\": \"https://.../v1/...?query=climate&page=1\",\n    \"last\": \"https://.../v1/...?query=climate&page=9\",\n    \"prev\": \"https://.../v1/...?query=climate&page=3\",\n    \"next\": \"https://.../v1/...?query=climate&page=5\"\n  },\n  \"exhaustiveTotalResults\": true,\n  \"object\": \"organisation\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "bdd20061-aa9e-4c5a-a8b9-6f010b47dbeb",
-              "name": "Error validating inputs",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "id": "171d813f-40ad-47e7-a6af-92587b3d2a5c",
+                  "name": "Successfully retrieved a page of organisations",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/organisations?countryCode=<string>&administrativeArea=<string>&excludeCountryCodes=<string>&registryId=<string>&category[]=<string>&notCategory[]=<string>&tags[]=<string>&notTags[]=<string>&type[]=nonprofit&query=<string>&lat=<number>&lon=<number>&distance=100km&usaGroupExempt=<boolean>&domain=<string>&page=1&pageSize=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "organisations"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter search by three-letter ISO country code",
+                          "key": "countryCode",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Narrow results to an administrative area (state / province / county) within the `countryCode`, which is required when this is set. Send the area name \u2014 e.g. `California`, `Ontario`, `Kent`, `Aberdeen City`. US and Canada also accept a subdivision code (`US-CA`, `CA-ON`). Unrecognised values match nothing.\n",
+                          "key": "administrativeArea",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Comma-separated list of 3 character country codes to exclude from results. Only applies when countryCode is not provided (global search). Example: \"CHN\" or \"CHN,IRN,PRK\"\n",
+                          "key": "excludeCountryCodes",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter search using an organisation\u2019s ID within their registry. Useful with usaGroupExempt param",
+                          "key": "registryId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return Organisations in the given Categories",
+                          "key": "category[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Do not return Organisations in the given Categories",
+                          "key": "notCategory[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return Organisations with the specified tags. To fetch organisations with tag X AND Y use the following `?tags[]=X&tags[]=Y`. To fetch organisations with tag X OR Y use the following `?tags[]=X,Y`. Currently supported tags are ind-fcra, aus-dgr1 and aus-dgr2.",
+                          "key": "tags[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Do not return Organisations with the specified tags. To fetch organisations with tag X AND NOT with Y use the following `?tags[]=X&notTags[]=Y`. To fetch organisations with not include tag X OR Y use the following `?notTags[]=X,Y`. To fetch organisations with not include tag X AND Y use the following `?notTags[]=X&notTags[]=Y`",
+                          "key": "notTags[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Restrict search to a single type of organisation.",
+                          "key": "type[]",
+                          "value": "nonprofit"
+                        },
+                        {
+                          "description": "Search for organisations by name. Must not exceed 500 characters or 512 bytes.",
+                          "key": "query",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Search for organisations by latitude. Must be between -90 and 90. Must be used with lon.",
+                          "key": "lat",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Search for organisations by longitude. Must be between -180 and 180. Must be used with lat.",
+                          "key": "lon",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Search for organisations within a distance of a point. Can be used with lat and lon. The distance must be a number followed by a unit of measurement (km, m, mi, yd, ft, in, cm, mm, NM or nmi).",
+                          "key": "distance",
+                          "value": "100km"
+                        },
+                        {
+                          "description": "Filter search by USA-specific group exempt. Recommended to use with registryId param",
+                          "key": "usaGroupExempt",
+                          "value": "<boolean>"
+                        },
+                        {
+                          "description": "Filter search by domain of website or email",
+                          "key": "domain",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Page number, for pagination.",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "How many items per page, for pagination.",
+                          "key": "pageSize",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
                     {
-                      "key": "countryCode",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "registryId",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "category[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "category[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "notCategory[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "notCategory[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "tags[]",
-                      "value": "aus-dgr1"
-                    },
-                    {
-                      "key": "tags[]",
-                      "value": "aus-dgr1"
-                    },
-                    {
-                      "key": "notTags[]",
-                      "value": "aus-dgr4"
-                    },
-                    {
-                      "key": "notTags[]",
-                      "value": "aus-dgr4"
-                    },
-                    {
-                      "key": "type[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "type[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "query",
-                      "value": "cancer research"
-                    },
-                    {
-                      "key": "usaGroupExempt",
-                      "value": "<boolean>"
-                    },
-                    {
-                      "key": "page",
-                      "value": "1"
-                    },
-                    {
-                      "key": "pageSize",
-                      "value": "25"
+                      "key": "Content-Type",
+                      "value": "application/json"
                     }
                   ],
-                  "variable": []
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": [\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"displayName\": \"<string,null>\",\n      \"description\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"milestones\": [\n        {\n          \"id\": \"<string>\",\n          \"amount\": \"<integer>\",\n          \"reward\": \"<string>\",\n          \"currencyCode\": \"<string>\",\n          \"organisationId\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"amount\": \"<integer>\",\n          \"reward\": \"<string>\",\n          \"currencyCode\": \"<string>\",\n          \"organisationId\": \"<string>\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"imageUrl\": \"<string,null>\",\n          \"attributes\": \"<object,null>\",\n          \"createdAt\": \"<dateTime>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"imageUrl\": \"<string,null>\",\n          \"attributes\": \"<object,null>\",\n          \"createdAt\": \"<dateTime>\"\n        }\n      ],\n      \"type\": \"nonprofit\",\n      \"logo\": \"<string,null>\",\n      \"images\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"registry\": \"<string>\",\n      \"registryId\": \"<string>\",\n      \"website\": \"<string,null>\",\n      \"websites\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"address\": \"<string,null>\",\n      \"addressLine1\": \"<string,null>\",\n      \"addressLine2\": \"<string,null>\",\n      \"city\": \"<string,null>\",\n      \"state\": \"<string,null>\",\n      \"postcode\": \"<string,null>\",\n      \"registrationDate\": \"<string,null-date-time>\",\n      \"registrationActive\": \"<boolean>\",\n      \"currencyCode\": \"<string,null>\",\n      \"trustees\": \"<string,null>\",\n      \"claimedAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"countrySpecificProperties\": {\n        \"usaGroupExempt\": \"<boolean,null>\",\n        \"fcra\": \"<string,null>\",\n        \"DGR1\": \"<boolean,null>\",\n        \"DGR2\": \"<boolean,null>\",\n        \"DGR4\": \"<boolean,null>\"\n      },\n      \"isBranchParent\": \"<boolean>\",\n      \"location\": {\n        \"lat\": \"<number>\",\n        \"lon\": \"<number>\"\n      },\n      \"types\": [\n        \"education\",\n        \"nonprofit\"\n      ],\n      \"registryDetails\": {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"englishName\": \"<string>\",\n        \"code\": \"<string>\"\n      }\n    },\n    {\n      \"id\": \"<string>\",\n      \"name\": \"<string>\",\n      \"displayName\": \"<string,null>\",\n      \"description\": \"<string>\",\n      \"countryCode\": \"<string>\",\n      \"milestones\": [\n        {\n          \"id\": \"<string>\",\n          \"amount\": \"<integer>\",\n          \"reward\": \"<string>\",\n          \"currencyCode\": \"<string>\",\n          \"organisationId\": \"<string>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"amount\": \"<integer>\",\n          \"reward\": \"<string>\",\n          \"currencyCode\": \"<string>\",\n          \"organisationId\": \"<string>\"\n        }\n      ],\n      \"categories\": [\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"imageUrl\": \"<string,null>\",\n          \"attributes\": \"<object,null>\",\n          \"createdAt\": \"<dateTime>\"\n        },\n        {\n          \"id\": \"<string>\",\n          \"name\": \"<string>\",\n          \"imageUrl\": \"<string,null>\",\n          \"attributes\": \"<object,null>\",\n          \"createdAt\": \"<dateTime>\"\n        }\n      ],\n      \"type\": \"nonprofit\",\n      \"logo\": \"<string,null>\",\n      \"images\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"registry\": \"<string>\",\n      \"registryId\": \"<string>\",\n      \"website\": \"<string,null>\",\n      \"websites\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"address\": \"<string,null>\",\n      \"addressLine1\": \"<string,null>\",\n      \"addressLine2\": \"<string,null>\",\n      \"city\": \"<string,null>\",\n      \"state\": \"<string,null>\",\n      \"postcode\": \"<string,null>\",\n      \"registrationDate\": \"<string,null-date-time>\",\n      \"registrationActive\": \"<boolean>\",\n      \"currencyCode\": \"<string,null>\",\n      \"trustees\": \"<string,null>\",\n      \"claimedAt\": \"<string,null-date-time>\",\n      \"createdAt\": \"<dateTime>\",\n      \"countrySpecificProperties\": {\n        \"usaGroupExempt\": \"<boolean,null>\",\n        \"fcra\": \"<string,null>\",\n        \"DGR1\": \"<boolean,null>\",\n        \"DGR2\": \"<boolean,null>\",\n        \"DGR4\": \"<boolean,null>\"\n      },\n      \"isBranchParent\": \"<boolean>\",\n      \"location\": {\n        \"lat\": \"<number>\",\n        \"lon\": \"<number>\"\n      },\n      \"types\": [\n        \"social_impact\",\n        \"nonprofit\"\n      ],\n      \"registryDetails\": {\n        \"id\": \"<string>\",\n        \"name\": \"<string>\",\n        \"englishName\": \"<string>\",\n        \"code\": \"<string>\"\n      }\n    }\n  ],\n  \"totalResults\": \"<integer>\",\n  \"pageNumber\": \"<integer>\",\n  \"pageSize\": \"<integer>\",\n  \"_links\": {\n    \"current\": \"<string>\",\n    \"first\": \"<string>\",\n    \"last\": \"<string>\",\n    \"prev\": \"<string>\",\n    \"next\": \"<string>\"\n  },\n  \"exhaustiveTotalResults\": \"<boolean>\",\n  \"object\": \"<string>\"\n}",
+                  "createdAt": "2026-10-22T02:22:22.000Z",
+                  "updatedAt": "2026-10-22T02:22:22.000Z",
+                  "uid": "35240-171d813f-40ad-47e7-a6af-92587b3d2a5c"
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Bad Request",
-              "code": 400,
-              "header": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": {\n    \"code\": \"bad_request\",\n    \"title\": \"Bad request\",\n    \"message\": \"One or more of the inputs were invalid\",\n    \"reasons\": [\n      \"pageSize must be greater than or equal to 0\",\n      \"pageSize must be greater than or equal to 0\"\n    ]\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "cab235d3-4903-4652-beac-57be59d094a6",
-              "name": "Unauthorized",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "id": "93576d8d-7cf2-4b25-8d51-2134d3eb7dfc",
+                  "name": "Error validating inputs",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/organisations?countryCode=<string>&administrativeArea=<string>&excludeCountryCodes=<string>&registryId=<string>&category[]=<string>&notCategory[]=<string>&tags[]=<string>&notTags[]=<string>&type[]=nonprofit&query=<string>&lat=<number>&lon=<number>&distance=100km&usaGroupExempt=<boolean>&domain=<string>&page=1&pageSize=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "organisations"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter search by three-letter ISO country code",
+                          "key": "countryCode",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Narrow results to an administrative area (state / province / county) within the `countryCode`, which is required when this is set. Send the area name \u2014 e.g. `California`, `Ontario`, `Kent`, `Aberdeen City`. US and Canada also accept a subdivision code (`US-CA`, `CA-ON`). Unrecognised values match nothing.\n",
+                          "key": "administrativeArea",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Comma-separated list of 3 character country codes to exclude from results. Only applies when countryCode is not provided (global search). Example: \"CHN\" or \"CHN,IRN,PRK\"\n",
+                          "key": "excludeCountryCodes",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter search using an organisation\u2019s ID within their registry. Useful with usaGroupExempt param",
+                          "key": "registryId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return Organisations in the given Categories",
+                          "key": "category[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Do not return Organisations in the given Categories",
+                          "key": "notCategory[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return Organisations with the specified tags. To fetch organisations with tag X AND Y use the following `?tags[]=X&tags[]=Y`. To fetch organisations with tag X OR Y use the following `?tags[]=X,Y`. Currently supported tags are ind-fcra, aus-dgr1 and aus-dgr2.",
+                          "key": "tags[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Do not return Organisations with the specified tags. To fetch organisations with tag X AND NOT with Y use the following `?tags[]=X&notTags[]=Y`. To fetch organisations with not include tag X OR Y use the following `?notTags[]=X,Y`. To fetch organisations with not include tag X AND Y use the following `?notTags[]=X&notTags[]=Y`",
+                          "key": "notTags[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Restrict search to a single type of organisation.",
+                          "key": "type[]",
+                          "value": "nonprofit"
+                        },
+                        {
+                          "description": "Search for organisations by name. Must not exceed 500 characters or 512 bytes.",
+                          "key": "query",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Search for organisations by latitude. Must be between -90 and 90. Must be used with lon.",
+                          "key": "lat",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Search for organisations by longitude. Must be between -180 and 180. Must be used with lat.",
+                          "key": "lon",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Search for organisations within a distance of a point. Can be used with lat and lon. The distance must be a number followed by a unit of measurement (km, m, mi, yd, ft, in, cm, mm, NM or nmi).",
+                          "key": "distance",
+                          "value": "100km"
+                        },
+                        {
+                          "description": "Filter search by USA-specific group exempt. Recommended to use with registryId param",
+                          "key": "usaGroupExempt",
+                          "value": "<boolean>"
+                        },
+                        {
+                          "description": "Filter search by domain of website or email",
+                          "key": "domain",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Page number, for pagination.",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "How many items per page, for pagination.",
+                          "key": "pageSize",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
                     {
-                      "key": "countryCode",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "registryId",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "category[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "category[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "notCategory[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "notCategory[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "tags[]",
-                      "value": "aus-dgr1"
-                    },
-                    {
-                      "key": "tags[]",
-                      "value": "aus-dgr1"
-                    },
-                    {
-                      "key": "notTags[]",
-                      "value": "aus-dgr4"
-                    },
-                    {
-                      "key": "notTags[]",
-                      "value": "aus-dgr4"
-                    },
-                    {
-                      "key": "type[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "type[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "query",
-                      "value": "cancer research"
-                    },
-                    {
-                      "key": "usaGroupExempt",
-                      "value": "<boolean>"
-                    },
-                    {
-                      "key": "page",
-                      "value": "1"
-                    },
-                    {
-                      "key": "pageSize",
-                      "value": "25"
+                      "key": "Content-Type",
+                      "value": "application/json"
                     }
                   ],
-                  "variable": []
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\",\n    \"reasons\": [\n      \"<string>\",\n      \"<string>\"\n    ]\n  }\n}",
+                  "createdAt": "2026-10-22T02:22:22.000Z",
+                  "updatedAt": "2026-10-22T02:22:22.000Z",
+                  "uid": "35240-93576d8d-7cf2-4b25-8d51-2134d3eb7dfc"
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
                 {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "7f2404de-0b53-4c0c-9a29-d03cb72591f5",
-              "name": "Forbidden (scope)",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [
+                  "id": "9c50f636-67b0-4414-8ad9-55a8d268bcee",
+                  "name": "Unauthorized",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/organisations?countryCode=<string>&administrativeArea=<string>&excludeCountryCodes=<string>&registryId=<string>&category[]=<string>&notCategory[]=<string>&tags[]=<string>&notTags[]=<string>&type[]=nonprofit&query=<string>&lat=<number>&lon=<number>&distance=100km&usaGroupExempt=<boolean>&domain=<string>&page=1&pageSize=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "organisations"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter search by three-letter ISO country code",
+                          "key": "countryCode",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Narrow results to an administrative area (state / province / county) within the `countryCode`, which is required when this is set. Send the area name \u2014 e.g. `California`, `Ontario`, `Kent`, `Aberdeen City`. US and Canada also accept a subdivision code (`US-CA`, `CA-ON`). Unrecognised values match nothing.\n",
+                          "key": "administrativeArea",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Comma-separated list of 3 character country codes to exclude from results. Only applies when countryCode is not provided (global search). Example: \"CHN\" or \"CHN,IRN,PRK\"\n",
+                          "key": "excludeCountryCodes",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter search using an organisation\u2019s ID within their registry. Useful with usaGroupExempt param",
+                          "key": "registryId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return Organisations in the given Categories",
+                          "key": "category[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Do not return Organisations in the given Categories",
+                          "key": "notCategory[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return Organisations with the specified tags. To fetch organisations with tag X AND Y use the following `?tags[]=X&tags[]=Y`. To fetch organisations with tag X OR Y use the following `?tags[]=X,Y`. Currently supported tags are ind-fcra, aus-dgr1 and aus-dgr2.",
+                          "key": "tags[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Do not return Organisations with the specified tags. To fetch organisations with tag X AND NOT with Y use the following `?tags[]=X&notTags[]=Y`. To fetch organisations with not include tag X OR Y use the following `?notTags[]=X,Y`. To fetch organisations with not include tag X AND Y use the following `?notTags[]=X&notTags[]=Y`",
+                          "key": "notTags[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Restrict search to a single type of organisation.",
+                          "key": "type[]",
+                          "value": "nonprofit"
+                        },
+                        {
+                          "description": "Search for organisations by name. Must not exceed 500 characters or 512 bytes.",
+                          "key": "query",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Search for organisations by latitude. Must be between -90 and 90. Must be used with lon.",
+                          "key": "lat",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Search for organisations by longitude. Must be between -180 and 180. Must be used with lat.",
+                          "key": "lon",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Search for organisations within a distance of a point. Can be used with lat and lon. The distance must be a number followed by a unit of measurement (km, m, mi, yd, ft, in, cm, mm, NM or nmi).",
+                          "key": "distance",
+                          "value": "100km"
+                        },
+                        {
+                          "description": "Filter search by USA-specific group exempt. Recommended to use with registryId param",
+                          "key": "usaGroupExempt",
+                          "value": "<boolean>"
+                        },
+                        {
+                          "description": "Filter search by domain of website or email",
+                          "key": "domain",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Page number, for pagination.",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "How many items per page, for pagination.",
+                          "key": "pageSize",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
                     {
-                      "key": "countryCode",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "registryId",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "category[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "category[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "notCategory[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "notCategory[]",
-                      "value": "category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                    },
-                    {
-                      "key": "tags[]",
-                      "value": "aus-dgr1"
-                    },
-                    {
-                      "key": "tags[]",
-                      "value": "aus-dgr1"
-                    },
-                    {
-                      "key": "notTags[]",
-                      "value": "aus-dgr4"
-                    },
-                    {
-                      "key": "notTags[]",
-                      "value": "aus-dgr4"
-                    },
-                    {
-                      "key": "type[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "type[]",
-                      "value": "<string>"
-                    },
-                    {
-                      "key": "query",
-                      "value": "cancer research"
-                    },
-                    {
-                      "key": "usaGroupExempt",
-                      "value": "<boolean>"
-                    },
-                    {
-                      "key": "page",
-                      "value": "1"
-                    },
-                    {
-                      "key": "pageSize",
-                      "value": "25"
+                      "key": "Content-Type",
+                      "value": "application/json"
                     }
                   ],
-                  "variable": []
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-10-22T02:22:22.000Z",
+                  "updatedAt": "2026-10-22T02:22:22.000Z",
+                  "uid": "35240-9c50f636-67b0-4414-8ad9-55a8d268bcee"
                 },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Forbidden",
-              "code": 403,
-              "header": [
                 {
-                  "key": "Content-Type",
-                  "value": "application/json"
+                  "id": "fb200e3b-5cb0-4be7-a735-2f63fe8e328d",
+                  "name": "Forbidden (scope)",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/organisations?countryCode=<string>&administrativeArea=<string>&excludeCountryCodes=<string>&registryId=<string>&category[]=<string>&notCategory[]=<string>&tags[]=<string>&notTags[]=<string>&type[]=nonprofit&query=<string>&lat=<number>&lon=<number>&distance=100km&usaGroupExempt=<boolean>&domain=<string>&page=1&pageSize=25",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "organisations"
+                      ],
+                      "query": [
+                        {
+                          "description": "Filter search by three-letter ISO country code",
+                          "key": "countryCode",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Narrow results to an administrative area (state / province / county) within the `countryCode`, which is required when this is set. Send the area name \u2014 e.g. `California`, `Ontario`, `Kent`, `Aberdeen City`. US and Canada also accept a subdivision code (`US-CA`, `CA-ON`). Unrecognised values match nothing.\n",
+                          "key": "administrativeArea",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Comma-separated list of 3 character country codes to exclude from results. Only applies when countryCode is not provided (global search). Example: \"CHN\" or \"CHN,IRN,PRK\"\n",
+                          "key": "excludeCountryCodes",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Filter search using an organisation\u2019s ID within their registry. Useful with usaGroupExempt param",
+                          "key": "registryId",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return Organisations in the given Categories",
+                          "key": "category[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Do not return Organisations in the given Categories",
+                          "key": "notCategory[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Only return Organisations with the specified tags. To fetch organisations with tag X AND Y use the following `?tags[]=X&tags[]=Y`. To fetch organisations with tag X OR Y use the following `?tags[]=X,Y`. Currently supported tags are ind-fcra, aus-dgr1 and aus-dgr2.",
+                          "key": "tags[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Do not return Organisations with the specified tags. To fetch organisations with tag X AND NOT with Y use the following `?tags[]=X&notTags[]=Y`. To fetch organisations with not include tag X OR Y use the following `?notTags[]=X,Y`. To fetch organisations with not include tag X AND Y use the following `?notTags[]=X&notTags[]=Y`",
+                          "key": "notTags[]",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Restrict search to a single type of organisation.",
+                          "key": "type[]",
+                          "value": "nonprofit"
+                        },
+                        {
+                          "description": "Search for organisations by name. Must not exceed 500 characters or 512 bytes.",
+                          "key": "query",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Search for organisations by latitude. Must be between -90 and 90. Must be used with lon.",
+                          "key": "lat",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Search for organisations by longitude. Must be between -180 and 180. Must be used with lat.",
+                          "key": "lon",
+                          "value": "<number>"
+                        },
+                        {
+                          "description": "Search for organisations within a distance of a point. Can be used with lat and lon. The distance must be a number followed by a unit of measurement (km, m, mi, yd, ft, in, cm, mm, NM or nmi).",
+                          "key": "distance",
+                          "value": "100km"
+                        },
+                        {
+                          "description": "Filter search by USA-specific group exempt. Recommended to use with registryId param",
+                          "key": "usaGroupExempt",
+                          "value": "<boolean>"
+                        },
+                        {
+                          "description": "Filter search by domain of website or email",
+                          "key": "domain",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "Page number, for pagination.",
+                          "key": "page",
+                          "value": "1"
+                        },
+                        {
+                          "description": "How many items per page, for pagination.",
+                          "key": "pageSize",
+                          "value": "25"
+                        }
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-10-22T02:22:22.000Z",
+                  "updatedAt": "2026-10-22T02:22:22.000Z",
+                  "uid": "35240-fb200e3b-5cb0-4be7-a735-2f63fe8e328d"
                 }
               ],
-              "body": "{\n  \"error\": {\n    \"code\": \"forbidden\",\n    \"title\": \"Forbidden\",\n    \"message\": \"Access is denied due to missing scope permissions\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
+              "createdAt": "2026-10-22T02:22:22.000Z",
+              "updatedAt": "2026-10-22T02:22:22.000Z",
+              "uid": "35240-468ffda0-fbc2-4b97-a90f-5bb1b6163a93"
             }
           ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "5e1dc5fe-76ea-4dd3-bfe0-b1b9f5cd03e7",
-          "name": "Retrieve an Organisation",
-          "request": {
-            "name": "Retrieve an Organisation",
-            "description": {},
-            "url": {
-              "path": [
-                "v1",
-                "organisations",
-                ":id"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "id",
-                  "description": "(Required) Id of the organisation"
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "apikey",
-              "apikey": [
-                {
-                  "key": "key",
-                  "value": "Authorization"
-                },
-                {
-                  "key": "value",
-                  "value": "{{apiKey}}"
-                },
-                {
-                  "key": "in",
-                  "value": "header"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "7a70405d-7247-47c2-a05e-84ce5f34652c",
-              "name": "Retrieve a nonprofit Organisation",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "id",
-                      "description": "(Required) Id of the organisation"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"name\": \"Green world\",\n    \"displayName\": \"Green world\",\n    \"description\": \"Environmental nonprofit supporting various types of wildlife across the northern and southern regions of the eastern southern hemisphere and australasia\",\n    \"countryCode\": \"AUS\",\n    \"milestones\": [\n      {\n        \"id\": \"milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"amount\": 1000,\n        \"reward\": \"This is a reward\",\n        \"currencyCode\": \"string\",\n        \"organisationId\": \"string\"\n      },\n      {\n        \"id\": \"milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"amount\": 1000,\n        \"reward\": \"This is a reward\",\n        \"currencyCode\": \"string\",\n        \"organisationId\": \"string\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": \"category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"name\": \"Environmental\",\n        \"imageUrl\": \"categories/3.png\",\n        \"createdAt\": \"2020-10-13T17:46:54.000Z\"\n      },\n      {\n        \"id\": \"category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"name\": \"Environmental\",\n        \"imageUrl\": \"categories/3.png\",\n        \"createdAt\": \"2020-10-13T17:46:54.000Z\"\n      }\n    ],\n    \"type\": \"nonprofit\",\n    \"logo\": \"string\",\n    \"images\": [\n      \"string\",\n      \"string\"\n    ],\n    \"registry\": \"registry_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"registryId\": \"12-3456789\",\n    \"website\": \"https://example.com\",\n    \"websites\": [\n      \"https://example.com\",\n      \"https://example.com\"\n    ],\n    \"address\": \"221b Baker Street, Westminster, London, NW1 6XE\",\n    \"addressLine1\": \"221b Baker Street\",\n    \"addressLine2\": \"Westminster\",\n    \"city\": \"London\",\n    \"state\": \"string\",\n    \"postcode\": \"NW1 6XE\",\n    \"registrationDate\": \"1996-12-10T16:22:52.324Z\",\n    \"currencyCode\": \"AUD\",\n    \"trustees\": \"string\",\n    \"claimedAt\": \"1982-09-28T13:25:11.023Z\",\n    \"createdAt\": \"1993-07-25T09:27:54.402Z\",\n    \"countrySpecificProperties\": {\n      \"usaGroupExempt\": false\n    },\n    \"isBranchParent\": false,\n    \"types\": [\n      \"nonprofit\",\n      \"social_impact\"\n    ]\n  },\n  \"object\": \"Organisation\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "694622b5-aeb4-49ec-8496-e55296128cda",
-              "name": "Unauthorized",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "id",
-                      "description": "(Required) Id of the organisation"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "daed1f1a-4c52-439d-a379-f8e6906b0653",
-              "name": "Forbidden (scope)",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "id",
-                      "description": "(Required) Id of the organisation"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Forbidden",
-              "code": 403,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": {\n    \"code\": \"forbidden\",\n    \"title\": \"Forbidden\",\n    \"message\": \"Access is denied due to missing scope permissions\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "83bc69d0-64cc-4043-9462-684385eac36c",
-              "name": "The specified resource was not found",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":id"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "id",
-                      "description": "(Required) Id of the organisation"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Not Found",
-              "code": 404,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": {\n    \"code\": \"not_found\",\n    \"title\": \"Resource not found\",\n    \"message\": \"This endpoint is unavailable or can not be found\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "e262def4-5be0-44a4-83ea-a1327be27077",
-          "name": "Retrieve an Organisation by country code, registry and registryId",
-          "request": {
-            "name": "Retrieve an Organisation by country code, registry and registryId",
-            "description": {},
-            "url": {
-              "path": [
-                "v1",
-                "organisations",
-                ":countryCode",
-                ":registry",
-                ":registryId"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "countryCode",
-                  "description": "(Required) 3 letter ISO-3166 alpha 3 identifier of the country"
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "registry",
-                  "description": "(Required) Id of the registry"
-                },
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "registryId",
-                  "description": "(Required) Id of the Organisation within the registry"
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": {
-              "type": "apikey",
-              "apikey": [
-                {
-                  "key": "key",
-                  "value": "Authorization"
-                },
-                {
-                  "key": "value",
-                  "value": "{{apiKey}}"
-                },
-                {
-                  "key": "in",
-                  "value": "header"
-                }
-              ]
-            }
-          },
-          "response": [
-            {
-              "id": "0b43e810-b249-404b-b0bf-fe9c6ff81e7c",
-              "name": "Retrieve a Organisation by country code, registry and registryId",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":countryCode",
-                    ":registry",
-                    ":registryId"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "countryCode",
-                      "description": "(Required) 3 letter ISO-3166 alpha 3 identifier of the country"
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "registry",
-                      "description": "(Required) Id of the registry"
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "registryId",
-                      "description": "(Required) Id of the Organisation within the registry"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"id\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"name\": \"Green world\",\n    \"displayName\": \"Green world\",\n    \"description\": \"Environmental nonprofit supporting various types of wildlife across the northern and southern regions of the eastern southern hemisphere and australasia\",\n    \"countryCode\": \"AUS\",\n    \"milestones\": [\n      {\n        \"id\": \"milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"amount\": 1000,\n        \"reward\": \"This is a reward\",\n        \"currencyCode\": \"string\",\n        \"organisationId\": \"string\"\n      },\n      {\n        \"id\": \"milestone_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"amount\": 1000,\n        \"reward\": \"This is a reward\",\n        \"currencyCode\": \"string\",\n        \"organisationId\": \"string\"\n      }\n    ],\n    \"categories\": [\n      {\n        \"id\": \"category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"name\": \"Environmental\",\n        \"imageUrl\": \"categories/3.png\",\n        \"createdAt\": \"2020-10-13T17:46:54.000Z\"\n      },\n      {\n        \"id\": \"category_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"name\": \"Environmental\",\n        \"imageUrl\": \"categories/3.png\",\n        \"createdAt\": \"2020-10-13T17:46:54.000Z\"\n      }\n    ],\n    \"type\": \"nonprofit\",\n    \"logo\": \"string\",\n    \"images\": [\n      \"string\",\n      \"string\"\n    ],\n    \"registry\": \"registry_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"registryId\": \"12-3456789\",\n    \"website\": \"https://example.com\",\n    \"websites\": [\n      \"https://example.com\",\n      \"https://example.com\"\n    ],\n    \"address\": \"221b Baker Street, Westminster, London, NW1 6XE\",\n    \"addressLine1\": \"221b Baker Street\",\n    \"addressLine2\": \"Westminster\",\n    \"city\": \"London\",\n    \"state\": \"string\",\n    \"postcode\": \"NW1 6XE\",\n    \"registrationDate\": \"1981-03-23T11:23:19.956Z\",\n    \"currencyCode\": \"AUD\",\n    \"trustees\": \"string\",\n    \"claimedAt\": \"1964-08-21T14:19:42.988Z\",\n    \"createdAt\": \"1958-03-10T17:11:53.761Z\",\n    \"countrySpecificProperties\": {\n      \"usaGroupExempt\": true\n    },\n    \"isBranchParent\": false\n  },\n  \"object\": \"Organisation\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "c793ed10-4b15-46c0-b777-476501f42a19",
-              "name": "Unauthorized",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":countryCode",
-                    ":registry",
-                    ":registryId"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "countryCode",
-                      "description": "(Required) 3 letter ISO-3166 alpha 3 identifier of the country"
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "registry",
-                      "description": "(Required) Id of the registry"
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "registryId",
-                      "description": "(Required) Id of the Organisation within the registry"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Unauthorized",
-              "code": 401,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "text/plain"
-                }
-              ],
-              "body": "",
-              "cookie": [],
-              "_postman_previewlanguage": "text"
-            },
-            {
-              "id": "e8db8566-50d1-4fea-a2d4-4cea5408af5d",
-              "name": "Forbidden (scope)",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":countryCode",
-                    ":registry",
-                    ":registryId"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "countryCode",
-                      "description": "(Required) 3 letter ISO-3166 alpha 3 identifier of the country"
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "registry",
-                      "description": "(Required) Id of the registry"
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "registryId",
-                      "description": "(Required) Id of the Organisation within the registry"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Forbidden",
-              "code": 403,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": {\n    \"code\": \"forbidden\",\n    \"title\": \"Forbidden\",\n    \"message\": \"Access is denied due to missing scope permissions\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "0cc32deb-4d0a-4da0-88d7-60a6e91cf779",
-              "name": "The specified resource was not found",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":countryCode",
-                    ":registry",
-                    ":registryId"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "countryCode",
-                      "description": "(Required) 3 letter ISO-3166 alpha 3 identifier of the country"
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "registry",
-                      "description": "(Required) Id of the registry"
-                    },
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "registryId",
-                      "description": "(Required) Id of the Organisation within the registry"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "description": {
-                      "content": "Added as a part of security scheme: apikey",
-                      "type": "text/plain"
-                    },
-                    "key": "Authorization",
-                    "value": "<API Key>"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Not Found",
-              "code": 404,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": {\n    \"code\": \"not_found\",\n    \"title\": \"Resource not found\",\n    \"message\": \"This endpoint is unavailable or can not be found\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
-        },
-        {
-          "id": "0b91906d-f6a0-4283-8486-54bd156031ef",
-          "name": "Retrieve an Organisation profile info",
-          "request": {
-            "name": "Retrieve an Organisation profile info",
-            "description": {},
-            "url": {
-              "path": [
-                "v1",
-                "organisations",
-                ":id",
-                "profile"
-              ],
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "query": [],
-              "variable": [
-                {
-                  "disabled": false,
-                  "type": "any",
-                  "value": "<string>",
-                  "key": "id",
-                  "description": "(Required) Id of the organisation"
-                }
-              ]
-            },
-            "header": [
-              {
-                "key": "Accept",
-                "value": "application/json"
-              }
-            ],
-            "method": "GET",
-            "auth": null
-          },
-          "response": [
-            {
-              "id": "1314e8d5-3dca-4652-b7ba-a293e0a795b5",
-              "name": "Retrieve a nonprofit Organisation profile",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":id",
-                    "profile"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "id",
-                      "description": "(Required) Id of the organisation"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "OK",
-              "code": 200,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"data\": {\n    \"name\": \"Lemon rescue nonprofit\",\n    \"displayName\": \"Lemon Team\",\n    \"description\": \"Lemon Team\",\n    \"logo\": \"https://logo-url.com/the-logo.png\"\n  },\n  \"object\": \"organisation_profile\"\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            },
-            {
-              "id": "085fe598-8ff3-4756-b43d-741864ba0851",
-              "name": "The specified resource was not found",
-              "originalRequest": {
-                "url": {
-                  "path": [
-                    "v1",
-                    "organisations",
-                    ":id",
-                    "profile"
-                  ],
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "query": [],
-                  "variable": [
-                    {
-                      "disabled": false,
-                      "type": "any",
-                      "value": "<string>",
-                      "key": "id",
-                      "description": "(Required) Id of the organisation"
-                    }
-                  ]
-                },
-                "header": [
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "method": "GET",
-                "body": {}
-              },
-              "status": "Not Found",
-              "code": 404,
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "body": "{\n  \"error\": {\n    \"code\": \"not_found\",\n    \"title\": \"Resource not found\",\n    \"message\": \"This endpoint is unavailable or can not be found\"\n  }\n}",
-              "cookie": [],
-              "_postman_previewlanguage": "json"
-            }
-          ],
-          "event": [],
-          "protocolProfileBehavior": {
-            "disableBodyPruning": true
-          }
+          "id": "9530a6ad-c3b7-4f32-870a-13db289e9c7e",
+          "createdAt": "2026-10-22T02:22:22.000Z",
+          "updatedAt": "2026-10-22T02:22:22.000Z",
+          "uid": "35240-9530a6ad-c3b7-4f32-870a-13db289e9c7e"
         }
       ],
-      "event": []
+      "id": "f0323ce0-2eef-403c-a499-8d8d8fa48f5c",
+      "createdAt": "2026-10-22T02:22:22.000Z",
+      "updatedAt": "2026-10-22T02:22:22.000Z",
+      "uid": "35240-f0323ce0-2eef-403c-a499-8d8d8fa48f5c"
     }
   ],
-  "event": [],
   "variable": [
     {
-      "type": "string",
-      "value": "https://api.goodstack.io",
-      "key": "baseUrl"
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
     }
-  ],
-  "info": {
-    "_postman_id": "14ba3cc6-d2cf-4ff3-aeab-c743a65e5ea5",
-    "name": "Goodstack Services Activities Organisations API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": {
-      "content": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation.\n\nFor all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation.\n\nThe Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS.\n\n# Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header.\n\nTwo keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`.\n\nPublishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs.\n\nSecret API keys should be kept confidential and only used in secure server environments.\n\nAnywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key.\n\n# Formats\n\n## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2021-08-01T12:00:00.000Z`.\n\n## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25.\n\n## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data.\n\nYou can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long.\n\n## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message.\nError objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request.\n\nAn example error object returned from the API:\n```json\n{\n  error: {\n    code: 'bad_request',\n    title: 'Bad request',\n    message: 'Something is wrong with your request, please check any parameters and try again',\n    reasons: ['amount is a required field']\n  }\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below.\n\n| Code        | Title           | Description  |\n| ------------- |-------------| -----|\n| 200      | Success | Request successful |\n| 204      | No Content      |   Request successful with no content returned |\n| 400 | Bad Request      | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Retry recommendations\n\nAlthough rare, network requests may fail due to their inherent unreliability. To ensure a robust integration with Goodstack we recommend that you implement a retry mechanism, so that if a network request fails you are able to retry the request.\nGoodstacks API supports idempotency for safely retrying requests through usage of idempotency keys.\n\nFor some POST endpoints we allow clients to specify an idempotency key in the Idempotency-Key header. This allows the client to retry requests without accidentally performing the same operation twice.\n\nIf the same idempotency key is used for multiple requests, only the first successful request will be actioned and subsequent calls will return the result of the first request. Failed requests may be retried with the same idempotency key.\n\nRequests with the same idempotency key and different payload will fail.\n\nThe idempotency key expires after 21 days. After this time, a new request with the same idempotency key will be treated as a new request.\n\n# Webhooks\n\nUse webhooks to subscribe to updates on particular events that occur in Goodstack. Each time an event that you have subscribed to occurs, Goodstack submits a POST request to the designated webhook URL with information about the event.\n\nTo receive webhook notifications, use the [webhook subscriptions API](list-webhook-subscriptions).\n\n## Attributes\n\nAt the top level Webhook payloads will contain `object` and `data` fields. The data record contains the following fields:\n\n| Parameter        | Type           | Description  |\n| ------------- |-------------| -----|\n| id      | string | Id of the event |\n| createdAt      | string      |   Timestamp of when the event was created |\n| eventType | string      | The type of the event e.g. `validation_request.approved` |\n| eventData | record | Data associated with the event |\n\n## Webhook notifications\n\nThe full list of IP addresses that webhook notifications may come from.\n\nProduction environment:\n\n```\n54.76.67.168\n34.248.188.89\n34.243.152.218\n```\n\nSandbox environment:\n\n```\n54.76.168.240\n99.81.243.145\n54.220.118.167\n```\n\n## Webhook responses\n\nTo acknowledge receipt of a webhook notification, your endpoint must return a 2xx HTTP status code.\n\nIf the webhook is not received successfully then Goodstack will resend the webhook 4 times over the next 14 hours with increasing delays between retries.\n\nThe id of the event can be used to uniquely identify the event. We recommend making the processing of these events idempotent. While rare it is possible for multiple webhooks to be sent for the same event.\n\n## Verifying webhooks\n\nTo verify that the webhook payload is sent from Goodstack, a header `Goodstack-Signature` is included in the request, this signature is generated using HMAC with SHA-256 hashing algorithm and Hex encoded. The webhook subscription secret is used as the key.\n\nYou can compute this signature using HMAC with the SHA-256 hash function, using the webhook subscription secret as the key, and the request body as the message. You can then check that the `Goodstack-Signature` value matches the computed value, verifying that the webhook was sent from Goodstack.\n\n## Validation Request events\n\n| Event        | Description           |\n| ------------- |-------------|\n| validation_request.approved      | Validation request was approved |\n| validation_request.rejected      | Validation request was rejected      |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"validation_request.approved\",\n    \"createdAt\": \"2021-08-01T12:00:00.000Z\",\n    \"eventData\": {\n      \"id\": \"validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationTypes\": [\"nonprofit\", \"social_impact\"],\n      \"name\": \"example charity\",\n      \"registryName\": \"National Charities Registry\",\n      \"registryId\": \"I34324\",\n      \"email\": \"example@example.com\",\n      \"addressLine1\": \"example street 15\",\n      \"addressLine2\": null,\n      \"city\": \"Katowice\",\n      \"postal\": \"44-100\",\n      \"state\": \"Silesia\",\n      \"website\": \"https://example.com\",\n      \"countryCode\": \"POL\",\n      \"createdAt\": \"2021-08-01T12:00:00.000Z\",\n      \"deletedAt\": null,\n      \"acceptedAt\": \"2021-08-01T12:00:00.000Z\",\n      \"rejectedAt\": null,\n      \"(deprecated) rejectionReason\": null,\n      \"rejectionReasonCode\": null\n    }\n  }\n}\n```\n## Agent Verification events\n\n| Event        | Description           |\n| ------------- |-------------|\n| agent_verification.pending_user_verification      | Agent has passed Goodstack review, and is awaiting email verification.     |\n| agent_verification.pending_review      | Agent has passed email verification and is awaiting Goodstack review. |\n| agent_verification.approved      | Agent verification was approved.     |\n| agent_verification.rejected      | Agent verification was rejected.      |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"agent_verification.approved\",\n    \"createdAt\": \"2021-08-01T12:00:00.000Z\",\n    \"eventData\": {\n      \"id\": \"agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"firstName\": \"Max\",\n      \"lastName\": \"Plank\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"email\": \"example@example.com\",\n      \"language\": \"en-GB\",\n      \"validationRequestId\": \"validationRequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"title\": \"Board Member\",\n      \"(deprecated) rejectionReason\": \"Identity check failed\",\n      \"rejectionReasonCode\": \"user_failed_percent_review\",\n      \"metadata\": {},\n      \"createdAt\": \"2021-08-01T12:00:00.000Z\",\n      \"status\": \"approved\"\n    }\n  }\n}\n```\n## Monitoring Subscription events\n\n| Event        | Description           |\n| ------------- |-------------|\n| monitoring_subscription.updated      | Monitoring Subscription was updated.     |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"monitoring_subscription.updated\",\n    \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n    \"eventData\": {\n      \"id\": \"monitoringsubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"validationRequestId\": null,\n      \"status\": \"live\",\n      \"createdAt\": \"2021-08-02T11:00:00.000Z\",\n      \"results\": {\n        \"complianceStatus\": \"fail\",\n        \"warning\": { \"status\": \"clear\" },\n        \"sanction\": { \"status\": \"flag\" },\n        \"hateSpeech\": { \"status\": \"clear\" },\n        \"commercial\": { \"status\": \"clear\" },\n        \"adverseMedia\": { \"status\": \"clear\" },\n        \"controversial\": { \"status\": \"flag\" },\n        \"registration\": { \"active\": \"yes\" }\n      }\n    }\n  }\n}\n```\n## Eligibility Subscription events\n\n| Event         | Description          |\n| ------------- |-------------|\n| eligibility_subscription.updated     | Eligibility Subscription was updated.     |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"eligibility_subscription.updated\",\n    \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n    \"eventData\": {\n      \"id\": \"eligibilitysubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"validationRequestId\": null,\n      \"status\": \"live\",\n      \"suggestedActivitySubTags\": [\n        {\n          \"id\": \"activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"name\": \"Primary School\"\n          \"description\": \"Includes all primary schools\",\n          \"tag\": {\n            \"id\": \"activitytag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n            \"name\": \"Educational\"\n            \"description\": \"Includes all educational institutions\"\n          }\n        }\n      ]\n      \"createdAt\": \"2021-08-02T11:00:00.000Z\",\n      \"updatedAt\": \"2021-08-02T11:00:00.000Z\",\n      \"results\": {\n        \"eligibilityStatus\": \"fail\",\n        \"confirmedActivitySubTags\": [\n          {\n            \"id\": \"activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n            \"name\": \"Primary School\"\n            \"description\": \"Includes all primary schools\",\n            \"tag\": {\n              \"id\": \"activitytag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n              \"name\": \"Educational\"\n              \"description\": \"Includes all educational institutions\"\n            }\n          }\n        ],\n        \"rejectedActivitySubTags\": [\n          {\n            \"id\": \"activitysubtag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n            \"name\": \"Primary School\"\n            \"description\": \"Includes all primary schools\",\n            \"tag\": {\n              \"id\": \"activitytag_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n              \"name\": \"Educational\"\n              \"description\": \"Includes all educational institutions\"\n            }\n          }\n        ]\n      }\n    }\n  }\n}\n```\n## Validation Submission events\n\n| Event        | Description           |\n| ------------- |-------------|\n| validation_submission.created      | Validation Submission was created.          |\n| validation_submission.succeeded    | Validation Submission has passed all checks |\n| validation_submission.failed       | Validation Submission has failed            |\n| validation_submission.updated      | Validation Submission status has updated    |\n\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"validation_submission.created\",\n    \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n    \"eventData\": {\n        \"id\": \"validationsubmission_xxxxx\",\n        \"agentVerificationId\": \"agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"agentVerification\": {\n          \"id\": \"agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"firstName\": \"Max\",\n          \"lastName\": \"Plank\",\n          \"email\": \"example@example.com\",\n          \"(deprecated) rejectionReason\": null,\n          \"rejectionReasonCode\": null,\n          \"status\": \"pending\"\n        },\n        \"createdAt\": \"2021-08-02T11:00:00.000Z\",\n        \"eligibilitySubscriptionId\": \"eligibilitysubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"monitoringSubscriptionId\": \"monitoringsubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"partnerFields\": {},\n        \"validationSubmissionHostedConfigurationId\": \"hostedconfiguration_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"metadata\": {},\n        \"status\": \"pending\",\n        \"validationInviteId\": \"validationinvite_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"validationRequestId\": \"validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"validationRequest\": {\n          \"id\": \"validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"name\": \"Charity\",\n          \"acceptedAt\": null,\n          \"rejectedAt\": null,\n          \"organisationTypes\": []\n        }\n    }\n  }\n}\n```\n\nN.B. Please be aware that the \"Validation Submission Failure\" event consists of a property named failureReasons. In the given example, we have included all possible reasons that may be encountered. It is important to note that only one of these reasons will be received when encountering this event.\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"validation_submission.failed\",\n    \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n    \"eventData\": {\n      \"id\": \"validationsubmission_xxxxx\",\n      \"agentVerificationId\": \"agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"agentVerification\": {\n          \"id\": \"agentverification_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n          \"firstName\": \"Max\",\n          \"lastName\": \"Plank\",\n          \"email\": \"example@example.com\",\n          \"(deprecated) rejectionReason\": \"Other\",\n          \"rejectionReasonCode\": \"other\",\n          \"status\": \"rejected\"\n        },\n      \"createdAt\": \"2021-08-02T11:00:00.000Z\",\n      \"eligibilitySubscriptionId\": \"eligibilitysubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"monitoringSubscriptionId\": \"monitoringsubscription_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"partnerFields\": {},\n      \"validationSubmissionHostedConfigurationId\": \"hostedconfiguration_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"metadata\": {},\n      \"status\": \"failed\",\n      \"validationInviteId\": \"validationinvite_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"validationRequestId\": \"validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"validationRequest\": {\n        \"id\": \"validationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n        \"name\": \"Charity\",\n        \"acceptedAt\": \"2021-08-01T12:00:00.000Z\",\n        \"rejectedAt\": null,\n        \"organisationTypes\": [\"nonprofit\"]\n      },\n      \"failureReasons\": [\n        {\n          \"check\": \"validation_request\",\n          \"reason\": {\n            \"rejectionReasonCode\": \"other\"\n          }\n        },\n        {\n          \"check\": \"agent_verification\",\n          \"reason\": {\n            \"rejectionReasonCode\": \"fake_email_used\"\n          }\n        },\n        {\n          \"check\": \"compliance\",\n          \"reason\": {\n            \"results\": {\n              \"complianceStatus\": \"fail\",\n              \"warning\": {\n                \"status\": \"flag\"\n              },\n              \"sanction\": {\n                \"status\": \"flag\"\n              },\n              \"hateSpeech\": {\n                \"status\": \"flag\"\n              },\n              \"commercial\": {\n                \"status\": \"flag\"\n              },\n              \"adverseMedia\": {\n                \"status\": \"flag\"\n              },\n              \"controversial\": {\n                \"status\": \"flag\"\n              },\n              \"registration\": {\n                \"active\": \"yes\"\n              }\n            }\n          }\n        },\n        {\n          \"check\": \"eligibility\",\n          \"reason\": {\n            \"status\": \"cannot_define_eligibility\",\n            \"results\": {\n              \"eligibilityStatus\": null,\n              \"confirmedActivitySubTags\": null,\n              \"rejectedActivitySubTags\": null\n            }\n          }\n        },\n        {\n          \"check\": \"eligibility\",\n          \"reason\": {\n            \"status\": \"live\",\n            \"results\": {\n              \"eligibilityStatus\": \"fail\",\n              \"confirmedActivitySubTags\": [{\n                \"id\": \"tag1\",\n                \"name\": \"Tag 1\",\n                \"tag\": {\n                  \"id\": \"tag1\",\n                  \"name\": \"Tag 1\",\n                  \"description\": \"Tag description\"\n                },\n                \"description\": \"Sub tag description\"\n              }],\n              \"rejectedActivitySubTags\": [{\n                \"id\": \"tag1\",\n                \"name\": \"Tag 1\",\n                \"tag\": {\n                  \"id\": \"tag1\",\n                  \"name\": \"Tag 1\",\n                  \"description\": \"Tag description\"\n                },\n                \"description\": \"Sub tag description\"\n              }]\n            }\n          }\n        }\n      ]\n    }\n  }\n}\n```\n\n## Donation events\n\nPII fields (`firstName`, `lastName` & `email`) will be included or excluded depending on your partner settings.\n\n| Event        | Description           |\n| ------------- |-------------|\n| donation.hosted.payment_received      |  Payment has been received from the user for a hosted donation.   |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"donation.hosted.payment_received\",\n    \"createdAt\": \"2021-08-07T11:00:30.000Z\",\n    \"eventData\": {\n      \"id\": \"donation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"userId\": \"user_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"type\": \"hosted\",\n      \"hosted\": {\n        \"sessionId\": \"donationsession_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\"\n      },\n      \"amount\": 10000,\n      \"currencyCode\": \"AUD\",\n      \"status\": \"RECEIVED_PAYMENT\",\n      \"firstName\": \"Julia\",\n      \"lastName\": \"Russell\",\n      \"email\": \"example@example.com\",\n      \"consentedToBeContactedByOrg\": \"yes\",\n      \"anonymous\": \"no\",\n      \"giftAidId\": null,\n      \"cancelledAt\": null,\n      \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n      \"metadata\": {\n        \"username\": \"jr123\"\n      },\n      \"subscription\": {\n        \"initial\": true\n      }\n    }\n  }\n}\n```\n| Event                       | Description                                                                                                                                                                                      |\n| ----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| donation.created            |  A new donation record has been successfully created in the system.                                                                                                                              |\n| donation.payment_successful |  The payment for the donation has been successfully completed and verified.                                                                                                                      |\n| donation.settled            |  The donated funds have been received and reconciled by the partner foundation.                                                                                                                  |\n| donation.disbursed          |  The donated funds have been transferred to the intended nonprofit.                                                                                                                              |\n| donation.cancelled          |  The donation process has been terminated, either by the donor or due to system issues.                                                                                                          |\n| donation.reassigned         |  The donation has been reassigned to another organisation, either because it has failed compliance, we are unable to pay the organisation or the organisation has been merged with another id.   |\n\n```json\n{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"event_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    \"eventType\": \"donation.payment_successful\",\n    \"createdAt\": \"2021-08-07T11:00:30.000Z\",\n    \"eventData\": {\n      \"id\": \"donation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"userId\": \"user_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"organisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"type\": \"direct\",\n      \"amount\": { \"amount\": 10, \"currency\": \"GBP\" },\n      \"status\": \"ACTIVE\",\n      \"firstName\": \"Julia\",\n      \"lastName\": \"Russell\",\n      \"email\": \"example@example.com\",\n      \"consentedToBeContacted\": \"yes\",\n      \"anonymous\": \"no\",\n      \"giftAidId\": \"giftaid_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"createdAt\": \"2021-08-07T11:00:00.000Z\",\n      \"cancelledAt\": null,\n      \"donationRequestId\": \"donationrequest_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"donationRequestAmount\": { \"amount\": 10, \"currency\": \"GBP\" },\n      \"accountId\": \"account_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n      \"metadata\": {\"data\": \"hash-value\"},\n      \"settledAmount\": { amount: 10, currency: \"GBP\" },\n      \"settledAt\": \"2021-08-07T11:00:00.000Z\",\n      \"disbursedAt\": \"2021-08-07T11:00:00.000Z\",\n      \"reassignedAt\": \"2021-08-07T11:00:00.000Z\",\n      \"reassignedFromOrganisationId\": \"organisation_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx\",\n    }\n  }\n}\n```\n\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
-      "type": "text/plain"
-    }
-  }
+  ]
 }

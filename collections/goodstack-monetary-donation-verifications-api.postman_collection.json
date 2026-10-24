@@ -1,0 +1,704 @@
+{
+  "info": {
+    "_postman_id": "91683b61-4597-4d22-92a7-255f55d981c8",
+    "name": "Goodstack Services Monetary Donation Verifications API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:24:51.000Z",
+    "updatedAt": "2026-10-22T02:24:51.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-91683b61-4597-4d22-92a7-255f55d981c8"
+  },
+  "item": [
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "monetary-donation-verifications",
+          "item": [
+            {
+              "name": "{id}",
+              "item": [
+                {
+                  "name": "Get a Monetary Donation Verification by ID",
+                  "id": "2250409b-d5b6-40c8-b2ff-ae28329fd98a",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "apikey",
+                      "apikey": [
+                        {
+                          "key": "key",
+                          "value": "Authorization",
+                          "type": "string"
+                        },
+                        {
+                          "key": "value",
+                          "value": "{{apiKey}}",
+                          "type": "string"
+                        },
+                        {
+                          "key": "in",
+                          "value": "header",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/monetary-donation-verifications/:id",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "monetary-donation-verifications",
+                        ":id"
+                      ],
+                      "variable": [
+                        {
+                          "id": "334e7d4d-962f-4dee-845b-3bb6dc6b46e7",
+                          "key": "id",
+                          "value": "<string>",
+                          "description": "(Required) Monetary Donation Verification ID (UUID v7)"
+                        }
+                      ]
+                    },
+                    "description": "Retrieves a monetary donation verification by its ID for the authenticated partner."
+                  },
+                  "response": [
+                    {
+                      "id": "2ada9040-e9a1-4846-a5a2-c4e82eea37a8",
+                      "name": "Successfully retrieved the Monetary Donation Verification",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/monetary-donation-verifications/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "monetary-donation-verifications",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"data\": {\n    \"id\": \"<string>\",\n    \"configurationId\": \"<string>\",\n    \"organisationId\": \"<string,null>\",\n    \"status\": {\n      \"type\": \"approved\",\n      \"reasons\": [\n        \"<string>\",\n        \"<string>\"\n      ],\n      \"awaitingAnswerFromOrganisation\": \"<boolean>\"\n    }\n  },\n  \"object\": \"<string>\"\n}",
+                      "createdAt": "2026-10-22T02:24:51.000Z",
+                      "updatedAt": "2026-10-22T02:24:51.000Z",
+                      "uid": "35240-2ada9040-e9a1-4846-a5a2-c4e82eea37a8"
+                    },
+                    {
+                      "id": "50dcc316-e52e-4a0b-9c9e-0d8131c96de7",
+                      "name": "Bad request",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/monetary-donation-verifications/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "monetary-donation-verifications",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\",\n    \"reasons\": \"<array,null>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:24:51.000Z",
+                      "updatedAt": "2026-10-22T02:24:51.000Z",
+                      "uid": "35240-50dcc316-e52e-4a0b-9c9e-0d8131c96de7"
+                    },
+                    {
+                      "id": "f176a84b-1a79-4292-81c6-1e6a1e2b83a1",
+                      "name": "Unauthorized",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/monetary-donation-verifications/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "monetary-donation-verifications",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:24:51.000Z",
+                      "updatedAt": "2026-10-22T02:24:51.000Z",
+                      "uid": "35240-f176a84b-1a79-4292-81c6-1e6a1e2b83a1"
+                    },
+                    {
+                      "id": "7c1c980a-e628-400d-bdad-6e4cc011f1a5",
+                      "name": "Forbidden (scope)",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/monetary-donation-verifications/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "monetary-donation-verifications",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Forbidden",
+                      "code": 403,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:24:51.000Z",
+                      "updatedAt": "2026-10-22T02:24:51.000Z",
+                      "uid": "35240-7c1c980a-e628-400d-bdad-6e4cc011f1a5"
+                    },
+                    {
+                      "id": "835ab8ce-cf48-4739-a925-4317144f5e90",
+                      "name": "The specified resource was not found",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: apikey",
+                            "key": "Authorization",
+                            "value": "<API Key>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/monetary-donation-verifications/:id",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "monetary-donation-verifications",
+                            ":id"
+                          ],
+                          "variable": [
+                            {
+                              "key": "id"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-10-22T02:24:51.000Z",
+                      "updatedAt": "2026-10-22T02:24:51.000Z",
+                      "uid": "35240-835ab8ce-cf48-4739-a925-4317144f5e90"
+                    }
+                  ],
+                  "createdAt": "2026-10-22T02:24:51.000Z",
+                  "updatedAt": "2026-10-22T02:24:51.000Z",
+                  "uid": "35240-2250409b-d5b6-40c8-b2ff-ae28329fd98a"
+                }
+              ],
+              "id": "25b5c934-fae5-4e26-8b1c-f18baa3d248b",
+              "createdAt": "2026-10-22T02:24:51.000Z",
+              "updatedAt": "2026-10-22T02:24:51.000Z",
+              "uid": "35240-25b5c934-fae5-4e26-8b1c-f18baa3d248b"
+            },
+            {
+              "name": "Create a Monetary Donation Verification",
+              "id": "9cea0b2d-8a07-46f5-961f-d97f79caf99f",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "apikey",
+                  "apikey": [
+                    {
+                      "key": "key",
+                      "value": "Authorization",
+                      "type": "string"
+                    },
+                    {
+                      "key": "value",
+                      "value": "{{apiKey}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "in",
+                      "value": "header",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"configurationId\": \"<string>\",\n  \"organisation\": {\n    \"type\": \"known\",\n    \"id\": \"<string>\"\n  },\n  \"contactInformation\": [\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    },\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    }\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/monetary-donation-verifications",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "monetary-donation-verifications"
+                  ]
+                },
+                "description": "Creates a new monetary donation verification for a partner."
+              },
+              "response": [
+                {
+                  "id": "4f0a080e-1730-47e2-8f08-5555d977a598",
+                  "name": "Successfully created a Monetary Donation Verification",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"configurationId\": \"<string>\",\n  \"organisation\": {\n    \"type\": \"known\",\n    \"id\": \"<string>\"\n  },\n  \"contactInformation\": [\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    },\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/monetary-donation-verifications",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "monetary-donation-verifications"
+                      ]
+                    }
+                  },
+                  "status": "Created",
+                  "code": 201,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"data\": {\n    \"id\": \"<string>\"\n  },\n  \"object\": \"<string>\"\n}",
+                  "createdAt": "2026-10-22T02:24:51.000Z",
+                  "updatedAt": "2026-10-22T02:24:51.000Z",
+                  "uid": "35240-4f0a080e-1730-47e2-8f08-5555d977a598"
+                },
+                {
+                  "id": "dad9feb7-74f6-4e4a-9d3c-b7e01b63882a",
+                  "name": "Bad request",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"configurationId\": \"<string>\",\n  \"organisation\": {\n    \"type\": \"known\",\n    \"id\": \"<string>\"\n  },\n  \"contactInformation\": [\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    },\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/monetary-donation-verifications",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "monetary-donation-verifications"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\",\n    \"reasons\": \"<array,null>\"\n  }\n}",
+                  "createdAt": "2026-10-22T02:24:51.000Z",
+                  "updatedAt": "2026-10-22T02:24:51.000Z",
+                  "uid": "35240-dad9feb7-74f6-4e4a-9d3c-b7e01b63882a"
+                },
+                {
+                  "id": "5aec62f7-61ee-40a5-9e64-bbb335b77045",
+                  "name": "Unauthorized",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"configurationId\": \"<string>\",\n  \"organisation\": {\n    \"type\": \"known\",\n    \"id\": \"<string>\"\n  },\n  \"contactInformation\": [\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    },\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/monetary-donation-verifications",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "monetary-donation-verifications"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-10-22T02:24:51.000Z",
+                  "updatedAt": "2026-10-22T02:24:51.000Z",
+                  "uid": "35240-5aec62f7-61ee-40a5-9e64-bbb335b77045"
+                },
+                {
+                  "id": "6e5d7455-91d7-4bef-9ea3-2d4628b92dfc",
+                  "name": "Forbidden (scope)",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"configurationId\": \"<string>\",\n  \"organisation\": {\n    \"type\": \"known\",\n    \"id\": \"<string>\"\n  },\n  \"contactInformation\": [\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    },\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/monetary-donation-verifications",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "monetary-donation-verifications"
+                      ]
+                    }
+                  },
+                  "status": "Forbidden",
+                  "code": 403,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-10-22T02:24:51.000Z",
+                  "updatedAt": "2026-10-22T02:24:51.000Z",
+                  "uid": "35240-6e5d7455-91d7-4bef-9ea3-2d4628b92dfc"
+                },
+                {
+                  "id": "244505ed-ee95-4700-85ca-f4409a99b85f",
+                  "name": "The specified resource was not found",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: apikey",
+                        "key": "Authorization",
+                        "value": "<API Key>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"configurationId\": \"<string>\",\n  \"organisation\": {\n    \"type\": \"known\",\n    \"id\": \"<string>\"\n  },\n  \"contactInformation\": [\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    },\n    {\n      \"firstName\": \"<string>\",\n      \"lastName\": \"<string>\",\n      \"primaryEmail\": \"<email>\",\n      \"contactNumber\": \"<string,null>\"\n    }\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/monetary-donation-verifications",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "monetary-donation-verifications"
+                      ]
+                    }
+                  },
+                  "status": "Not Found",
+                  "code": 404,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"error\": {\n    \"code\": \"<string>\",\n    \"title\": \"<string>\",\n    \"message\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-10-22T02:24:51.000Z",
+                  "updatedAt": "2026-10-22T02:24:51.000Z",
+                  "uid": "35240-244505ed-ee95-4700-85ca-f4409a99b85f"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:51.000Z",
+              "updatedAt": "2026-10-22T02:24:51.000Z",
+              "uid": "35240-9cea0b2d-8a07-46f5-961f-d97f79caf99f"
+            }
+          ],
+          "id": "3eb85384-ed2f-4706-a12e-1c855d9e5521",
+          "createdAt": "2026-10-22T02:24:51.000Z",
+          "updatedAt": "2026-10-22T02:24:51.000Z",
+          "uid": "35240-3eb85384-ed2f-4706-a12e-1c855d9e5521"
+        }
+      ],
+      "id": "a660b9d1-290c-40de-ad3f-73f73fe886b4",
+      "createdAt": "2026-10-22T02:24:51.000Z",
+      "updatedAt": "2026-10-22T02:24:51.000Z",
+      "uid": "35240-a660b9d1-290c-40de-ad3f-73f73fe886b4"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
+    }
+  ]
+}

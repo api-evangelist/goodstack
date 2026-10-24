@@ -1,0 +1,303 @@
+{
+  "info": {
+    "_postman_id": "42c5d48d-f41f-4f1e-82f3-512fe7fd87f3",
+    "name": "Goodstack Services Monetary Donation Verification Events API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:24:48.000Z",
+    "updatedAt": "2026-10-22T02:24:48.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-42c5d48d-f41f-4f1e-82f3-512fe7fd87f3"
+  },
+  "item": [
+    {
+      "name": "webhooks",
+      "item": [
+        {
+          "name": "monetary-donation-verification-received",
+          "item": [
+            {
+              "name": "Monetary donation verification received",
+              "id": "b8cc203a-c388-41a6-8e3d-3d0eabbdb1ae",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string,null>\",\n      \"status\": {\n        \"type\": \"pending\",\n        \"reasons\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"awaitingAnswerFromOrganisation\": \"<boolean>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/monetary-donation-verification-received",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "monetary-donation-verification-received"
+                  ]
+                },
+                "description": "Triggered when a new monetary donation verification has been received and created."
+              },
+              "response": [
+                {
+                  "id": "faeb51f8-54f1-4ca6-9503-e763533c2065",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string,null>\",\n      \"status\": {\n        \"type\": \"pending\",\n        \"reasons\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"awaitingAnswerFromOrganisation\": \"<boolean>\"\n      }\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/monetary-donation-verification-received",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "monetary-donation-verification-received"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:48.000Z",
+                  "updatedAt": "2026-10-22T02:24:48.000Z",
+                  "uid": "35240-faeb51f8-54f1-4ca6-9503-e763533c2065"
+                },
+                {
+                  "id": "5e23d582-1eae-420c-8170-67760299cf04",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string,null>\",\n      \"status\": {\n        \"type\": \"pending\",\n        \"reasons\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"awaitingAnswerFromOrganisation\": \"<boolean>\"\n      }\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/monetary-donation-verification-received",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "monetary-donation-verification-received"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:48.000Z",
+                  "updatedAt": "2026-10-22T02:24:48.000Z",
+                  "uid": "35240-5e23d582-1eae-420c-8170-67760299cf04"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:48.000Z",
+              "updatedAt": "2026-10-22T02:24:48.000Z",
+              "uid": "35240-b8cc203a-c388-41a6-8e3d-3d0eabbdb1ae"
+            }
+          ],
+          "id": "4969c5b4-6740-4122-af74-002b65bf6942",
+          "createdAt": "2026-10-22T02:24:48.000Z",
+          "updatedAt": "2026-10-22T02:24:48.000Z",
+          "uid": "35240-4969c5b4-6740-4122-af74-002b65bf6942"
+        },
+        {
+          "name": "monetary-donation-verification-progressed",
+          "item": [
+            {
+              "name": "Monetary donation verification progressed",
+              "id": "60fea482-d64e-4130-8b1d-d97554b8984c",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string,null>\",\n      \"status\": {\n        \"type\": \"pending\",\n        \"reasons\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"awaitingAnswerFromOrganisation\": \"<boolean>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/monetary-donation-verification-progressed",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "monetary-donation-verification-progressed"
+                  ]
+                },
+                "description": "Triggered when a monetary donation verification has progressed, such as a check succeeding, failing, the verification being approved, rejected, expired, or reopened."
+              },
+              "response": [
+                {
+                  "id": "ea1695f4-c140-4e82-9702-1cc33a1b6561",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string,null>\",\n      \"status\": {\n        \"type\": \"pending\",\n        \"reasons\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"awaitingAnswerFromOrganisation\": \"<boolean>\"\n      }\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/monetary-donation-verification-progressed",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "monetary-donation-verification-progressed"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:48.000Z",
+                  "updatedAt": "2026-10-22T02:24:48.000Z",
+                  "uid": "35240-ea1695f4-c140-4e82-9702-1cc33a1b6561"
+                },
+                {
+                  "id": "40785671-0d90-4c7b-8be0-41d9d920f68c",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string,null>\",\n      \"status\": {\n        \"type\": \"pending\",\n        \"reasons\": [\n          \"<string>\",\n          \"<string>\"\n        ],\n        \"awaitingAnswerFromOrganisation\": \"<boolean>\"\n      }\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/monetary-donation-verification-progressed",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "monetary-donation-verification-progressed"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:48.000Z",
+                  "updatedAt": "2026-10-22T02:24:48.000Z",
+                  "uid": "35240-40785671-0d90-4c7b-8be0-41d9d920f68c"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:48.000Z",
+              "updatedAt": "2026-10-22T02:24:48.000Z",
+              "uid": "35240-60fea482-d64e-4130-8b1d-d97554b8984c"
+            }
+          ],
+          "id": "ff00b243-f933-4ba8-8185-076acc777a18",
+          "createdAt": "2026-10-22T02:24:48.000Z",
+          "updatedAt": "2026-10-22T02:24:48.000Z",
+          "uid": "35240-ff00b243-f933-4ba8-8185-076acc777a18"
+        }
+      ],
+      "id": "27051548-24e8-4416-8d4f-a4c1e7c0744e",
+      "createdAt": "2026-10-22T02:24:48.000Z",
+      "updatedAt": "2026-10-22T02:24:48.000Z",
+      "uid": "35240-27051548-24e8-4416-8d4f-a4c1e7c0744e"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
+    }
+  ]
+}

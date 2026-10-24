@@ -1,0 +1,166 @@
+{
+  "info": {
+    "_postman_id": "e6c8118d-a0fb-44df-aca1-7c3d5e290e43",
+    "name": "Goodstack Services Eligibility Subscription Events API",
+    "description": "# Introduction\n\nGoodstack API allows you to build good into your product by facilitating charitable donations. We achieve this through the API's listed and specified in this documentation. For all donations using the Goodstack API, Goodstack handles the vetting and validation of the good causes and onward the disbursement of the donation. The Goodstack API is organised around REST. All API responses, including errors, return JSON and use standard HTTP response codes. In all API requests you must specify the content-type HTTP header as application/json. All API requests must be made over HTTPS. # Authentication\n\nAuthenticate your API requests by setting your live secret API key in the Authorization header. Two keys are provided to you, a publishable key prefixed with `pk_` and a secret key prefixed with `sk_`. Publishable API keys are meant solely to identify your goodstack account. These can safely be published in places like your JavaScript code, or in an Android or iPhone app and are meant for usage with our SDKs. Secret API keys should be kept confidential and only used in secure server environments. Anywhere that accepts a Publishable key will also accept a Secret key, but routes marked to accept a Secret key will not accept a Publishable key. # Formats\n\n## IDs\n\nAll ID fields are case-sensitive. For example, `abc123` and `ABC123` are treated as different IDs. ## Dates\n\nDates are encoded as strings following the ISO 8601 standard `2025-08-01T12:00:00.000Z`. ## Pagination\n\nA maximum of 100 objects can be returned per request and the limit can be specified by using the pageSize query parameter. By default, the pageSize is set to 25. A `_links` object is included in paginated responses, which contains `next` and `prev` URLs to retrieve the next or previous pages of results. ## Monetary Values\n\nThroughout the API, monetary values are encoded as integers representing the amount in the smallest currency unit, for example 100 cents for a donation of $1.00. Currency is encoded as a string following the ISO 4217 standard (e.g. `USD`). ## Metadata\n\nSome objects have a metadata parameter that you can use to store key-value data. You can specify up to 20 keys, with key names up to 40 characters long and values up to 250 characters long. ## Errors\n\nThe API returns standard HTTP response codes to indicate success or failure of API requests. Errors may include a custom error message. Error objects have these attributes, an `id`, a `message` corresponding to the HTTP response phrase of the error,\nan optional `invalid-params` attribute detailing issues with the request. An example error object returned from the API:\n```json\n{\nerror: {\ncode: 'bad_request',\ntitle: 'Bad request',\nmessage: 'Something is wrong with your request, please check any parameters and try again',\nreasons: ['amount is a required field']\n}\n}\n```\n\nA summary of the HTTP status codes returned from the api is listed in the table below. | Code | Title | Description |\n| ------------- |-------------| -----|\n| 200 | Success | Request successful |\n| 204 | No Content | Request successful with no content returned |\n| 400 | Bad Request | Request was invalid |\n| 401 | Unauthorised | Authorization header is invalid |\n| 403 | Forbidden | Insufficient permissions |\n| 404 | Not Found | Resource does not exist |\n| 429 | Too Many Requests | Rate Limited |\n| 500s | Internal Server Error | Something went wrong with the Goodstack API |\n\n# Enum Values\n\nGenerally enum fields in our API are open-ended. New values may be added to an enum and this is not considered a breaking change. ## Integrating safely\n\nIf your code handles enum values exhaustively \u2014 for example, a switch without a default case, or deserialisation into a strict typed enum \u2014 an unrecognised value may cause errors. We recommend adding a fallback handler for unknown enum values, so that any new value that does reach your integration degrades gracefully rather than failing.\n\nContact Support:\n Name: Api support\n Email: engineering-support@goodstack.io",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-10-22T02:24:25.000Z",
+    "updatedAt": "2026-10-22T02:24:25.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-e6c8118d-a0fb-44df-aca1-7c3d5e290e43"
+  },
+  "item": [
+    {
+      "name": "webhooks",
+      "item": [
+        {
+          "name": "eligibility-subscription-updated",
+          "item": [
+            {
+              "name": "Eligibility subscription was updated",
+              "id": "aa4527d1-781b-4eff-ab0c-b3949195d505",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"validationRequestId\": \"<string,null>\",\n      \"status\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"results\": {\n        \"eligibilityStatus\": \"<string>\"\n      }\n    }\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/webhooks/eligibility-subscription-updated",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "webhooks",
+                    "eligibility-subscription-updated"
+                  ]
+                },
+                "description": "Triggered when an eligibility subscription has been updated."
+              },
+              "response": [
+                {
+                  "id": "1d64b267-c302-4626-b18d-86316d2a0441",
+                  "name": "Webhook received successfully",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"validationRequestId\": \"<string,null>\",\n      \"status\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"results\": {\n        \"eligibilityStatus\": \"<string>\"\n      }\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/eligibility-subscription-updated",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "eligibility-subscription-updated"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:25.000Z",
+                  "updatedAt": "2026-10-22T02:24:25.000Z",
+                  "uid": "35240-1d64b267-c302-4626-b18d-86316d2a0441"
+                },
+                {
+                  "id": "a30d2a63-f635-4abb-a752-d8adfe216765",
+                  "name": "Invalid webhook payload or signature verification failed",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"object\": \"event\",\n  \"data\": {\n    \"id\": \"<string>\",\n    \"createdAt\": \"<dateTime>\",\n    \"eventType\": \"<string>\",\n    \"eventData\": {\n      \"id\": \"<string>\",\n      \"organisationId\": \"<string>\",\n      \"validationRequestId\": \"<string,null>\",\n      \"status\": \"<string>\",\n      \"createdAt\": \"<dateTime>\",\n      \"updatedAt\": \"<dateTime>\",\n      \"results\": {\n        \"eligibilityStatus\": \"<string>\"\n      }\n    }\n  }\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/webhooks/eligibility-subscription-updated",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "webhooks",
+                        "eligibility-subscription-updated"
+                      ]
+                    }
+                  },
+                  "status": "Bad Request",
+                  "code": 400,
+                  "_postman_previewlanguage": "text",
+                  "header": [],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": null,
+                  "createdAt": "2026-10-22T02:24:25.000Z",
+                  "updatedAt": "2026-10-22T02:24:25.000Z",
+                  "uid": "35240-a30d2a63-f635-4abb-a752-d8adfe216765"
+                }
+              ],
+              "createdAt": "2026-10-22T02:24:25.000Z",
+              "updatedAt": "2026-10-22T02:24:25.000Z",
+              "uid": "35240-aa4527d1-781b-4eff-ab0c-b3949195d505"
+            }
+          ],
+          "id": "e10382de-44be-4b29-a57e-3cfc3b111f0f",
+          "createdAt": "2026-10-22T02:24:25.000Z",
+          "updatedAt": "2026-10-22T02:24:25.000Z",
+          "uid": "35240-e10382de-44be-4b29-a57e-3cfc3b111f0f"
+        }
+      ],
+      "id": "31fee807-adb2-4914-bca7-01905ac6e4af",
+      "createdAt": "2026-10-22T02:24:25.000Z",
+      "updatedAt": "2026-10-22T02:24:25.000Z",
+      "uid": "35240-31fee807-adb2-4914-bca7-01905ac6e4af"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://api.goodstack.io"
+    }
+  ]
+}
