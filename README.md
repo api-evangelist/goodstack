@@ -64,6 +64,168 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Goodstack is a company surfaced as a portfolio company of general-catalyst and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Goodstack (formerly Percent) is an impact platform whose REST API lets businesses build charitable giving, nonprofit verification, and fund disbursement into their own products. The Goodstack Services API covers monetary donations (direct and via a hosted donation gateway), a global registry of verified nonprofit and educational organisations, organisation name search, eligibility and monitoring subscriptions, agent verifications, validation requests and submissions, Gift Aid declarations, categories, and webhook subscriptions. Goodstack handles the vetting, validation, and timely disbursement of donations to good causes across multiple countries and currencies. The API is organised around REST, uses API-key authentication (publishable pk_ and secret sk_ keys), returns JSON with standard HTTP status codes, and offers a sandbox environment.
 
-Backed by: general-catalyst
+**Areas:** Company · Non-Profit · Donations · Charitable Giving · Fundraising · Verification · Compliance · Payments · Disbursements · Social Impact
+
+## Goodstack on APIs.io
+
+Everything profiled for Goodstack is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/goodstack/](https://apis.io/providers/goodstack/)** — or go straight to one of the APIs or properties below.
+
+### APIs (21)
+
+- [Goodstack Activities API](https://apis.io/apis/goodstack/goodstack-activities-api/) — The Activities API from Goodstack — 2 operation(s) for activities.
+- [Goodstack Agent Verifications API](https://apis.io/apis/goodstack/goodstack-agent-verifications-api/) — Agent verification is a one-off check. It is used to confirm that: 1. The person applying is who they say they are. 2. They represent the nonprofit. They…
+- [Goodstack Categories API](https://apis.io/apis/goodstack/goodstack-categories-api/) — Categories represent collections of Organisations, which can be used to group and filter Organisations.
+- [Goodstack Countries API](https://apis.io/apis/goodstack/goodstack-countries-api/) — The Countries API from Goodstack — 1 operation(s) for countries.
+- [Goodstack Donation Sessions API](https://apis.io/apis/goodstack/goodstack-donation-sessions-api/) — The Donation Sessions API from Goodstack — 2 operation(s) for donation sessions.
+- [Goodstack Donations API](https://apis.io/apis/goodstack/goodstack-donations-api/) — A Donation object tracks the lifecycle of a Donation from creation and payment to disbursement to the nonprofit. Donations can be created during a Donation…
+- [Goodstack Eligibility Subscriptions API](https://apis.io/apis/goodstack/goodstack-eligibility-subscriptions-api/) — The Eligibility Subscriptions API from Goodstack — 3 operation(s) for eligibility subscriptions.
+- [Goodstack Gift Aid API](https://apis.io/apis/goodstack/goodstack-gift-aid-api/) — The Gift Aid API from Goodstack — 2 operation(s) for gift aid.
+- [Goodstack Monitoring Subscriptions API](https://apis.io/apis/goodstack/goodstack-monitoring-subscriptions-api/) — The Monitoring Subscriptions API from Goodstack — 3 operation(s) for monitoring subscriptions.
+- [Goodstack Org name search API](https://apis.io/apis/goodstack/goodstack-org-name-search-api/) — The Org name search API from Goodstack — 1 operation(s) for org name search.
+- [Goodstack Organisation API](https://apis.io/apis/goodstack/goodstack-organisation-api/) — The Organisation API from Goodstack — 1 operation(s) for organisation.
+- [Goodstack Organisations API](https://apis.io/apis/goodstack/goodstack-organisations-api/) — Nonprofits are represented by the Organisation object. You can retrieve and query for Organisations.
+- [Goodstack Registries API](https://apis.io/apis/goodstack/goodstack-registries-api/) — The Registries API from Goodstack — 2 operation(s) for registries.
+- [Goodstack Users API](https://apis.io/apis/goodstack/goodstack-users-api/) — The User object represents a user of your application. It can be used to track Donations that belong to that user.
+- [Goodstack Validation Invites API](https://apis.io/apis/goodstack/goodstack-validation-invites-api/) — The Validation Invites API from Goodstack — 1 operation(s) for validation invites.
+- [Goodstack Validation Request Documents API](https://apis.io/apis/goodstack/goodstack-validation-request-documents-api/) — The Validation Request Documents API from Goodstack — 1 operation(s) for validation request documents.
+- [Goodstack Validation Requests API](https://apis.io/apis/goodstack/goodstack-validation-requests-api/) — If you want to know if a nonprofit exists in an official registry, create a Validation Request and we will check it for you. Documentary evidence can be…
+- [Goodstack Validation Submission Configuration API](https://apis.io/apis/goodstack/goodstack-validation-submission-configuration-api/) — The Validation Submission Configuration API from Goodstack — 2 operation(s) for validation submission configuration.
+- [Goodstack Validation Submission Documents API](https://apis.io/apis/goodstack/goodstack-validation-submission-documents-api/) — The Validation Submission Documents API from Goodstack — 2 operation(s) for validation submission documents.
+- [Goodstack Validation Submissions API](https://apis.io/apis/goodstack/goodstack-validation-submissions-api/) — The Validation Submissions API from Goodstack — 2 operation(s) for validation submissions.
+- [Goodstack Webhook Subscriptions API](https://apis.io/apis/goodstack/goodstack-webhook-subscriptions-api/) — The Webhook Subscriptions API from Goodstack — 2 operation(s) for webhook subscriptions.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Goodstack Webhooks](https://apis.io/asyncapis/goodstack/goodstack-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [goodstack](https://apis.io/servers/goodstack/goodstack/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Goodstack Agentic Access](https://apis.io/agentic-access/goodstack/goodstack-agentic-access/)
+
+#### Collections (21)
+
+Postman and Open Collection request collections.
+
+- [Goodstack Services Activities API](https://apis.io/collections/goodstack/open-goodstack-activities-api/)
+- [Goodstack Services Activities Agent Verifications API](https://apis.io/collections/goodstack/open-goodstack-agent-verifications-api/)
+- [Goodstack Services Activities Categories API](https://apis.io/collections/goodstack/open-goodstack-categories-api/)
+- [Goodstack Services Activities Countries API](https://apis.io/collections/goodstack/open-goodstack-countries-api/)
+- [Goodstack Services Activities Donation Sessions API](https://apis.io/collections/goodstack/open-goodstack-donation-sessions-api/)
+- [Goodstack Services Activities Donations API](https://apis.io/collections/goodstack/open-goodstack-donations-api/)
+- [Goodstack Services Activities Eligibility Subscriptions API](https://apis.io/collections/goodstack/open-goodstack-eligibility-subscriptions-api/)
+- [Goodstack Services Activities Gift Aid API](https://apis.io/collections/goodstack/open-goodstack-gift-aid-api/)
+- [Goodstack Services Activities Monitoring Subscriptions API](https://apis.io/collections/goodstack/open-goodstack-monitoring-subscriptions-api/)
+- [Goodstack Services Activities Org name search API](https://apis.io/collections/goodstack/open-goodstack-org-name-search-api/)
+- [Goodstack Services Activities Organisation API](https://apis.io/collections/goodstack/open-goodstack-organisation-api/)
+- [Goodstack Services Activities Organisations API](https://apis.io/collections/goodstack/open-goodstack-organisations-api/)
+- [Goodstack Services Activities Registries API](https://apis.io/collections/goodstack/open-goodstack-registries-api/)
+- [Goodstack Services Activities Users API](https://apis.io/collections/goodstack/open-goodstack-users-api/)
+- [Goodstack Services Activities Validation Invites API](https://apis.io/collections/goodstack/open-goodstack-validation-invites-api/)
+- [Goodstack Services Activities Validation Request Documents API](https://apis.io/collections/goodstack/open-goodstack-validation-request-documents-api/)
+- [Goodstack Services Activities Validation Requests API](https://apis.io/collections/goodstack/open-goodstack-validation-requests-api/)
+- [Goodstack Services Activities Validation Submission Configuration API](https://apis.io/collections/goodstack/open-goodstack-validation-submission-configuration-api/)
+- [Goodstack Services Activities Validation Submission Documents API](https://apis.io/collections/goodstack/open-goodstack-validation-submission-documents-api/)
+- [Goodstack Services Activities Validation Submissions API](https://apis.io/collections/goodstack/open-goodstack-validation-submissions-api/)
+- [Goodstack Services Activities Webhook Subscriptions API](https://apis.io/collections/goodstack/open-goodstack-webhook-subscriptions-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Goodstack Overlay](https://apis.io/overlays/goodstack/goodstack-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Goodstack Authentication](https://apis.io/security/goodstack/goodstack-authentication/)
+- [Goodstack Domain Security](https://apis.io/security/goodstack/goodstack-domain-security/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.goodstack.io/)
+- [Documentation](https://docs.goodstack.io/)
+- [Getting started](https://docs.goodstack.io/docs/guides)
+- [API reference](https://docs.goodstack.io/docs/api/goodstack-services)
+- [Pricing](https://goodstack.io/pricing)
+- [Sign up](https://goodstack.io/demo-request)
+- [Support](https://goodstack.io/get-in-touch)
+- [Changelog](https://changelog.goodstack.io/)
+- [Blog](https://goodstack.org/blog)
+- [Trust centre](https://trust.goodstack.io/)
+- [Terms of service](https://goodstack.io/legal/standard-terms-and-conditions)
+- [Privacy policy](https://goodstack.io/legal/privacy-policy)
+- [Status](https://goodstack.statuspage.io/)
+
+## API Evangelist rating
+
+**Kin Score 50.0** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 59.4 |
+| Contract governance | 4.5 |
+| Operational transparency | 39.5 |
+| Developer ergonomics | 67.3 |
+| Access clarity | 44.7 |
+
+**Agent readiness 43.0** — agent-native
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | documented (partial credit) |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | verified |
+| Error Semantics | verified |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | — |
+| Event Surface Described | yes |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 22.3** — Payments
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/goodstack/](https://apis.io/providers/goodstack/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Goodstack: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/goodstack/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
